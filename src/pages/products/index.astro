@@ -1,0 +1,125 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const products = [
+  { id:1,  code:'PRD-001',  name:'CRM Enterprise Suite',       cat:'Software',    price:'$2,400',  cost:'$480',  stock:'Ilimitado',  status:'Activo',  sales:48 },
+  { id:2,  code:'PRD-002',  name:'CRM Professional',           cat:'Software',    price:'$1,200',  cost:'$240',  stock:'Ilimitado',  status:'Activo',  sales:124 },
+  { id:3,  code:'PRD-003',  name:'CRM Starter',                cat:'Software',    price:'$480',    cost:'$96',   stock:'Ilimitado',  status:'Activo',  sales:312 },
+  { id:4,  code:'PRD-004',  name:'Módulo Marketing Avanzado',  cat:'Add-on',      price:'$600',    cost:'$120',  stock:'Ilimitado',  status:'Activo',  sales:67 },
+  { id:5,  code:'PRD-005',  name:'Módulo Soporte Premium',     cat:'Add-on',      price:'$480',    cost:'$96',   stock:'Ilimitado',  status:'Activo',  sales:43 },
+  { id:6,  code:'PRD-006',  name:'Implementación Básica',      cat:'Servicio',    price:'$1,800',  cost:'$900',  stock:'—',          status:'Activo',  sales:28 },
+  { id:7,  code:'PRD-007',  name:'Implementación Enterprise',  cat:'Servicio',    price:'$8,500',  cost:'$3,400',stock:'—',          status:'Activo',  sales:12 },
+  { id:8,  code:'PRD-008',  name:'Soporte Anual Básico',       cat:'Servicio',    price:'$960',    cost:'$300',  stock:'—',          status:'Activo',  sales:86 },
+  { id:9,  code:'PRD-009',  name:'Capacitación (10h)',         cat:'Capacitación',price:'$1,200',  cost:'$400',  stock:'—',          status:'Activo',  sales:34 },
+  { id:10, code:'PRD-010',  name:'API Premium (12 meses)',     cat:'Add-on',      price:'$2,400',  cost:'$480',  stock:'Ilimitado',  status:'Beta',    sales:8  },
+];
+---
+<CRMLayout title="Productos">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Catálogo de Productos</h1>
+      <p class="page-subtitle">Gestión de productos, servicios y precios</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📋 Lista de precios</button>
+      <button class="btn btn-primary btn-sm">+ Nuevo Producto</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">32</div><div class="kpi-label">Productos activos</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">$1,240,800</div><div class="kpi-label">Ingresos totales (año)</div>
+      <div class="kpi-change up">↑ 22%</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">762</div><div class="kpi-label">Ventas este año</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">68%</div><div class="kpi-label">Margen promedio</div>
+      <div class="kpi-change up">↑ 2%</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar producto o servicio…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todas las categorías</option>
+      <option>Software</option><option>Add-on</option><option>Servicio</option><option>Capacitación</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los estados</option>
+      <option>Activo</option><option>Beta</option><option>Descontinuado</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Producto / Servicio</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Costo</th>
+            <th>Margen</th>
+            <th>Disponibilidad</th>
+            <th>Estado</th>
+            <th>Ventas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map(p => {
+            const priceNum = parseFloat(p.price.replace(/[$,]/g,''));
+            const costNum  = parseFloat(p.cost.replace(/[$,]/g,''));
+            const margin   = Math.round((1 - costNum/priceNum)*100);
+            return (
+              <tr>
+                <td style="font-size:0.7rem;color:var(--text-muted);font-family:monospace;">{p.code}</td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <div style="width:30px;height:30px;background:#e8f0f9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;">📦</div>
+                    <span class="font-semibold">{p.name}</span>
+                  </div>
+                </td>
+                <td><span class="badge badge-navy">{p.cat}</span></td>
+                <td class="font-semibold">{p.price}</td>
+                <td class="text-muted">{p.cost}</td>
+                <td>
+                  <span style={`font-weight:600;color:${margin>=60?'var(--success)':margin>=40?'var(--warning)':'var(--danger)'}`}>{margin}%</span>
+                </td>
+                <td class="text-muted text-xs">{p.stock}</td>
+                <td>
+                  <span class={`badge ${p.status==='Activo'?'badge-green':p.status==='Beta'?'badge-blue':'badge-gray'}`}>{p.status}</span>
+                </td>
+                <td class="font-semibold">{p.sales}</td>
+                <td>
+                  <div class="gap-actions">
+                    <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+                    <button class="btn btn-ghost btn-sm btn-icon">📋</button>
+                    <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-10 de 32 productos</span>
+    </div>
+  </div>
+
+</CRMLayout>

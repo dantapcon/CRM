@@ -1,0 +1,241 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+---
+<CRMLayout title="Reportes">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Reportes y Analítica</h1>
+      <p class="page-subtitle">Métricas de negocio, tendencias y KPIs del CRM</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📅 Este trimestre</button>
+      <button class="btn btn-secondary btn-sm">📤 Exportar PDF</button>
+      <button class="btn btn-primary btn-sm">+ Crear reporte</button>
+    </div>
+  </div>
+
+  <!-- Quick KPIs -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">$248k</div><div class="kpi-label">Pipeline Q1</div>
+      <div class="kpi-change up">↑ 18%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">$82k</div><div class="kpi-label">Cerrado Q1</div>
+      <div class="kpi-change up">↑ 21%</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">22%</div><div class="kpi-label">Tasa cierre</div>
+      <div class="kpi-change up">↑ 2.1%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">84</div><div class="kpi-label">Leads captados</div>
+      <div class="kpi-change up">↑ 13.5%</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">$14.2k</div><div class="kpi-label">LTV prom.</div>
+      <div class="kpi-change up">↑ 5.6%</div>
+    </div>
+    <div class="kpi-card kpi-purple">
+      <div class="kpi-value">94%</div><div class="kpi-label">CSAT</div>
+      <div class="kpi-change up">↑ 2%</div>
+    </div>
+  </div>
+
+  <!-- Tabs for report categories -->
+  <div class="tabs">
+    <a class="tab active" href="#">Resumen</a>
+    <a class="tab" href="#">Ventas</a>
+    <a class="tab" href="#">Marketing</a>
+    <a class="tab" href="#">Soporte</a>
+    <a class="tab" href="#">Equipo</a>
+    <a class="tab" href="#">Personalizados</a>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:1.25rem;">
+
+    <!-- Monthly Revenue Chart -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Ingresos Mensuales 2026</h3>
+        <span class="badge badge-green">↑ 21% vs 2025</span>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;align-items:flex-end;gap:6px;height:140px;padding-bottom:0.5rem;">
+          {[
+            { m:'Ene', v:65, h:65 },
+            { m:'Feb', v:72, h:72 },
+            { m:'Mar', v:82, h:82 },
+            { m:'Abr', v:0,  h:0  },
+            { m:'May', v:0,  h:0  },
+            { m:'Jun', v:0,  h:0  },
+            { m:'Jul', v:0,  h:0  },
+            { m:'Ago', v:0,  h:0  },
+            { m:'Sep', v:0,  h:0  },
+            { m:'Oct', v:0,  h:0  },
+            { m:'Nov', v:0,  h:0  },
+            { m:'Dic', v:0,  h:0  },
+          ].map(bar => (
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style={`width:100%;background:${bar.v>0?'var(--primary-light)':'#e2e8f0'};border-radius:4px 4px 0 0;height:${Math.max(bar.h*1.2,4)}px;`}></div>
+              <div style="font-size:0.65rem;color:var(--text-muted);">{bar.m}</div>
+              {bar.v > 0 && <div style="font-size:0.65rem;font-weight:600;color:var(--primary);">${bar.v}k</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Pipeline by owner -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Pipeline por Ejecutivo de Ventas</h3>
+      </div>
+      <div class="card-body">
+        <div class="bar-chart-h">
+          {[
+            { label:'Carlos V.',  val:'$72,400', pct:72, color:'var(--primary)'      },
+            { label:'María P.',   val:'$65,200', pct:65, color:'var(--primary-light)'},
+            { label:'Luis A.',    val:'$48,100', pct:48, color:'var(--accent)'       },
+            { label:'Ana R.',     val:'$38,300', pct:38, color:'#7c3aed'             },
+            { label:'Pedro S.',   val:'$24,500', pct:25, color:'#16a34a'             },
+          ].map(r => (
+            <div class="bar-chart-h-row">
+              <span class="bar-chart-h-label">{r.label}</span>
+              <div class="bar-chart-h-track">
+                <div class="bar-chart-h-fill" style={`width:${r.pct}%;background:${r.color}`}></div>
+              </div>
+              <span class="bar-chart-h-val">{r.val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid-3" style="margin-bottom:1.25rem;">
+
+    <!-- Lead sources -->
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Leads por Fuente</h3></div>
+      <div class="card-body">
+        <div class="bar-chart-h">
+          {[
+            { label:'Sitio Web',    val:38, pct:38 },
+            { label:'Referidos',    val:27, pct:27 },
+            { label:'LinkedIn',     val:18, pct:18 },
+            { label:'Llamada fría', val:10, pct:10 },
+            { label:'Email',        val: 7, pct: 7 },
+          ].map(r => (
+            <div class="bar-chart-h-row">
+              <span class="bar-chart-h-label">{r.label}</span>
+              <div class="bar-chart-h-track">
+                <div class="bar-chart-h-fill" style={`width:${r.pct*2.5}%`}></div>
+              </div>
+              <span class="bar-chart-h-val">{r.val}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Win/Loss by industry -->
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Ganado / Perdido por Industria</h3></div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          {[
+            { label:'Tecnología',   won:8,  lost:3  },
+            { label:'Manufactura',  won:5,  lost:4  },
+            { label:'Software',     won:6,  lost:2  },
+            { label:'Finanzas',     won:4,  lost:3  },
+            { label:'Retail',       won:3,  lost:2  },
+          ].map(r => (
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.72rem;margin-bottom:3px;">
+                <span>{r.label}</span>
+                <span><span style="color:var(--success);font-weight:600;">{r.won}W</span> / <span style="color:var(--danger);">{r.lost}L</span></span>
+              </div>
+              <div style="display:flex;height:10px;border-radius:999px;overflow:hidden;">
+                <div style={`width:${r.won/(r.won+r.lost)*100}%;background:var(--success)`}></div>
+                <div style={`flex:1;background:var(--danger)`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity summary -->
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Actividades del Equipo (mes)</h3></div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;">
+          {[
+            { icon:'📞', label:'Llamadas',   val:428, change:'+12%' },
+            { icon:'📧', label:'Emails',     val:816, change:'+8%'  },
+            { icon:'📅', label:'Reuniones',  val:124, change:'+15%' },
+            { icon:'✅', label:'Tareas',     val:312, change:'+5%'  },
+          ].map(a => (
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem;text-align:center;">
+              <div style="font-size:1.2rem;">{a.icon}</div>
+              <div style="font-size:1.1rem;font-weight:700;margin:4px 0;">{a.val}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);">{a.label}</div>
+              <div style="font-size:0.65rem;color:var(--success);font-weight:600;">{a.change}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Saved reports -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Reportes Guardados</h3>
+      <button class="btn btn-primary btn-sm">+ Crear reporte</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre del Reporte</th>
+            <th>Categoría</th>
+            <th>Última ejecución</th>
+            <th>Programado</th>
+            <th>Creado por</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            { name:'Resumen ejecutivo mensual',     cat:'Ventas',     last:'Hace 2h',     sched:'Mensual',  owner:'Carlos V.'  },
+            { name:'Performance de campañas Q1',    cat:'Marketing',  last:'Ayer',         sched:'Semanal',  owner:'María P.'   },
+            { name:'Análisis de cartera de clientes',cat:'CRM',       last:'Hace 3h',     sched:'Mensual',  owner:'Luis A.'    },
+            { name:'Tablero de soporte y SLA',      cat:'Soporte',    last:'Hace 1h',     sched:'Diario',   owner:'Ana R.'     },
+            { name:'Forecast trimestral',           cat:'Ventas',     last:'Hace 4h',     sched:'Semanal',  owner:'Pedro S.'   },
+          ].map(r => (
+            <tr>
+              <td class="font-semibold">{r.name}</td>
+              <td><span class="badge badge-navy">{r.cat}</span></td>
+              <td class="text-muted text-xs">{r.last}</td>
+              <td class="text-xs">{r.sched}</td>
+              <td class="text-muted text-xs">{r.owner}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-secondary btn-sm">▶ Ejecutar</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">📤</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</CRMLayout>

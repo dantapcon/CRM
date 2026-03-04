@@ -1,0 +1,117 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const campaigns = [
+  { id:1, name:'Newsletter Q1 2026',       type:'Email',    status:'Activa',    sent:4820, opens:1640, clicks:312, conv:48, budget:'$800',   roi:'620%', start:'01 Feb',end:'30 Mar' },
+  { id:2, name:'LinkedIn Lead Gen Mar',    type:'Social',   status:'Activa',    sent:12400,opens:3200, clicks:680, conv:22, budget:'$1,200', roi:'280%', start:'01 Mar',end:'31 Mar' },
+  { id:3, name:'Google Ads - Enterprise',  type:'PPC',      status:'Activa',    sent:28000,opens:4200, clicks:920, conv:18, budget:'$2,500', roi:'210%', start:'15 Feb',end:'15 Abr' },
+  { id:4, name:'Expo Tech 2026',           type:'Evento',   status:'Completada',sent:500,  opens:350,  clicks:180, conv:32, budget:'$3,200', roi:'185%', start:'20 Feb',end:'22 Feb' },
+  { id:5, name:'Webinar CRM Best Practices',type:'Webinar', status:'Programada',sent:1200, opens:0,    clicks:0,   conv:0,  budget:'$600',   roi:'—',    start:'15 Mar',end:'15 Mar' },
+];
+---
+<CRMLayout title="Campañas">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Campañas de Marketing</h1>
+      <p class="page-subtitle">Planificación, ejecución y medición de campañas</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📊 Analytics</button>
+      <button class="btn btn-primary btn-sm">+ Nueva Campaña</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">5</div><div class="kpi-label">Campañas activas</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">46,920</div><div class="kpi-label">Alcance total</div>
+      <div class="kpi-change up">↑ 12%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">120</div><div class="kpi-label">Conversiones</div>
+      <div class="kpi-change up">↑ 18%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">$8,300</div><div class="kpi-label">Gasto total</div>
+    </div>
+    <div class="kpi-card kpi-purple">
+      <div class="kpi-value">324%</div><div class="kpi-label">ROI promedio</div>
+      <div class="kpi-change up">↑ 40%</div>
+    </div>
+  </div>
+
+  <div class="tabs" style="margin-bottom:1.25rem;">
+    <a class="tab active" href="#">Todas</a>
+    <a class="tab" href="#">Email</a>
+    <a class="tab" href="#">Social</a>
+    <a class="tab" href="#">PPC / Ads</a>
+    <a class="tab" href="#">Eventos</a>
+    <a class="tab" href="#">Webinars</a>
+  </div>
+
+  <!-- Campaign cards -->
+  <div style="display:flex;flex-direction:column;gap:1rem;">
+    {campaigns.map(c => (
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:1.25rem;padding:1.25rem;">
+          <!-- Type icon -->
+          <div style="width:48px;height:48px;background:#e8f0f9;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+            {c.type==='Email'?'📧':c.type==='Social'?'📱':c.type==='PPC'?'💰':c.type==='Evento'?'🎪':'🎥'}
+          </div>
+
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.3rem;">
+              <span style="font-size:0.9rem;font-weight:700;">{c.name}</span>
+              <span class={`badge ${c.status==='Activa'?'badge-green':c.status==='Completada'?'badge-blue':'badge-yellow'}`}>{c.status}</span>
+              <span class="badge badge-navy">{c.type}</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">{c.start} → {c.end} &nbsp;|&nbsp; Presupuesto: {c.budget} &nbsp;|&nbsp; ROI: <span style="font-weight:700;color:var(--success);">{c.roi}</span></div>
+          </div>
+
+          <!-- Metrics -->
+          <div style="display:flex;gap:2rem;flex-shrink:0;">
+            {[
+              { label:'Alcance',     val: c.sent.toLocaleString()  },
+              { label:'Aperturas',   val: c.opens.toLocaleString() },
+              { label:'Clics',       val: c.clicks.toLocaleString()},
+              { label:'Conversiones',val: c.conv.toString()        },
+            ].map(m => (
+              <div style="text-align:center;">
+                <div style="font-size:1rem;font-weight:700;">{m.val}</div>
+                <div style="font-size:0.65rem;color:var(--text-muted);margin-top:2px;">{m.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div class="gap-actions" style="flex-shrink:0;">
+            <button class="btn btn-secondary btn-sm">📊 Ver resultados</button>
+            <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+          </div>
+        </div>
+
+        <!-- Progress bars -->
+        <div style="padding:0 1.25rem 1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;">
+          {c.opens > 0 && [
+            { label:'Tasa apertura', val: Math.round(c.opens/c.sent*100), color:'var(--primary-light)' },
+            { label:'CTR',           val: Math.round(c.clicks/c.opens*100), color:'var(--accent)' },
+            { label:'Conversión',    val: Math.round(c.conv/c.clicks*100),  color:'var(--success)' },
+          ].map(bar => (
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:0.68rem;margin-bottom:3px;">
+                <span class="text-muted">{bar.label}</span>
+                <span class="font-semibold">{bar.val}%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style={`width:${Math.min(bar.val*2,100)}%;background:${bar.color}`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+
+</CRMLayout>

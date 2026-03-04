@@ -1,0 +1,145 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+// March 2026 Calendar data
+// Day 1 = Sunday
+const days = Array.from({ length: 31 }, (_, i) => i + 1);
+const startDay = 0; // Sunday March 1, 2026
+
+const events: Record<number, Array<{title:string; color:string}>> = {
+  4:  [{ title:'Demo - MegaCorp',         color:'' }],
+  5:  [{ title:'Llamada - Ana López',     color:'' }, { title:'Propuesta Tecno',   color:'orange' }],
+  9:  [{ title:'Kick-off InnoTech',       color:'green' }],
+  11: [{ title:'QBR - Retail Max',        color:'red' }],
+  12: [{ title:'Demo B2B',                color:'' }, { title:'Webinar CRM',       color:'green' }],
+  16: [{ title:'Llamada NetSol',          color:'' }],
+  17: [{ title:'Propuesta FinGroup',      color:'orange' }],
+  18: [{ title:'Revisión contratos',      color:'orange' }],
+  19: [{ title:'Reunión equipo ventas',   color:'green' }],
+  23: [{ title:'Follow-up DataPoint',     color:'' }],
+  24: [{ title:'Demo - Alpha IT',         color:'' }, { title:'Cierre MegaTrade',  color:'green' }],
+  26: [{ title:'Newsletter clientes',     color:'orange' }],
+  30: [{ title:'Review mensual',          color:'green' }],
+  31: [{ title:'Cierre trimestral',       color:'red' }],
+};
+
+const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+---
+<CRMLayout title="Calendario">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Calendario</h1>
+      <p class="page-subtitle">Vista mensual de actividades, reuniones y compromisos del equipo</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">← Feb</button>
+      <span style="font-size:0.875rem;font-weight:700;padding:0 0.5rem;">Marzo 2026</span>
+      <button class="btn btn-secondary btn-sm">Abr →</button>
+      <button class="btn btn-secondary btn-sm">Hoy</button>
+      <button class="btn btn-secondary btn-sm">Mes</button>
+      <button class="btn btn-secondary btn-sm">Semana</button>
+      <button class="btn btn-secondary btn-sm">Día</button>
+      <button class="btn btn-primary btn-sm">+ Nuevo Evento</button>
+    </div>
+  </div>
+
+  <!-- Upcoming events sidebar -->
+  <div class="grid-12" style="margin-bottom:1.25rem;">
+
+    <!-- Calendar Grid -->
+    <div class="card">
+      <div class="card-body" style="padding:1rem;">
+        <!-- Day headers -->
+        <div class="cal-grid" style="margin-bottom:4px;">
+          {dayNames.map(d => (
+            <div class="cal-day-header">{d}</div>
+          ))}
+        </div>
+        <!-- Empty cells before day 1 -->
+        <div class="cal-grid">
+          {Array.from({length: startDay}).map(_ => (
+            <div class="cal-day other-month" style="min-height:80px;"></div>
+          ))}
+          {days.map(d => (
+            <div class={`cal-day ${d === 4 ? 'today' : ''}`} style="min-height:80px;">
+              <div class="cal-day-num">{d}</div>
+              {events[d]?.map(ev => (
+                <div class={`cal-event ${ev.color}`}>{ev.title}</div>
+              ))}
+            </div>
+          ))}
+          {/* Fill remaining cells */}
+          {Array.from({length: (7 - (startDay + 31) % 7) % 7}).map(_ => (
+            <div class="cal-day other-month" style="min-height:80px;"></div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming / Today -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">📅 Hoy — 4 Mar</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          {[
+            { time:'09:00–10:00', title:'Demo - MegaCorp',           type:'Reunión',  tc:'badge-green' },
+            { time:'11:30–12:00', title:'Llamada seguimiento Ana',    type:'Llamada',  tc:'badge-blue'  },
+            { time:'14:00–15:30', title:'Revisión propuesta interna', type:'Reunión',  tc:'badge-green' },
+            { time:'16:00',       title:'Enviar propuesta Tecno',     type:'Tarea',    tc:'badge-yellow'},
+          ].map(e => (
+            <div style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.7rem 1.25rem;border-bottom:1px solid #f1f5f9;">
+              <div style="min-width:70px;font-size:0.7rem;font-weight:600;color:var(--primary);padding-top:1px;">{e.time}</div>
+              <div style="flex:1;">
+                <div style="font-size:0.78rem;font-weight:500;">{e.title}</div>
+              </div>
+              <span class={`badge ${e.tc}`}>{e.type}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Esta Semana</h3>
+        </div>
+        <div class="card-body" style="padding:0;">
+          {[
+            { date:'Mié 5', title:'Llamada - Ana López',    type:'Llamada',  tc:'badge-blue'  },
+            { date:'Mié 5', title:'Propuesta Tecno',        type:'Tarea',    tc:'badge-yellow'},
+            { date:'Lun 9', title:'Kick-off InnoTech',      type:'Reunión',  tc:'badge-green' },
+          ].map(e => (
+            <div style="display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.25rem;border-bottom:1px solid #f1f5f9;">
+              <div style="min-width:42px;font-size:0.7rem;font-weight:600;color:var(--text-muted);">{e.date}</div>
+              <div style="flex:1;font-size:0.78rem;font-weight:500;">{e.title}</div>
+              <span class={`badge ${e.tc}`}>{e.type}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Leyenda -->
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">Leyenda</h3></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            {[
+              { color:'var(--primary)', label:'Reuniones / Demos' },
+              { color:'var(--success)', label:'Eventos confirmados' },
+              { color:'var(--warning)', label:'Tareas / Entregas' },
+              { color:'var(--danger)',  label:'Urgentes / Cierres' },
+            ].map(l => (
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.78rem;">
+                <div style={`width:12px;height:12px;border-radius:3px;background:${l.color};flex-shrink:0;`}></div>
+                <span>{l.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</CRMLayout>

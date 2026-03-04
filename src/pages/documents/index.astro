@@ -1,0 +1,138 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const docs = [
+  { name:'Contrato Marco - Tecno S.A.pdf',       type:'Contrato',    size:'2.4 MB', date:'01 Mar 2026', owner:'Carlos V.', linked:'Tecno S.A.',     access:'Privado' },
+  { name:'Propuesta Comercial - Global Corp.docx',type:'Propuesta',   size:'1.8 MB', date:'28 Feb 2026', owner:'María P.',  linked:'Global Corp',     access:'Equipo'  },
+  { name:'NDA - NetSol Ltda.pdf',                type:'Contrato',    size:'0.5 MB', date:'25 Feb 2026', owner:'Luis A.',   linked:'NetSol Ltda.',    access:'Privado' },
+  { name:'Presentación Ejecutiva Q1 2026.pptx',  type:'Presentación',size:'8.2 MB', date:'22 Feb 2026', owner:'María P.',  linked:'(General)',       access:'Público' },
+  { name:'SLA MegaTrade 2026.pdf',               type:'Contrato',    size:'1.2 MB', date:'18 Feb 2026', owner:'Pedro S.',  linked:'MegaTrade',       access:'Equipo'  },
+  { name:'Invoice Template 2026.xlsx',           type:'Plantilla',   size:'0.3 MB', date:'15 Feb 2026', owner:'Carlos V.', linked:'(General)',       access:'Equipo'  },
+  { name:'Guía de onboarding clientes.pdf',      type:'Manual',      size:'3.6 MB', date:'10 Feb 2026', owner:'Ana R.',    linked:'(General)',       access:'Público' },
+  { name:'Estudio de mercado Q4 2025.pdf',       type:'Reporte',     size:'5.1 MB', date:'05 Feb 2026', owner:'Luis A.',   linked:'(Interno)',       access:'Equipo'  },
+];
+const typeMap: Record<string,string> = {
+  'Contrato':'badge-navy','Propuesta':'badge-blue','Presentación':'badge-purple',
+  'Plantilla':'badge-yellow','Manual':'badge-green','Reporte':'badge-orange'
+};
+const accMap: Record<string,string> = { 'Privado':'badge-gray','Equipo':'badge-blue','Público':'badge-green' };
+---
+<CRMLayout title="Documentos">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Documentos</h1>
+      <p class="page-subtitle">Repositorio centralizado de contratos, propuestas y archivos del CRM</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📁 Nueva carpeta</button>
+      <button class="btn btn-primary btn-sm">⬆️ Subir documento</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">248</div><div class="kpi-label">Total documentos</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">1.2 GB</div><div class="kpi-label">Almacenamiento usado</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">48</div><div class="kpi-label">Contratos activos</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">12</div><div class="kpi-label">Documentos por vencer</div>
+      <div class="kpi-change down">Requieren revisión</div>
+    </div>
+  </div>
+
+  <!-- Quick folders -->
+  <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+    {[
+      { icon:'📄', label:'Contratos',    n: 48 },
+      { icon:'📋', label:'Propuestas',   n: 36 },
+      { icon:'📊', label:'Reportes',     n: 28 },
+      { icon:'🎯', label:'Marketing',    n: 24 },
+      { icon:'📚', label:'Manuales',     n: 15 },
+      { icon:'📑', label:'Plantillas',   n: 22 },
+      { icon:'🗂️', label:'Contratos CRM',n: 18 },
+    ].map(f => (
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem 1.1rem;display:flex;align-items:center;gap:0.5rem;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='#fff'">
+        <span style="font-size:1.1rem;">{f.icon}</span>
+        <span style="font-size:0.8rem;font-weight:600;">{f.label}</span>
+        <span class="badge badge-gray">{f.n}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar documento…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los tipos</option>
+      <option>Contrato</option><option>Propuesta</option><option>Presentación</option>
+      <option>Plantilla</option><option>Manual</option><option>Reporte</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los accesos</option>
+      <option>Privado</option><option>Equipo</option><option>Público</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre del archivo</th>
+            <th>Tipo</th>
+            <th>Tamaño</th>
+            <th>Fecha</th>
+            <th>Propietario</th>
+            <th>Vinculado a</th>
+            <th>Acceso</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {docs.map(d => {
+            const ext = d.name.split('.').pop()?.toUpperCase() || '';
+            const extColor = ext === 'PDF' ? '#dc2626' : ext === 'DOCX' ? '#1d4ed8' : ext === 'PPTX' ? '#ea580c' : '#16a34a';
+            return (
+              <tr>
+                <td>
+                  <div style="display:flex;align-items:center;gap:0.6rem;">
+                    <div style={`width:28px;height:28px;background:${extColor}18;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:700;color:${extColor};`}>{ext}</div>
+                    <span class="font-medium" style="font-size:0.78rem;">{d.name}</span>
+                  </div>
+                </td>
+                <td><span class={`badge ${typeMap[d.type]}`}>{d.type}</span></td>
+                <td class="text-xs text-muted">{d.size}</td>
+                <td class="text-xs text-muted">{d.date}</td>
+                <td class="text-xs text-muted">{d.owner}</td>
+                <td class="text-xs" style="color:var(--primary-light);">{d.linked}</td>
+                <td><span class={`badge ${accMap[d.access]}`}>{d.access}</span></td>
+                <td>
+                  <div class="gap-actions">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Descargar">⬇️</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Compartir">🔗</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-8 de 248 documentos</span>
+    </div>
+  </div>
+
+</CRMLayout>

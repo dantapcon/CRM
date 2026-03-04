@@ -1,0 +1,184 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const team = [
+  { id:1, name:'Juan Martínez',     role:'Administrador',   dept:'Dirección',    email:'jmartinez@nexuscrm.com',  phone:'+57 300 111 0001', status:'Activo',  leads:0,  opps:0,  closed:0,   last:'Ahora' },
+  { id:2, name:'Carlos Vargas',     role:'Ej. de Ventas',   dept:'Ventas',       email:'cvargas@nexuscrm.com',    phone:'+57 300 111 0002', status:'Activo',  leads:28, opps:12, closed:8,   last:'2h'    },
+  { id:3, name:'María Pérez',       role:'Ej. de Ventas',   dept:'Ventas',       email:'mperez@nexuscrm.com',     phone:'+57 300 111 0003', status:'Activo',  leads:24, opps:10, closed:9,   last:'1h'    },
+  { id:4, name:'Luis Arango',       role:'Ej. de Ventas',   dept:'Ventas',       email:'larango@nexuscrm.com',    phone:'+57 300 111 0004', status:'Activo',  leads:18, opps:8,  closed:6,   last:'3h'    },
+  { id:5, name:'Ana Rodríguez',     role:'Ej. de Ventas',   dept:'Ventas',       email:'arodriguez@nexuscrm.com', phone:'+57 300 111 0005', status:'Activo',  leads:16, opps:7,  closed:5,   last:'4h'    },
+  { id:6, name:'Pedro Salcedo',     role:'Ej. de Ventas',   dept:'Ventas',       email:'psalcedo@nexuscrm.com',   phone:'+57 300 111 0006', status:'Activo',  leads:14, opps:6,  closed:4,   last:'5h'    },
+  { id:7, name:'Sofía Gómez',       role:'Agente Soporte',  dept:'Soporte',      email:'sgomez@nexuscrm.com',     phone:'+57 300 111 0007', status:'Activo',  leads:0,  opps:0,  closed:0,   last:'1h'    },
+  { id:8, name:'Ricardo Torres',    role:'Agente Soporte',  dept:'Soporte',      email:'rtorres@nexuscrm.com',    phone:'+57 300 111 0008', status:'Activo',  leads:0,  opps:0,  closed:0,   last:'2h'    },
+  { id:9, name:'Laura Mendoza',     role:'Marketing',       dept:'Marketing',    email:'lmendoza@nexuscrm.com',   phone:'+57 300 111 0009', status:'Activo',  leads:0,  opps:0,  closed:0,   last:'3h'    },
+  { id:10,name:'Felipe Ríos',       role:'Read-only',       dept:'Gerencia',     email:'frios@nexuscrm.com',      phone:'+57 300 111 0010', status:'Inactivo',leads:0,  opps:0,  closed:0,   last:'1 sem.'},
+];
+---
+<CRMLayout title="Equipo">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Equipo & Usuarios</h1>
+      <p class="page-subtitle">Gestión de usuarios, roles y permisos del CRM</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📋 Roles y permisos</button>
+      <button class="btn btn-primary btn-sm">+ Invitar usuario</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">10</div><div class="kpi-label">Usuarios totales</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">9</div><div class="kpi-label">Activos</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">5</div><div class="kpi-label">Vendedores</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">4</div><div class="kpi-label">Licencias disponibles</div>
+    </div>
+  </div>
+
+  <!-- Roles distribution -->
+  <div class="grid-3" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Usuarios por Departamento</h3></div>
+      <div class="card-body">
+        <div class="bar-chart-h">
+          {[
+            { label:'Ventas',       val:5,  pct:50,  color:'var(--primary)'      },
+            { label:'Soporte',      val:2,  pct:20,  color:'var(--primary-light)'},
+            { label:'Marketing',    val:1,  pct:10,  color:'var(--accent)'       },
+            { label:'Dirección',    val:1,  pct:10,  color:'var(--success)'      },
+            { label:'Gerencia',     val:1,  pct:10,  color:'#7c3aed'             },
+          ].map(r => (
+            <div class="bar-chart-h-row">
+              <span class="bar-chart-h-label">{r.label}</span>
+              <div class="bar-chart-h-track">
+                <div class="bar-chart-h-fill" style={`width:${r.pct*2}%;background:${r.color}`}></div>
+              </div>
+              <span class="bar-chart-h-val">{r.val}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Performance Equipo Ventas</h3></div>
+      <div class="card-body">
+        {[
+          { name:'Carlos V.', closed:8,  target:10, pct:80  },
+          { name:'María P.',  closed:9,  target:10, pct:90  },
+          { name:'Luis A.',   closed:6,  target:10, pct:60  },
+          { name:'Ana R.',    closed:5,  target:10, pct:50  },
+          { name:'Pedro S.',  closed:4,  target:10, pct:40  },
+        ].map(s => (
+          <div style="margin-bottom:0.7rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:3px;">
+              <span class="font-medium">{s.name}</span>
+              <span class="text-muted">{s.closed}/{s.target} cierres</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style={`width:${s.pct}%;background:${s.pct>=80?'var(--success)':s.pct>=60?'var(--warning)':'var(--danger)'}`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Roles del Sistema</h3></div>
+      <div class="card-body">
+        {[
+          { role:'Administrador',   perms:'Acceso total al sistema',              users:1, color:'badge-red'    },
+          { role:'Gerencia',        perms:'Vista completa, sin edición datos',    users:1, color:'badge-orange' },
+          { role:'Jefe de Ventas',  perms:'CRM completo, reportes de equipo',     users:1, color:'badge-gold'   },
+          { role:'Ej. de Ventas',   perms:'Propios contactos y oportunidades',    users:4, color:'badge-blue'   },
+          { role:'Soporte',         perms:'Tickets y clientes asignados',         users:2, color:'badge-purple' },
+          { role:'Marketing',       perms:'Campañas, leads y contactos',          users:1, color:'badge-green'  },
+          { role:'Read-only',       perms:'Solo lectura de reportes',             users:1, color:'badge-gray'   },
+        ].map(r => (
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid #f1f5f9;">
+            <div>
+              <span class={`badge ${r.color}`} style="margin-right:0.5rem;">{r.role}</span>
+              <span style="font-size:0.68rem;color:var(--text-muted);">{r.perms}</span>
+            </div>
+            <span style="font-size:0.72rem;font-weight:600;">{r.users}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Team table -->
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar usuario…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los departamentos</option>
+      <option>Ventas</option><option>Soporte</option><option>Marketing</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Dpto.</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Leads</th>
+            <th>Oportunidades</th>
+            <th>Cierres</th>
+            <th>Estado</th>
+            <th>Últ. actividad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {team.map(u => (
+            <tr>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                  <div class="avatar" style={`background:${u.status==='Activo'?'linear-gradient(135deg,#1a3d6b,#2563a8)':'#cbd5e1'}`}>
+                    {u.name.split(' ').map(n=>n[0]).join('').slice(0,2)}
+                  </div>
+                  <span class="font-semibold">{u.name}</span>
+                </div>
+              </td>
+              <td><span class="badge badge-navy">{u.role}</span></td>
+              <td class="text-muted text-xs">{u.dept}</td>
+              <td style="font-size:0.72rem;">{u.email}</td>
+              <td class="text-xs text-muted">{u.phone}</td>
+              <td class="font-semibold">{u.leads || '—'}</td>
+              <td class="font-semibold">{u.opps || '—'}</td>
+              <td style="color:var(--success);font-weight:600;">{u.closed || '—'}</td>
+              <td><span class={`badge ${u.status==='Activo'?'badge-green':'badge-gray'}`}>{u.status}</span></td>
+              <td class="text-muted text-xs">{u.last}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Permisos">🔑</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</CRMLayout>

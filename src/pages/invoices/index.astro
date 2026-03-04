@@ -1,0 +1,117 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const invoices = [
+  { id:'FAC-2026-088', client:'InnoTech',       date:'01 Mar 2026', due:'31 Mar 2026', amount:'$12,600', paid:'$12,600', status:'Pagada',    method:'Transferencia' },
+  { id:'FAC-2026-087', client:'Retail Max',     date:'28 Feb 2026', due:'30 Mar 2026', amount:'$22,000', paid:'$0',      status:'Pendiente', method:'—'             },
+  { id:'FAC-2026-086', client:'Tecno S.A.',     date:'25 Feb 2026', due:'27 Mar 2026', amount:'$4,800',  paid:'$4,800',  status:'Pagada',    method:'Tarjeta'       },
+  { id:'FAC-2026-085', client:'Global Corp',    date:'22 Feb 2026', due:'24 Mar 2026', amount:'$8,400',  paid:'$4,200',  status:'Parcial',   method:'Transferencia' },
+  { id:'FAC-2026-084', client:'FinGroup',       date:'18 Feb 2026', due:'20 Mar 2026', amount:'$15,200', paid:'$0',      status:'Vencida',   method:'—'             },
+  { id:'FAC-2026-083', client:'MegaTrade',      date:'14 Feb 2026', due:'16 Mar 2026', amount:'$9,800',  paid:'$9,800',  status:'Pagada',    method:'Cheque'        },
+  { id:'FAC-2026-082', client:'NetSol Ltda.',   date:'10 Feb 2026', due:'12 Mar 2026', amount:'$6,400',  paid:'$0',      status:'Vencida',   method:'—'             },
+  { id:'FAC-2026-081', client:'DataPoint S.A.', date:'05 Feb 2026', due:'07 Mar 2026', amount:'$3,200',  paid:'$3,200',  status:'Pagada',    method:'Transferencia' },
+];
+const stMap: Record<string,string> = {
+  'Pagada':'badge-green','Pendiente':'badge-blue','Parcial':'badge-yellow','Vencida':'badge-red'
+};
+---
+<CRMLayout title="Facturas">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Facturas</h1>
+      <p class="page-subtitle">Facturación, cobranza y control de pagos</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📊 Reporte cobros</button>
+      <a href="/invoices/new" class="btn btn-primary btn-sm">+ Nueva Factura</a>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">$82,300</div><div class="kpi-label">Facturado (mes)</div>
+      <div class="kpi-change up">↑ 21.4%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">$56,900</div><div class="kpi-label">Cobrado (mes)</div>
+      <div class="kpi-change up">↑ 15.2%</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">$25,400</div><div class="kpi-label">Por cobrar</div>
+      <div class="kpi-change down">↑ $5,200 vencido</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">18.3d</div><div class="kpi-label">DSO promedio</div>
+      <div class="kpi-change up">↓ 2.4d</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar factura…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los estados</option>
+      <option>Pagada</option><option>Pendiente</option><option>Parcial</option><option>Vencida</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Fecha emisión</th>
+            <th>Vencimiento</th>
+            <th>Monto</th>
+            <th>Pagado</th>
+            <th>Pendiente</th>
+            <th>Estado</th>
+            <th>Método de pago</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {invoices.map(inv => {
+            const total = parseFloat(inv.amount.replace(/[$,]/g,''));
+            const pagado = parseFloat(inv.paid.replace(/[$,]/g,'') || '0');
+            const pendiente = total - pagado;
+            return (
+              <tr>
+                <td style="font-family:monospace;font-size:0.72rem;font-weight:600;color:var(--primary);">{inv.id}</td>
+                <td class="font-semibold">{inv.client}</td>
+                <td class="text-xs text-muted">{inv.date}</td>
+                <td class="text-xs text-muted">{inv.due}</td>
+                <td class="font-semibold">{inv.amount}</td>
+                <td style="color:var(--success);font-weight:500;">{inv.paid}</td>
+                <td style={`font-weight:500;color:${pendiente>0?'var(--danger)':'var(--text-muted)'}`}>
+                  {pendiente > 0 ? `$${pendiente.toLocaleString()}` : '—'}
+                </td>
+                <td><span class={`badge ${stMap[inv.status]}`}>{inv.status}</span></td>
+                <td class="text-xs text-muted">{inv.method}</td>
+                <td>
+                  <div class="gap-actions">
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF">📄</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Enviar">📤</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-8 de 88 facturas</span>
+    </div>
+  </div>
+
+</CRMLayout>

@@ -1,0 +1,150 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const activities = [
+  { id:1,  type:'Llamada',  title:'Seguimiento propuesta',        contact:'Carlos Ruiz',    company:'Tecno S.A.',   due:'Hoy 10:00',   status:'Pendiente',  priority:'Alta',    owner:'Carlos V.' },
+  { id:2,  type:'Reunión',  title:'Demo plataforma CRM',           contact:'Ana López',      company:'Global Corp',  due:'Hoy 14:00',   status:'Pendiente',  priority:'Alta',    owner:'María P.'  },
+  { id:3,  type:'Email',    title:'Enviar cotización revisada',    contact:'Mario Torres',   company:'NetSol Ltda.', due:'Hoy 16:00',   status:'Pendiente',  priority:'Media',   owner:'Luis A.'   },
+  { id:4,  type:'Tarea',    title:'Actualizar CRM con notas',      contact:'Lucía Herrera',  company:'DataPoint',    due:'Mañana',       status:'Pendiente',  priority:'Baja',    owner:'Ana R.'    },
+  { id:5,  type:'Llamada',  title:'Llamada de cierre contrato',    contact:'Pedro Mendoza',  company:'MegaTrade',    due:'Mañana 09:00', status:'Pendiente',  priority:'Urgente', owner:'Pedro S.'  },
+  { id:6,  type:'Reunión',  title:'Kick-off implementación',       contact:'Felipe Castro',  company:'InnoTech',     due:'Jue 10:00',   status:'Programada', priority:'Alta',    owner:'Carlos V.' },
+  { id:7,  type:'Email',    title:'Newsletter clientes Q1',       contact:'(Múltiples)',    company:'—',            due:'Vie 08:00',   status:'Borrador',   priority:'Media',   owner:'María P.'  },
+  { id:8,  type:'Tarea',    title:'Revisar contrato anual',        contact:'Sandra Gómez',   company:'SoftCo',       due:'Vie 17:00',   status:'En revisión',priority:'Media',   owner:'Luis A.'   },
+  { id:9,  type:'Llamada',  title:'Encuesta satisfacción',         contact:'Andrés Silva',   company:'FinGroup',     due:'Lun 11:00',   status:'Pendiente',  priority:'Baja',    owner:'Ana R.'    },
+  { id:10, type:'Reunión',  title:'QBR con cliente enterprise',   contact:'Carolina Morales',company:'Retail Max',  due:'Mar 14:00',   status:'Confirmada', priority:'Urgente', owner:'Pedro S.'  },
+];
+
+const iconMap: Record<string,string> = { 'Llamada':'📞','Reunión':'📅','Email':'📧','Tarea':'✅' };
+const clsMap: Record<string,string>  = { 'Llamada':'act-call','Reunión':'act-meet','Email':'act-email','Tarea':'act-task' };
+const prioMap: Record<string,string> = { 'Urgente':'badge-red','Alta':'badge-orange','Media':'badge-yellow','Baja':'badge-gray' };
+const statMap: Record<string,string> = { 'Pendiente':'badge-blue','Programada':'badge-navy','Confirmada':'badge-green','En revisión':'badge-yellow','Borrador':'badge-gray','Completada':'badge-green' };
+---
+<CRMLayout title="Actividades">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Actividades</h1>
+      <p class="page-subtitle">Tareas, llamadas, reuniones y emails pendientes del equipo</p>
+    </div>
+    <div class="gap-actions">
+      <a href="/calendar" class="btn btn-secondary btn-sm">📅 Ver Calendario</a>
+      <button class="btn btn-primary btn-sm">+ Nueva Actividad</button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">47</div><div class="kpi-label">Total pendientes</div>
+      <div class="kpi-change down">↑ 5 vencidas</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">5</div><div class="kpi-label">Urgentes hoy</div>
+      <div class="kpi-change down">Requieren acción</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">128</div><div class="kpi-label">Completadas (mes)</div>
+      <div class="kpi-change up">↑ 18%</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">92%</div><div class="kpi-label">Tasa completado</div>
+      <div class="kpi-change up">↑ 3%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">2.4h</div><div class="kpi-label">Tiempo resp. promedio</div>
+      <div class="kpi-change up">↓ 0.5h</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <a class="tab active" href="#">Todas (47)</a>
+    <a class="tab" href="#">Hoy (8)</a>
+    <a class="tab" href="#">Llamadas (15)</a>
+    <a class="tab" href="#">Reuniones (12)</a>
+    <a class="tab" href="#">Emails (11)</a>
+    <a class="tab" href="#">Tareas (9)</a>
+    <a class="tab" href="#">Completadas</a>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar actividad…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los responsables</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todas las prioridades</option>
+      <option>Urgente</option><option>Alta</option><option>Media</option><option>Baja</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los periodos</option>
+      <option>Hoy</option><option>Esta semana</option><option>Este mes</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th>Tipo</th>
+            <th>Actividad</th>
+            <th>Contacto</th>
+            <th>Empresa</th>
+            <th>Vencimiento</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Responsable</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {activities.map(a => (
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>
+                <div class={`act-icon ${clsMap[a.type]}`} style="width:28px;height:28px;font-size:0.8rem;">{iconMap[a.type]}</div>
+              </td>
+              <td>
+                <span style="font-weight:500;">{a.title}</span>
+              </td>
+              <td>
+                <a href="/contacts" style="color:var(--primary-light);text-decoration:none;font-size:0.78rem;">{a.contact}</a>
+              </td>
+              <td class="text-muted text-xs">{a.company}</td>
+              <td style="font-size:0.75rem;font-weight:500;">{a.due}</td>
+              <td><span class={`badge ${statMap[a.status]}`}>{a.status}</span></td>
+              <td><span class={`badge ${prioMap[a.priority]}`}>{a.priority}</span></td>
+              <td class="text-muted text-xs">{a.owner}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-success btn-sm" style="background:var(--success);color:#fff;border:none;padding:0.3rem 0.6rem;border-radius:0.35rem;font-size:0.7rem;cursor:pointer;">✓ Completar</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-10 de 47 actividades</span>
+      <div class="gap-actions">
+        <button class="btn btn-secondary btn-sm">← Anterior</button>
+        <button class="btn btn-primary btn-sm">1</button>
+        <button class="btn btn-secondary btn-sm">2</button>
+        <button class="btn btn-secondary btn-sm">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+</CRMLayout>

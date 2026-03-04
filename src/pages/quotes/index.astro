@@ -1,0 +1,116 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const quotes = [
+  { id:'COT-2026-042', client:'Tecno S.A.',        contact:'Carlos Ruiz',     date:'01 Mar 2026', valid:'31 Mar 2026', amount:'$28,500', status:'Enviada',   prob:75 },
+  { id:'COT-2026-041', client:'Global Corp',        contact:'Ana López',       date:'28 Feb 2026', valid:'30 Mar 2026', amount:'$22,000', status:'En revisión',prob:60 },
+  { id:'COT-2026-040', client:'NetSol Ltda.',       contact:'Mario Torres',    date:'25 Feb 2026', valid:'27 Mar 2026', amount:'$18,000', status:'Borrador',   prob:35 },
+  { id:'COT-2026-039', client:'InnoTech',           contact:'Felipe Castro',   date:'22 Feb 2026', valid:'24 Mar 2026', amount:'$12,600', status:'Aceptada',   prob:100 },
+  { id:'COT-2026-038', client:'MegaTrade',          contact:'Pedro Mendoza',   date:'18 Feb 2026', valid:'20 Mar 2026', amount:'$42,000', status:'Negociación',prob:80 },
+  { id:'COT-2026-037', client:'FinGroup',           contact:'Andrés Silva',    date:'15 Feb 2026', valid:'17 Mar 2026', amount:'$30,800', status:'Enviada',    prob:65 },
+  { id:'COT-2026-036', client:'Retail Max',         contact:'Carolina Morales',date:'10 Feb 2026', valid:'12 Mar 2026', amount:'$22,000', status:'Aceptada',   prob:100 },
+  { id:'COT-2026-035', client:'DataPoint S.A.',     contact:'Lucía Herrera',   date:'05 Feb 2026', valid:'07 Mar 2026', amount:'$14,000', status:'Rechazada',  prob:0   },
+];
+const stMap: Record<string,string> = {
+  'Borrador':'badge-gray','Enviada':'badge-blue','En revisión':'badge-yellow',
+  'Negociación':'badge-orange','Aceptada':'badge-green','Rechazada':'badge-red'
+};
+---
+<CRMLayout title="Cotizaciones">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Cotizaciones</h1>
+      <p class="page-subtitle">Propuestas comerciales y presupuestos enviados a clientes</p>
+    </div>
+    <div class="gap-actions">
+      <a href="/quotes/new" class="btn btn-primary btn-sm">+ Nueva Cotización</a>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">28</div><div class="kpi-label">Cotizaciones activas</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">$248,500</div><div class="kpi-label">Valor total pipeline</div>
+      <div class="kpi-change up">↑ 8.3%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">68%</div><div class="kpi-label">Tasa de aceptación</div>
+      <div class="kpi-change up">↑ 4%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">6.2d</div><div class="kpi-label">Tiempo de respuesta</div>
+      <div class="kpi-change up">↓ 1.1d</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar cotización…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los estados</option>
+      <option>Borrador</option><option>Enviada</option><option>En revisión</option>
+      <option>Negociación</option><option>Aceptada</option><option>Rechazada</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Contacto</th>
+            <th>Fecha</th>
+            <th>Vence</th>
+            <th>Monto</th>
+            <th>Estado</th>
+            <th>Probabilidad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {quotes.map(q => (
+            <tr>
+              <td style="font-family:monospace;font-size:0.72rem;font-weight:600;color:var(--primary);">{q.id}</td>
+              <td class="font-semibold">{q.client}</td>
+              <td class="text-muted text-xs">{q.contact}</td>
+              <td class="text-xs text-muted">{q.date}</td>
+              <td class="text-xs text-muted">{q.valid}</td>
+              <td class="font-semibold" style="color:var(--success);">{q.amount}</td>
+              <td><span class={`badge ${stMap[q.status]}`}>{q.status}</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.4rem;">
+                  <div class="progress-bar" style="width:60px;">
+                    <div class="progress-fill" style={`width:${q.prob}%;background:${q.prob>=80?'var(--success)':q.prob>=50?'var(--warning)':'var(--danger)'}`}></div>
+                  </div>
+                  <span style="font-size:0.72rem;font-weight:600;">{q.prob}%</span>
+                </div>
+              </td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF">📄</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Enviar">📤</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-8 de 28 cotizaciones</span>
+    </div>
+  </div>
+
+</CRMLayout>

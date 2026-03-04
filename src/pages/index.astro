@@ -1,0 +1,269 @@
+---
+import CRMLayout from '../layouts/CRMLayout.astro';
+---
+<CRMLayout title="Dashboard">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Panel de Control</h1>
+      <p class="page-subtitle">Resumen general del CRM — Marzo 2026</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📅 Este mes</button>
+      <button class="btn btn-primary btn-sm">+ Nueva actividad</button>
+    </div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-icon" style="background:#dbeafe;">👤</div>
+      <div class="kpi-value">1,248</div>
+      <div class="kpi-label">Contactos activos</div>
+      <div class="kpi-change up">↑ 8.2% vs mes anterior</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-icon" style="background:#fef9c3;">🎯</div>
+      <div class="kpi-value">84</div>
+      <div class="kpi-label">Leads este mes</div>
+      <div class="kpi-change up">↑ 13.5% vs mes anterior</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-icon" style="background:#dcfce7;">💼</div>
+      <div class="kpi-value">$248,500</div>
+      <div class="kpi-label">Pipeline activo</div>
+      <div class="kpi-change up">↑ 4.7% vs mes anterior</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-icon" style="background:#ffedd5;">🏆</div>
+      <div class="kpi-value">$82,300</div>
+      <div class="kpi-label">Ventas cerradas</div>
+      <div class="kpi-change up">↑ 21.4% vs mes anterior</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-icon" style="background:#fee2e2;">🎫</div>
+      <div class="kpi-value">23</div>
+      <div class="kpi-label">Tickets abiertos</div>
+      <div class="kpi-change down">↑ 3 sin respuesta</div>
+    </div>
+    <div class="kpi-card kpi-purple">
+      <div class="kpi-icon" style="background:#f3e8ff;">📣</div>
+      <div class="kpi-value">5</div>
+      <div class="kpi-label">Campañas activas</div>
+      <div class="kpi-change flat">→ Igual que mes anterior</div>
+    </div>
+  </div>
+
+  <!-- Row 1: Pipeline + Actividades recientes -->
+  <div class="grid-12" style="margin-bottom:1.25rem;">
+
+    <!-- Pipeline por etapa -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Pipeline de Ventas por Etapa</h3>
+        <a href="/opportunities" class="btn btn-ghost btn-sm">Ver todo →</a>
+      </div>
+      <div class="card-body">
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          {[
+            { label: 'Prospección',      value: 32, amount: '$28,400',  pct: 30, color: '#0284c7' },
+            { label: 'Calificación',     value: 24, amount: '$45,200',  pct: 45, color: '#7c3aed' },
+            { label: 'Propuesta',        value: 18, amount: '$63,100',  pct: 60, color: '#c8a558' },
+            { label: 'Negociación',      value: 11, amount: '$72,800',  pct: 75, color: '#d97706' },
+            { label: 'Cierre',           value:  6, amount: '$39,000',  pct: 90, color: '#16a34a' },
+          ].map(s => (
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <span style="font-size:0.78rem;font-weight:500;">{s.label}</span>
+                <div style="display:flex;gap:0.75rem;font-size:0.72rem;">
+                  <span class="text-muted">{s.value} opor.</span>
+                  <span class="font-semibold">{s.amount}</span>
+                </div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style={`width:${s.pct}%;background:${s.color}`}></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Actividades recientes -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Actividades Recientes</h3>
+        <a href="/activities" class="btn btn-ghost btn-sm">Ver todas →</a>
+      </div>
+      <div class="card-body" style="padding-top:0.5rem;">
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          {[
+            { icon:'📞', cls:'act-call',  t:'Llamada con Carlos Ruiz',    time:'Hace 15 min',  tag:'Llamada',  tc:'badge-blue'   },
+            { icon:'📧', cls:'act-email', t:'Email enviado a Tecno S.A.', time:'Hace 1h',      tag:'Email',    tc:'badge-purple' },
+            { icon:'📅', cls:'act-meet',  t:'Reunión: Demo producto',     time:'Hace 3h',      tag:'Reunión',  tc:'badge-green'  },
+            { icon:'✅', cls:'act-task',  t:'Tarea completada: Follow-up',time:'Hace 5h',      tag:'Tarea',    tc:'badge-yellow' },
+            { icon:'📝', cls:'act-note',  t:'Nota: Interés en plan Pro',  time:'Ayer 18:30',   tag:'Nota',     tc:'badge-gray'   },
+            { icon:'📞', cls:'act-call',  t:'Llamada perdida — Ana López',time:'Ayer 14:00',   tag:'Llamada',  tc:'badge-blue'   },
+          ].map(a => (
+            <div style="display:flex;align-items:flex-start;gap:0.65rem;padding:0.5rem 0;border-bottom:1px solid #f1f5f9;">
+              <div class={`act-icon ${a.cls}`}>{a.icon}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:0.78rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{a.t}</div>
+                <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">{a.time}</div>
+              </div>
+              <span class={`badge ${a.tc}`}>{a.tag}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: Leads por source + Top cuentas + Tickets -->
+  <div class="grid-3">
+
+    <!-- Leads por fuente -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Leads por Fuente</h3>
+      </div>
+      <div class="card-body">
+        <div class="bar-chart-h">
+          {[
+            { label:'Sitio Web',    val: 38, pct: 38, color:'#1a3d6b' },
+            { label:'Referidos',    val: 27, pct: 27, color:'#c8a558' },
+            { label:'LinkedIn',     val: 18, pct: 18, color:'#0e76a8' },
+            { label:'Llamada fría', val: 10, pct: 10, color:'#7c3aed' },
+            { label:'Email',        val:  7, pct:  7, color:'#16a34a' },
+          ].map(r => (
+            <div class="bar-chart-h-row">
+              <span class="bar-chart-h-label">{r.label}</span>
+              <div class="bar-chart-h-track">
+                <div class="bar-chart-h-fill" style={`width:${r.pct*2.5}%;background:${r.color}`}></div>
+              </div>
+              <span class="bar-chart-h-val">{r.val}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Top cuentas -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Top Clientes</h3>
+        <a href="/accounts" class="btn btn-ghost btn-sm">Ver más →</a>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <table class="data-table">
+          <thead><tr>
+            <th>Empresa</th>
+            <th>Valor</th>
+            <th>Estado</th>
+          </tr></thead>
+          <tbody>
+            {[
+              { name:'Tecno S.A.',     val:'$34,200', s:'active',  sc:'badge-green'  },
+              { name:'Global Corp',    val:'$28,100', s:'active',  sc:'badge-green'  },
+              { name:'NetSol Ltda.',   val:'$19,800', s:'prospect',sc:'badge-blue'   },
+              { name:'MegaTrade',      val:'$17,500', s:'active',  sc:'badge-green'  },
+              { name:'DataPoint S.A.', val:'$12,400', s:'inactive',sc:'badge-gray'   },
+            ].map(c => (
+              <tr>
+                <td class="font-medium">{c.name}</td>
+                <td class="font-semibold">{c.val}</td>
+                <td><span class={`badge ${c.sc}`}>{c.s}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tickets urgentes -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Tickets Urgentes</h3>
+        <a href="/support" class="btn btn-ghost btn-sm">Ver todos →</a>
+      </div>
+      <div class="card-body" style="padding:0.5rem 1.25rem;">
+        {[
+          { id:'#1042', t:'Error en módulo de facturación',      p:'Crítico',  pc:'badge-red',    age:'2h'   },
+          { id:'#1039', t:'No puede acceder al portal cliente',  p:'Alto',     pc:'badge-orange', age:'5h'   },
+          { id:'#1037', t:'Solicitud de integración API',        p:'Medio',    pc:'badge-yellow', age:'1d'   },
+          { id:'#1035', t:'Consulta sobre precios enterprise',   p:'Bajo',     pc:'badge-blue',   age:'2d'   },
+          { id:'#1033', t:'Actualización de datos de cuenta',    p:'Bajo',     pc:'badge-gray',   age:'3d'   },
+        ].map(tk => (
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:0.7rem;font-weight:700;color:var(--text-muted);min-width:38px;">{tk.id}</span>
+            <span style="flex:1;font-size:0.78rem;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{tk.t}</span>
+            <span class={`badge ${tk.pc}`} style="flex-shrink:0;">{tk.p}</span>
+            <span style="font-size:0.68rem;color:var(--text-muted);flex-shrink:0;">{tk.age}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 3: Próximas actividades + Métricas de conversión -->
+  <div class="grid-21" style="margin-top:1.25rem;">
+
+    <!-- Métricas de conversión -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Métricas de Conversión</h3>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+          {[
+            { label:'Tasa Lead → Opor.',  val:'34%',   change:'↑2.1%', up:true  },
+            { label:'Tasa Cierre',         val:'22%',   change:'↑0.8%', up:true  },
+            { label:'Ciclo de Venta',      val:'18d',   change:'↓3d',   up:true  },
+            { label:'Ticket Promedio',     val:'$4,850',change:'↑$320', up:true  },
+            { label:'Customer LTV',        val:'$14,200',change:'↑$800',up:true  },
+            { label:'Churn Rate',          val:'2.3%',  change:'↓0.4%', up:true  },
+          ].map(m => (
+            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:0.5rem;padding:0.875rem;">
+              <div style="font-size:1.1rem;font-weight:700;color:var(--text);">{m.val}</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);margin:2px 0;">{m.label}</div>
+              <div style={`font-size:0.68rem;font-weight:600;color:${m.up ? 'var(--success)' : 'var(--danger)'}`}>{m.change}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Próximas actividades -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Próximas Actividades</h3>
+        <a href="/calendar" class="btn btn-ghost btn-sm">Calendario →</a>
+      </div>
+      <div class="card-body" style="padding:0;">
+        {[
+          { time:'09:00',  label:'Hoy',  t:'Demo con MegaCorp',       type:'Reunión',  tc:'badge-green'  },
+          { time:'11:30',  label:'Hoy',  t:'Llamada seguimiento Ana',  type:'Llamada',  tc:'badge-blue'   },
+          { time:'15:00',  label:'Hoy',  t:'Enviar propuesta Tecno',   type:'Tarea',    tc:'badge-yellow' },
+          { time:'09:00',  label:'Mañana',t:'Reunión kick-off Global', type:'Reunión',  tc:'badge-green'  },
+          { time:'14:00',  label:'Mañana',t:'Revisión contrato NetSol',type:'Tarea',    tc:'badge-yellow' },
+        ].map(ev => (
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0.7rem 1.25rem;border-bottom:1px solid #f1f5f9;">
+            <div style="text-align:center;min-width:44px;">
+              <div style="font-size:0.78rem;font-weight:700;color:var(--primary);">{ev.time}</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);">{ev.label}</div>
+            </div>
+            <div style="width:3px;height:32px;background:var(--primary-light);border-radius:99px;"></div>
+            <div style="flex:1;">
+              <div style="font-size:0.8rem;font-weight:500;">{ev.t}</div>
+            </div>
+            <span class={`badge ${ev.tc}`}>{ev.type}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+</CRMLayout>

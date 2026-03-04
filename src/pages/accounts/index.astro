@@ -1,0 +1,138 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const accounts = [
+  { id:1,  name:'Tecno S.A.',       industry:'Tecnología',     type:'Cliente',    contacts:8,  revenue:'$34,200', potential:'$80k',  status:'Activo',    owner:'Carlos V.',   updated:'1h'     },
+  { id:2,  name:'Global Corp',      industry:'Manufactura',    type:'Cliente',    contacts:12, revenue:'$28,100', potential:'$60k',  status:'Activo',    owner:'María P.',    updated:'3h'     },
+  { id:3,  name:'NetSol Ltda.',     industry:'Software',       type:'Prospect',   contacts:3,  revenue:'$0',      potential:'$40k',  status:'Activo',    owner:'Luis A.',     updated:'1d'     },
+  { id:4,  name:'DataPoint S.A.',   industry:'Datos/BI',       type:'Inactivo',   contacts:5,  revenue:'$12,400', potential:'$25k',  status:'Inactivo',  owner:'Ana R.',      updated:'1 sem.' },
+  { id:5,  name:'MegaTrade',        industry:'Comercio',       type:'Cliente',    contacts:6,  revenue:'$17,500', potential:'$45k',  status:'Activo',    owner:'Pedro S.',    updated:'2h'     },
+  { id:6,  name:'SoftCo',          industry:'Software',       type:'Ex-cliente', contacts:2,  revenue:'$5,000',  potential:'$15k',  status:'Inactivo',  owner:'María P.',    updated:'2 sem.' },
+  { id:7,  name:'InnoTech',         industry:'Tecnología',     type:'Prospect',   contacts:4,  revenue:'$0',      potential:'$30k',  status:'Activo',    owner:'Carlos V.',   updated:'4d'     },
+  { id:8,  name:'Logística Plus',   industry:'Logística',      type:'Lead',       contacts:1,  revenue:'$0',      potential:'$20k',  status:'Nuevo',     owner:'Luis A.',     updated:'2 sem.' },
+  { id:9,  name:'FinGroup',         industry:'Finanzas',       type:'Cliente',    contacts:9,  revenue:'$22,800', potential:'$55k',  status:'Activo',    owner:'Ana R.',      updated:'1d'     },
+  { id:10, name:'Retail Max',       industry:'Retail',         type:'Prospect',   contacts:3,  revenue:'$0',      potential:'$35k',  status:'Activo',    owner:'Pedro S.',    updated:'5d'     },
+];
+---
+<CRMLayout title="Cuentas">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Cuentas / Empresas</h1>
+      <p class="page-subtitle">Gestión de empresas, organizaciones y clientes corporativos</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📤 Importar</button>
+      <button class="btn btn-secondary btn-sm">📥 Exportar</button>
+      <a href="/accounts/new" class="btn btn-primary btn-sm">+ Nueva Cuenta</a>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">342</div><div class="kpi-label">Total Cuentas</div>
+      <div class="kpi-change up">↑ 12 este mes</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">198</div><div class="kpi-label">Clientes Activos</div>
+      <div class="kpi-change up">↑ 6 nuevos</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">$120,000</div><div class="kpi-label">Ingresos (MTD)</div>
+      <div class="kpi-change up">↑ 18%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">$450,000</div><div class="kpi-label">Pipeline Total</div>
+      <div class="kpi-change up">↑ 5.4%</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar empresa…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los tipos</option>
+      <option>Cliente</option><option>Prospect</option><option>Lead</option><option>Ex-cliente</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todas las industrias</option>
+      <option>Tecnología</option><option>Manufactura</option><option>Software</option><option>Finanzas</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los responsables</option>
+    </select>
+    <div class="spacer"></div>
+    <span class="text-muted text-xs">342 registros</span>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th>Empresa</th>
+            <th>Industria</th>
+            <th>Tipo</th>
+            <th>Contactos</th>
+            <th>Ingresos</th>
+            <th>Potencial</th>
+            <th>Estado</th>
+            <th>Responsable</th>
+            <th>Actualizado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {accounts.map(a => (
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                  <div style="width:32px;height:32px;background:#e8f0f9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:var(--primary);">
+                    {a.name[0]}
+                  </div>
+                  <a href={`/accounts/${a.id}`} style="font-weight:600;color:var(--primary);text-decoration:none;">{a.name}</a>
+                </div>
+              </td>
+              <td class="text-muted">{a.industry}</td>
+              <td>
+                <span class={`badge ${a.type==='Cliente'?'badge-green':a.type==='Prospect'?'badge-blue':a.type==='Lead'?'badge-yellow':'badge-gray'}`}>{a.type}</span>
+              </td>
+              <td style="text-align:center;">{a.contacts}</td>
+              <td class="font-semibold">{a.revenue}</td>
+              <td style="color:var(--success);font-weight:600;">{a.potential}</td>
+              <td>
+                <span class={`badge ${a.status==='Activo'?'badge-green':a.status==='Nuevo'?'badge-navy':'badge-gray'}`}>{a.status}</span>
+              </td>
+              <td class="text-muted text-xs">{a.owner}</td>
+              <td class="text-muted text-xs">{a.updated}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver">👁</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-10 de 342 cuentas</span>
+      <div class="gap-actions">
+        <button class="btn btn-secondary btn-sm">← Anterior</button>
+        <button class="btn btn-primary btn-sm">1</button>
+        <button class="btn btn-secondary btn-sm">2</button>
+        <button class="btn btn-secondary btn-sm">3</button>
+        <button class="btn btn-secondary btn-sm">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+</CRMLayout>

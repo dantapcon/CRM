@@ -1,0 +1,178 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  section?: string;
+}
+
+const { title, section = '' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+function isActive(path: string) {
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+}
+
+const nav = [
+  {
+    group: 'Principal',
+    items: [
+      { label: 'Dashboard',      href: '/',               icon: '📊', badge: null },
+    ],
+  },
+  {
+    group: 'Ventas & CRM',
+    items: [
+      { label: 'Contactos',      href: '/contacts',        icon: '👤', badge: null },
+      { label: 'Cuentas',        href: '/accounts',        icon: '🏢', badge: null },
+      { label: 'Leads',          href: '/leads',           icon: '🎯', badge: '12' },
+      { label: 'Oportunidades',  href: '/opportunities',   icon: '💼', badge: null },
+      { label: 'Actividades',    href: '/activities',      icon: '✅', badge: '5' },
+      { label: 'Calendario',     href: '/calendar',        icon: '📅', badge: null },
+    ],
+  },
+  {
+    group: 'Comercial',
+    items: [
+      { label: 'Productos',      href: '/products',        icon: '📦', badge: null },
+      { label: 'Cotizaciones',   href: '/quotes',          icon: '📋', badge: '3' },
+      { label: 'Facturas',       href: '/invoices',        icon: '🧾', badge: null },
+    ],
+  },
+  {
+    group: 'Marketing',
+    items: [
+      { label: 'Campañas',       href: '/campaigns',       icon: '📣', badge: null },
+    ],
+  },
+  {
+    group: 'Soporte',
+    items: [
+      { label: 'Tickets',        href: '/support',         icon: '🎫', badge: '8' },
+      { label: 'Documentos',     href: '/documents',       icon: '📁', badge: null },
+    ],
+  },
+  {
+    group: 'Análisis',
+    items: [
+      { label: 'Reportes',       href: '/reports',         icon: '📈', badge: null },
+    ],
+  },
+  {
+    group: 'Administración',
+    items: [
+      { label: 'Equipo',         href: '/team',            icon: '👥', badge: null },
+      { label: 'Configuración',  href: '/settings',        icon: '⚙️', badge: null },
+    ],
+  },
+];
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} — NexusCRM</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
+</head>
+<body>
+<div class="crm-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────── -->
+  <aside class="crm-sidebar">
+    <div class="sidebar-logo">
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <div style="width:34px;height:34px;background:linear-gradient(135deg,#2563a8,#c8a558);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;">🔷</div>
+        <div>
+          <div class="sidebar-logo-text">NexusCRM</div>
+          <div class="sidebar-logo-sub">Enterprise Suite</div>
+        </div>
+      </div>
+    </div>
+
+    <nav style="flex:1;padding:0.5rem 0;">
+      {nav.map(group => (
+        <div>
+          <div class="sidebar-section-title">{group.group}</div>
+          {group.items.map(item => (
+            <a href={item.href} class={`sidebar-nav-item ${isActive(item.href) ? 'active' : ''}`}>
+              <span style="font-size:0.95rem;">{item.icon}</span>
+              <span>{item.label}</span>
+              {item.badge && (
+                <span class="sidebar-badge">{item.badge}</span>
+              )}
+            </a>
+          ))}
+        </div>
+      ))}
+    </nav>
+
+    <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="display:flex;align-items:center;gap:0.65rem;">
+        <div class="avatar" style="background:linear-gradient(135deg,#c8a558,#a8873a);">JM</div>
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:#e2e8f0;">Juan Martínez</div>
+          <div style="font-size:0.68rem;color:#64748b;">Administrador</div>
+        </div>
+        <div style="margin-left:auto;cursor:pointer;" title="Cerrar sesión">
+          <span style="color:#475569;font-size:0.9rem;">🚪</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────────── -->
+  <div class="crm-main">
+
+    <!-- Header -->
+    <header class="crm-header">
+      <div class="breadcrumb" style="flex:1;">
+        <a href="/">NexusCRM</a>
+        <span class="breadcrumb-sep">›</span>
+        <span>{title}</span>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <!-- Search -->
+        <div class="search-input-wrap">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input class="search-input" type="text" placeholder="Buscar en CRM…">
+        </div>
+
+        <!-- Notifications -->
+        <button class="btn btn-ghost btn-icon" style="position:relative;" title="Notificaciones">
+          🔔
+          <span class="notif-dot"></span>
+        </button>
+
+        <!-- Help -->
+        <button class="btn btn-ghost btn-icon" title="Ayuda">❓</button>
+
+        <!-- Avatar -->
+        <div class="avatar" style="cursor:pointer;background:linear-gradient(135deg,#c8a558,#a8873a);" title="Mi perfil">JM</div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="crm-content">
+      <slot />
+    </main>
+
+  </div>
+</div>
+
+<script>
+  // Active link highlight via JS for SPA-like behavior
+  document.querySelectorAll('.sidebar-nav-item').forEach(link => {
+    link.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-nav-item').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

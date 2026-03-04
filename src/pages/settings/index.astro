@@ -1,0 +1,204 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+---
+<CRMLayout title="Configuración">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Configuración del Sistema</h1>
+      <p class="page-subtitle">Ajustes generales, integraciones y personalización de NexusCRM</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+
+  <div class="grid-21">
+    <!-- Left sidebar nav -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+      <!-- Settings left nav -->
+      <div class="card">
+        <div style="padding:0.5rem 0;">
+          {[
+            { icon:'🏢', label:'General',         active:true },
+            { icon:'👤', label:'Mi perfil' },
+            { icon:'🔒', label:'Seguridad' },
+            { icon:'👥', label:'Usuarios y roles' },
+            { icon:'🔔', label:'Notificaciones' },
+            { icon:'🎨', label:'Personalización' },
+            { icon:'🗄️', label:'Datos y campos' },
+            { icon:'🔌', label:'Integraciones' },
+            { icon:'📧', label:'Email y plantillas' },
+            { icon:'📊', label:'Reportes' },
+            { icon:'💳', label:'Facturación y plan' },
+            { icon:'🛡️', label:'Privacidad y GDPR' },
+            { icon:'📋', label:'Auditoría y logs' },
+            { icon:'🔧', label:'API y webhooks' },
+          ].map(s => (
+            <div style={`display:flex;align-items:center;gap:0.6rem;padding:0.55rem 1.25rem;cursor:pointer;background:${s.active?'rgba(37,99,168,0.1)':'transparent'};border-right:${s.active?'3px solid var(--primary)':'3px solid transparent'};`}>
+              <span>{s.icon}</span>
+              <span style={`font-size:0.8rem;font-weight:${s.active?'600':'400'};color:${s.active?'var(--primary)':'var(--text)'}`}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right content -->
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+
+      <!-- General settings -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🏢 Configuración General</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row form-row-2">
+            <div class="form-group">
+              <label class="form-label">Nombre de la empresa</label>
+              <input class="form-control" value="Mi Empresa S.A.">
+            </div>
+            <div class="form-group">
+              <label class="form-label">NIT / RUT</label>
+              <input class="form-control" value="900.123.456-7">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email principal</label>
+              <input class="form-control" type="email" value="info@miempresa.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono</label>
+              <input class="form-control" value="+57 1 234 5678">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sitio web</label>
+              <input class="form-control" value="https://miempresa.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">País</label>
+              <select class="form-control">
+                <option selected>Colombia</option>
+                <option>México</option><option>Argentina</option><option>Chile</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Zona horaria</label>
+              <select class="form-control">
+                <option selected>América/Bogotá (UTC-5)</option>
+                <option>América/México_City (UTC-6)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Moneda predeterminada</label>
+              <select class="form-control">
+                <option selected>COP — Peso Colombiano</option>
+                <option>USD — Dólar Americano</option>
+                <option>EUR — Euro</option>
+                <option>MXN — Peso Mexicano</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dirección</label>
+            <input class="form-control" value="Calle 72 No. 12-45, Bogotá, Colombia">
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline stages -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🔄 Etapas del Pipeline de Ventas</h3>
+          <button class="btn btn-secondary btn-sm">+ Agregar etapa</button>
+        </div>
+        <div class="card-body" style="padding:0;">
+          {[
+            { name:'Prospección',    prob:20, color:'#0284c7', order:1 },
+            { name:'Calificación',   prob:35, color:'#7c3aed', order:2 },
+            { name:'Propuesta',      prob:55, color:'#c8a558', order:3 },
+            { name:'Negociación',    prob:75, color:'#d97706', order:4 },
+            { name:'Ganado',         prob:100,color:'#16a34a', order:5 },
+          ].map(s => (
+            <div style="display:flex;align-items:center;gap:1rem;padding:0.75rem 1.25rem;border-bottom:1px solid #f1f5f9;">
+              <div style={`width:12px;height:12px;border-radius:50%;background:${s.color};flex-shrink:0;`}></div>
+              <span style="min-width:120px;font-weight:500;font-size:0.8rem;">{s.name}</span>
+              <input class="form-control" style="width:100px;" value={`${s.prob}%`} placeholder="Probabilidad">
+              <input type="color" value={s.color} style="width:36px;height:30px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:2px;">
+              <div class="spacer"></div>
+              <button class="btn btn-ghost btn-sm btn-icon">↑</button>
+              <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+              <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+              <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);">🗑</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🔔 Notificaciones</h3>
+        </div>
+        <div class="card-body">
+          {[
+            { label:'Nuevo lead asignado',              email:true,  app:true  },
+            { label:'Recordatorio de actividad',        email:true,  app:true  },
+            { label:'Oportunidad sin actividad (7d)',   email:true,  app:false },
+            { label:'Ticket crítico creado',            email:true,  app:true  },
+            { label:'Cotización aceptada',              email:true,  app:true  },
+            { label:'Factura vencida',                  email:true,  app:true  },
+            { label:'Reporte semanal de ventas',        email:true,  app:false },
+            { label:'Meta de ventas alcanzada',         email:false, app:true  },
+          ].map(n => (
+            <div style="display:flex;align-items:center;gap:1rem;padding:0.6rem 0;border-bottom:1px solid #f1f5f9;">
+              <span style="flex:1;font-size:0.8rem;">{n.label}</span>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;">
+                <input type="checkbox" checked={n.email}> Email
+              </label>
+              <label style="display:flex;align-items:center;gap:0.4rem;font-size:0.72rem;">
+                <input type="checkbox" checked={n.app}> App
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Integrations -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🔌 Integraciones</h3>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;">
+            {[
+              { name:'Google Workspace', icon:'📧', connected:true,   desc:'Email, Calendar, Drive'        },
+              { name:'Slack',            icon:'💬', connected:true,   desc:'Notificaciones de equipo'      },
+              { name:'WhatsApp Business',icon:'📱', connected:false,  desc:'Mensajería a clientes'         },
+              { name:'Zapier',           icon:'⚡', connected:false,  desc:'Automatizaciones sin código'   },
+              { name:'Stripe',           icon:'💳', connected:false,  desc:'Pagos y facturación'           },
+              { name:'HubSpot',          icon:'🔶', connected:false,  desc:'Migración de datos'            },
+              { name:'Mailchimp',        icon:'🐵', connected:true,   desc:'Email marketing'               },
+              { name:'LinkedIn',         icon:'💼', connected:true,   desc:'Lead generation'               },
+            ].map(int => (
+              <div style="border:1px solid var(--border);border-radius:0.5rem;padding:0.875rem;display:flex;align-items:center;gap:0.75rem;">
+                <div style="font-size:1.5rem;">{int.icon}</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.82rem;font-weight:600;">{int.name}</div>
+                  <div style="font-size:0.68rem;color:var(--text-muted);">{int.desc}</div>
+                </div>
+                {int.connected
+                  ? <button class="btn btn-secondary btn-sm">Configurar</button>
+                  : <button class="btn btn-primary btn-sm">Conectar</button>
+                }
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</CRMLayout>

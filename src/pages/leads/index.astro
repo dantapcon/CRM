@@ -1,0 +1,177 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const leads = [
+  { id:1,  name:'Roberto Jiménez',   company:'Alpha IT',       source:'Sitio Web',    status:'Nuevo',         score:82, owner:'Carlos V.', created:'Hoy',     campaign:'Q1 Email' },
+  { id:2,  name:'Diana Parra',       company:'BetaTech',       source:'LinkedIn',     status:'Contactado',    score:75, owner:'María P.',  created:'1d',      campaign:'LinkedIn Ads' },
+  { id:3,  name:'Raúl Vargas',       company:'Gamma Corp',     source:'Referido',     status:'Calificado',    score:90, owner:'Luis A.',   created:'2d',      campaign: '—' },
+  { id:4,  name:'Paola Ríos',        company:'Delta Solutions',source:'Evento',       status:'Nuevo',         score:65, owner:'Ana R.',    created:'3d',      campaign:'Expo Tech 2026' },
+  { id:5,  name:'Sergio Medina',     company:'Epsilon S.A.',   source:'Llamada fría', status:'Descartado',    score:30, owner:'Pedro S.',  created:'4d',      campaign: '—' },
+  { id:6,  name:'Patricia Luna',     company:'Zeta Cloud',     source:'Sitio Web',    status:'Contactado',    score:78, owner:'Carlos V.', created:'5d',      campaign:'Google Ads' },
+  { id:7,  name:'Alberto Cruz',      company:'Eta Software',   source:'Referido',     status:'Calificado',    score:88, owner:'María P.',  created:'6d',      campaign: '—' },
+  { id:8,  name:'Claudia Mora',      company:'Theta Retail',   source:'Email',        status:'Convertido',    score:95, owner:'Luis A.',   created:'1 sem.',  campaign:'Newsletter Mar' },
+  { id:9,  name:'Gustavo Ortiz',     company:'Iota Finance',   source:'LinkedIn',     status:'Contactado',    score:72, owner:'Ana R.',    created:'1 sem.',  campaign:'LinkedIn Ads' },
+  { id:10, name:'Natalia Castillo',  company:'Kappa Media',    source:'Sitio Web',    status:'Nuevo',         score:60, owner:'Pedro S.',  created:'2 sem.',  campaign:'SEO Landing' },
+];
+
+const statusMap: Record<string,string> = {
+  'Nuevo': 'badge-navy',
+  'Contactado': 'badge-blue',
+  'Calificado': 'badge-gold',
+  'Convertido': 'badge-green',
+  'Descartado': 'badge-gray',
+};
+---
+<CRMLayout title="Leads">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Leads</h1>
+      <p class="page-subtitle">Captura, calificación y seguimiento de prospectos potenciales</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📤 Importar</button>
+      <a href="/leads/new" class="btn btn-primary btn-sm">+ Nuevo Lead</a>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">84</div><div class="kpi-label">Nuevos este mes</div>
+      <div class="kpi-change up">↑ 13.5%</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">38</div><div class="kpi-label">Calificados</div>
+      <div class="kpi-change up">↑ 8 nuevos</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">21</div><div class="kpi-label">Convertidos</div>
+      <div class="kpi-change up">38.3% conv.</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">12</div><div class="kpi-label">Descartados</div>
+      <div class="kpi-change down">14.3%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">4.2d</div><div class="kpi-label">Tiempo resp. prom.</div>
+      <div class="kpi-change up">↓ 1.2d</div>
+    </div>
+  </div>
+
+  <!-- Lead Funnel visual -->
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="card-header">
+      <h3 class="card-title">Embudo de Leads</h3>
+    </div>
+    <div class="card-body">
+      <div style="display:flex;align-items:center;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+        {[
+          { label:'Capturados', n:84,  pct:100, bg:'#1a3d6b', color:'#fff' },
+          { label:'Contactados',n:62,  pct:74,  bg:'#2563a8', color:'#fff' },
+          { label:'Calificados',n:38,  pct:45,  bg:'#c8a558', color:'#fff' },
+          { label:'Propuesta',  n:24,  pct:29,  bg:'#d97706', color:'#fff' },
+          { label:'Convertidos',n:21,  pct:25,  bg:'#16a34a', color:'#fff' },
+        ].map((f, i) => (
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <div style={`background:${f.bg};color:${f.color};border-radius:8px;padding:0.75rem 1.5rem;text-align:center;min-width:${100+i*10}px;`}>
+              <div style="font-size:1.4rem;font-weight:700;">{f.n}</div>
+              <div style="font-size:0.68rem;font-weight:500;opacity:0.9;margin-top:2px;">{f.label}</div>
+              <div style="font-size:0.65rem;opacity:0.75;">{f.pct}%</div>
+            </div>
+            {i < 4 && <span style="font-size:1.2rem;color:var(--text-muted);">→</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar + Table -->
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar lead…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los estados</option>
+      <option>Nuevo</option><option>Contactado</option><option>Calificado</option>
+      <option>Convertido</option><option>Descartado</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todas las fuentes</option>
+      <option>Sitio Web</option><option>LinkedIn</option><option>Referido</option>
+      <option>Evento</option><option>Llamada fría</option><option>Email</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los responsables</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th><input type="checkbox"></th>
+            <th>Nombre</th>
+            <th>Empresa</th>
+            <th>Fuente</th>
+            <th>Estado</th>
+            <th>Score</th>
+            <th>Responsable</th>
+            <th>Creado</th>
+            <th>Campaña</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leads.map(l => (
+            <tr>
+              <td><input type="checkbox"></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.6rem;">
+                  <div class="avatar">{l.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div>
+                  <a href={`/leads/${l.id}`} style="font-weight:600;color:var(--primary);text-decoration:none;">{l.name}</a>
+                </div>
+              </td>
+              <td class="text-muted">{l.company}</td>
+              <td><span class="badge badge-navy">{l.source}</span></td>
+              <td><span class={`badge ${statusMap[l.status]}`}>{l.status}</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.4rem;">
+                  <div class="progress-bar" style="width:50px;">
+                    <div class="progress-fill" style={`width:${l.score}%;background:${l.score>=80?'var(--success)':l.score>=60?'var(--warning)':'var(--danger)'}`}></div>
+                  </div>
+                  <span style="font-size:0.72rem;font-weight:600;">{l.score}</span>
+                </div>
+              </td>
+              <td class="text-muted text-xs">{l.owner}</td>
+              <td class="text-muted text-xs">{l.created}</td>
+              <td style="font-size:0.72rem;">{l.campaign}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-secondary btn-sm" title="Convertir a oportunidad">🔄 Convertir</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver">👁</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-10 de 84 leads</span>
+      <div class="gap-actions">
+        <button class="btn btn-secondary btn-sm">← Anterior</button>
+        <button class="btn btn-primary btn-sm">1</button>
+        <button class="btn btn-secondary btn-sm">2</button>
+        <button class="btn btn-secondary btn-sm">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+</CRMLayout>

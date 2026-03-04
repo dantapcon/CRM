@@ -1,0 +1,139 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const stages = [
+  {
+    name: 'Prospección', color: '#0284c7', count: 8, total: '$28,400',
+    items: [
+      { name:'Sistema ERP - Alpha IT',      company:'Alpha IT',       value:'$8,200',  days:5,  owner:'CV', prob:20 },
+      { name:'CRM License - BetaTech',      company:'BetaTech',       value:'$6,500',  days:3,  owner:'MP', prob:20 },
+      { name:'Consultoría - Gamma Corp',    company:'Gamma Corp',     value:'$4,800',  days:8,  owner:'LA', prob:15 },
+    ],
+  },
+  {
+    name: 'Calificación', color: '#7c3aed', count: 6, total: '$45,200',
+    items: [
+      { name:'Cloud Migration - NetSol',    company:'NetSol Ltda.',   value:'$18,000', days:12, owner:'AR', prob:35 },
+      { name:'BI Dashboard - DataPoint',    company:'DataPoint S.A.', value:'$14,000', days:7,  owner:'PS', prob:40 },
+      { name:'Integración API - Epsilon',   company:'Epsilon S.A.',   value:'$13,200', days:15, owner:'CV', prob:30 },
+    ],
+  },
+  {
+    name: 'Propuesta', color: '#c8a558', count: 5, total: '$63,100',
+    items: [
+      { name:'Software Suite - Tecno S.A.', company:'Tecno S.A.',     value:'$28,500', days:18, owner:'MP', prob:55 },
+      { name:'Soporte Anual - Global Corp', company:'Global Corp',    value:'$22,000', days:22, owner:'LA', prob:60 },
+      { name:'Módulo HR - InnoTech',        company:'InnoTech',       value:'$12,600', days:9,  owner:'AR', prob:50 },
+    ],
+  },
+  {
+    name: 'Negociación', color: '#d97706', count: 4, total: '$72,800',
+    items: [
+      { name:'Enterprise Plan - MegaTrade', company:'MegaTrade',      value:'$42,000', days:25, owner:'CV', prob:75 },
+      { name:'Licencias - FinGroup',        company:'FinGroup',       value:'$30,800', days:30, owner:'MP', prob:70 },
+    ],
+  },
+  {
+    name: 'Ganado ✓', color: '#16a34a', count: 3, total: '$39,000',
+    items: [
+      { name:'CRM Impl. - Retail Max',      company:'Retail Max',     value:'$22,000', days:45, owner:'LA', prob:100 },
+      { name:'Mantenimiento - SoftCo',      company:'SoftCo',         value:'$17,000', days:40, owner:'AR', prob:100 },
+    ],
+  },
+];
+---
+<CRMLayout title="Oportunidades">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Oportunidades</h1>
+      <p class="page-subtitle">Pipeline de ventas y gestión de oportunidades activas</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">⊞ Tablero</button>
+      <button class="btn btn-secondary btn-sm">☰ Lista</button>
+      <button class="btn btn-secondary btn-sm">📊 Forecast</button>
+      <a href="/opportunities/new" class="btn btn-primary btn-sm">+ Nueva Oportunidad</a>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">26</div><div class="kpi-label">Oportunidades activas</div>
+      <div class="kpi-change up">↑ 4 nuevas</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">$248,500</div><div class="kpi-label">Valor del pipeline</div>
+      <div class="kpi-change up">↑ 4.7%</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">$82,300</div><div class="kpi-label">Cerrado este mes</div>
+      <div class="kpi-change up">↑ 21.4%</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">22%</div><div class="kpi-label">Tasa de cierre</div>
+      <div class="kpi-change up">↑ 2.1%</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">18d</div><div class="kpi-label">Ciclo prom. de venta</div>
+      <div class="kpi-change up">↓ 3d más rápido</div>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar oportunidad…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los responsables</option>
+      <option>Carlos V.</option><option>María P.</option><option>Luis A.</option><option>Ana R.</option><option>Pedro S.</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los períodos</option>
+      <option>Este mes</option><option>Este trimestre</option><option>Este año</option>
+    </select>
+    <div class="spacer"></div>
+    <span style="font-size:0.75rem;color:var(--success);font-weight:600;">Pipeline: $248,500</span>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="pipeline-board">
+    {stages.map(stage => (
+      <div class="pipeline-col">
+        <div class="pipeline-col-header" style={`border-top:3px solid ${stage.color}`}>
+          <div>
+            <div class="pipeline-col-title">{stage.name}</div>
+            <div style="font-size:0.68rem;color:var(--text-muted);margin-top:1px;">{stage.total}</div>
+          </div>
+          <span class="badge badge-gray">{stage.count}</span>
+        </div>
+        <div class="pipeline-col-body">
+          {stage.items.map(item => (
+            <div class="pipeline-card">
+              <div class="pipeline-card-title">{item.name}</div>
+              <div class="pipeline-card-company">🏢 {item.company}</div>
+              <div class="pipeline-phase-bar">
+                <div class="pipeline-phase-fill" style={`width:${item.prob}%;background:${stage.color}`}></div>
+              </div>
+              <div class="pipeline-card-footer">
+                <span style="font-size:0.75rem;font-weight:700;color:var(--text);">{item.value}</span>
+                <div style="display:flex;align-items:center;gap:0.3rem;">
+                  <div class="avatar" style="width:20px;height:20px;font-size:0.55rem;background:var(--primary);">{item.owner}</div>
+                  <span style="font-size:0.65rem;color:var(--text-muted);">{item.days}d</span>
+                </div>
+              </div>
+              <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.3rem;">Prob: {item.prob}%</div>
+            </div>
+          ))}
+          <button style="width:100%;padding:0.5rem;border:1px dashed var(--border);background:transparent;border-radius:0.375rem;font-size:0.72rem;color:var(--text-muted);cursor:pointer;">+ Agregar oportunidad</button>
+        </div>
+      </div>
+    ))}
+  </div>
+
+</CRMLayout>

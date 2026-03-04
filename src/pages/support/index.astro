@@ -1,0 +1,197 @@
+---
+import CRMLayout from '../../layouts/CRMLayout.astro';
+
+const tickets = [
+  { id:'#1042', title:'Error en módulo de facturación',         client:'Tecno S.A.',     agent:'Carlos V.', created:'Hace 2h',   priority:'Crítico', status:'Abierto',     type:'Bug'       },
+  { id:'#1041', title:'No puede iniciar sesión en el portal',   client:'Global Corp',    agent:'María P.',  created:'Hace 3h',   priority:'Alto',    status:'En proceso',  type:'Incidente' },
+  { id:'#1040', title:'Solicitud exportar datos en Excel',      client:'NetSol Ltda.',   agent:'Luis A.',   created:'Hace 5h',   priority:'Medio',   status:'Abierto',     type:'Solicitud' },
+  { id:'#1039', title:'Error de carga de contactos masivos',    client:'MegaTrade',      agent:'Ana R.',    created:'Hace 6h',   priority:'Alto',    status:'En proceso',  type:'Bug'       },
+  { id:'#1038', title:'Consulta sobre integración con SAP',     client:'InnoTech',       agent:'Pedro S.',  created:'Ayer',      priority:'Medio',   status:'En espera',   type:'Consulta'  },
+  { id:'#1037', title:'Panel de reportes no carga gráficas',    client:'FinGroup',       agent:'Carlos V.', created:'Ayer',      priority:'Medio',   status:'En proceso',  type:'Bug'       },
+  { id:'#1036', title:'Agregar campo personalizado a lead',     client:'Retail Max',     agent:'María P.',  created:'2 días',    priority:'Bajo',    status:'Abierto',     type:'Mejora'    },
+  { id:'#1035', title:'Precios actualizados en catálogo',       client:'DataPoint S.A.', agent:'Luis A.',   created:'2 días',    priority:'Bajo',    status:'Cerrado',     type:'Solicitud' },
+  { id:'#1034', title:'Problema con email de bienvenida',       client:'Alpha IT',       agent:'Ana R.',    created:'3 días',    priority:'Medio',   status:'Cerrado',     type:'Incidente' },
+];
+const prioMap: Record<string,string> = { 'Crítico':'badge-red','Alto':'badge-orange','Medio':'badge-yellow','Bajo':'badge-gray' };
+const statMap: Record<string,string> = { 'Abierto':'badge-blue','En proceso':'badge-yellow','En espera':'badge-purple','Cerrado':'badge-green' };
+const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-orange','Solicitud':'badge-navy','Consulta':'badge-blue','Mejora':'badge-purple' };
+---
+<CRMLayout title="Tickets">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Tickets de Soporte</h1>
+      <p class="page-subtitle">Gestión de casos, incidencias y solicitudes de clientes</p>
+    </div>
+    <div class="gap-actions">
+      <button class="btn btn-secondary btn-sm">📊 SLA Report</button>
+      <button class="btn btn-primary btn-sm">+ Nuevo Ticket</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-value">23</div><div class="kpi-label">Tickets abiertos</div>
+      <div class="kpi-change down">↑ 3 sin respuesta</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-value">2</div><div class="kpi-label">Críticos</div>
+      <div class="kpi-change down">Requieren atención</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-value">94%</div><div class="kpi-label">Satisfacción cliente</div>
+      <div class="kpi-change up">↑ 2%</div>
+    </div>
+    <div class="kpi-card kpi-gold">
+      <div class="kpi-value">4.2h</div><div class="kpi-label">Tiempo primera respuesta</div>
+      <div class="kpi-change up">↓ 0.8h</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-value">14h</div><div class="kpi-label">Tiempo resol. promedio</div>
+      <div class="kpi-change up">↓ 2h</div>
+    </div>
+  </div>
+
+  <!-- SLA Overview -->
+  <div class="grid-3" style="margin-bottom:1.25rem;">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">SLA Conformidad</h3></div>
+      <div class="card-body">
+        {[
+          { label:'Tiempo primera respuesta', val:91, target:'≤ 4h',  ok:true  },
+          { label:'Tiempo resolución',        val:87, target:'≤ 24h', ok:true  },
+          { label:'Disponibilidad sistema',   val:99.8,target:'≥ 99.5%',ok:true },
+        ].map(s => (
+          <div style="margin-bottom:0.9rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px;">
+              <span class="font-medium">{s.label}</span>
+              <span class={s.ok?'badge badge-green':'badge badge-red'}>{s.val}% (meta {s.target})</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style={`width:${s.val}%;background:${s.ok?'var(--success)':'var(--danger)'}`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Tickets por Tipo</h3></div>
+      <div class="card-body">
+        <div class="bar-chart-h">
+          {[
+            { label:'Bug',       val:32, pct:32, color:'var(--danger)'   },
+            { label:'Solicitud', val:28, pct:28, color:'var(--primary-light)' },
+            { label:'Consulta',  val:22, pct:22, color:'var(--info)'     },
+            { label:'Incidente', val:12, pct:12, color:'var(--warning)'  },
+            { label:'Mejora',    val: 6, pct: 6, color:'#7c3aed'         },
+          ].map(r => (
+            <div class="bar-chart-h-row">
+              <span class="bar-chart-h-label">{r.label}</span>
+              <div class="bar-chart-h-track">
+                <div class="bar-chart-h-fill" style={`width:${r.pct*2.5}%;background:${r.color}`}></div>
+              </div>
+              <span class="bar-chart-h-val">{r.val}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Agentes — Carga de trabajo</h3></div>
+      <div class="card-body">
+        {[
+          { name:'Carlos V.', open:8, closed:24, avatar:'CV' },
+          { name:'María P.',  open:5, closed:31, avatar:'MP' },
+          { name:'Luis A.',   open:4, closed:19, avatar:'LA' },
+          { name:'Ana R.',    open:6, closed:22, avatar:'AR' },
+          { name:'Pedro S.',  open:3, closed:15, avatar:'PS' },
+        ].map(a => (
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.65rem;">
+            <div class="avatar">{a.avatar}</div>
+            <div style="flex:1;">
+              <div style="font-size:0.78rem;font-weight:600;">{a.name}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);">{a.open} abiertos · {a.closed} cerrados</div>
+            </div>
+            <div class="progress-bar" style="width:60px;">
+              <div class="progress-fill" style={`width:${Math.min(a.open*12,100)}%;background:${a.open>=7?'var(--danger)':a.open>=5?'var(--warning)':'var(--success)'}`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-input-wrap">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input class="search-input" placeholder="Buscar ticket…">
+    </div>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los estados</option>
+      <option>Abierto</option><option>En proceso</option><option>En espera</option><option>Cerrado</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todas las prioridades</option>
+      <option>Crítico</option><option>Alto</option><option>Medio</option><option>Bajo</option>
+    </select>
+    <select class="form-control" style="width:auto;padding:0.47rem 0.75rem;">
+      <option>Todos los agentes</option>
+    </select>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="card">
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Asunto</th>
+            <th>Cliente</th>
+            <th>Tipo</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Agente</th>
+            <th>Creado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tickets.map(t => (
+            <tr>
+              <td style="font-family:monospace;font-size:0.72rem;font-weight:700;color:var(--primary);">{t.id}</td>
+              <td style="font-weight:500;">{t.title}</td>
+              <td class="text-muted text-xs">{t.client}</td>
+              <td><span class={`badge ${typeMap[t.type]}`}>{t.type}</span></td>
+              <td><span class={`badge ${prioMap[t.priority]}`}>{t.priority}</span></td>
+              <td><span class={`badge ${statMap[t.status]}`}>{t.status}</span></td>
+              <td>
+                <div style="display:flex;align-items:center;gap:0.4rem;">
+                  <div class="avatar" style="width:22px;height:22px;font-size:0.55rem;">{t.agent.split(' ').map(n=>n[0]).join('')}</div>
+                  <span class="text-xs">{t.agent}</span>
+                </div>
+              </td>
+              <td class="text-muted text-xs">{t.created}</td>
+              <td>
+                <div class="gap-actions">
+                  <button class="btn btn-secondary btn-sm">Abrir</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--border);">
+      <span class="text-muted text-xs">Mostrando 1-9 de 156 tickets</span>
+    </div>
+  </div>
+
+</CRMLayout>
