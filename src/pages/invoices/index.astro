@@ -23,7 +23,7 @@ const stMap: Record<string,string> = {
       <p class="page-subtitle">Facturación, cobranza y control de pagos</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📊 Reporte cobros</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-reporte-cobros')">📊 Reporte cobros</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-factura')">+ Nueva Factura</button>
     </div>
   </div>
@@ -98,9 +98,9 @@ const stMap: Record<string,string> = {
                 <td class="text-xs text-muted">{inv.method}</td>
                 <td>
                   <div class="gap-actions">
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF">📄</button>
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Enviar">📤</button>
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF" onclick="openModal('modal-pdf-factura')">📄</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Enviar" onclick="openModal('modal-enviar-factura')">📤</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-factura')">⋯</button>
                   </div>
                 </td>
               </tr>
@@ -113,6 +113,170 @@ const stMap: Record<string,string> = {
       <span class="text-muted text-xs">Mostrando 1-8 de 88 facturas</span>
     </div>
   </div>
+
+<!-- Modal: Reporte Cobros -->
+<div class="modal-overlay" id="modal-reporte-cobros">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-header">
+      <div class="modal-title">📊 Reporte de Cobros</div>
+      <button class="modal-close" onclick="closeModal('modal-reporte-cobros')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1rem;">
+        <div style="background:#f0fdf4;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #bbf7d0;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--success);">$148,200</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Cobrado este mes</div>
+        </div>
+        <div style="background:#fff7ed;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #fed7aa;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--warning);">$32,400</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Pendiente de cobro</div>
+        </div>
+        <div style="background:#fef2f2;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #fecaca;">
+          <div style="font-size:1.2rem;font-weight:700;color:var(--danger);">$8,600</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Vencido</div>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+        <thead><tr style="background:#f8fafc;">
+          <th style="padding:0.5rem;text-align:left;">Cliente</th>
+          <th style="padding:0.5rem;text-align:right;">Monto</th>
+          <th style="padding:0.5rem;text-align:left;">Vencimiento</th>
+          <th style="padding:0.5rem;text-align:center;">Estado</th>
+        </tr></thead>
+        <tbody>
+          {[['InnoTech','$12,600','31 Mar 2026','Pagada','badge-green'],['GlobalRetail','$28,900','15 Abr 2026','Pendiente','badge-orange'],['MegaCorp','$8,600','01 Mar 2026','Vencida','badge-red']].map(([client,amount,due,status,badge]) => (
+            <tr style="border-top:1px solid var(--border);">
+              <td style="padding:0.5rem;font-weight:500;">{client}</td>
+              <td style="padding:0.5rem;text-align:right;font-weight:600;">{amount}</td>
+              <td style="padding:0.5rem;">{due}</td>
+              <td style="padding:0.5rem;text-align:center;"><span class={`badge ${badge}`}>{status}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-reporte-cobros')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver PDF Factura -->
+<div class="modal-overlay" id="modal-pdf-factura">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header">
+      <div class="modal-title">🧧 Vista Previa — Factura</div>
+      <button class="modal-close" onclick="closeModal('modal-pdf-factura')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:1.3rem;font-weight:700;color:var(--primary);">NexusCRM</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">www.nexuscrm.com · info@nexuscrm.com</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:1rem;font-weight:700;">FACTURA</div>
+            <div style="font-size:0.82rem;color:var(--primary);font-weight:600;">FAC-2026-088</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">Emisión: 01 Mar 2026</div>
+            <div style="font-size:0.72rem;color:var(--danger);font-weight:600;">Vence: 31 Mar 2026</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem;">Facturado a</div>
+            <div style="font-weight:600;">InnoTech</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);">Felipe Castro — Gerente Financiero</div>
+          </div>
+          <div>
+            <div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem;">Estado de pago</div>
+            <span class="badge badge-green" style="font-size:0.8rem;padding:4px 12px;">PAGADA</span>
+          </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;margin-bottom:1rem;">
+          <thead><tr style="background:#e8f0f9;">
+            <th style="padding:0.5rem 0.75rem;text-align:left;">Descripción</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Cant.</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Precio unit.</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Total</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.75rem;">Módulo HR — InnoTech</td><td style="padding:0.5rem 0.75rem;text-align:right;">1</td><td style="padding:0.5rem 0.75rem;text-align:right;">$12,600</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:600;">$12,600</td></tr>
+          </tbody>
+          <tfoot><tr style="background:#f1f5f9;"><td colspan="3" style="padding:0.5rem 0.75rem;font-weight:700;text-align:right;">TOTAL</td><td style="padding:0.5rem 0.75rem;font-weight:700;text-align:right;color:var(--success);font-size:0.95rem;">$12,600</td></tr></tfoot>
+        </table>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Método de pago: Transferencia bancaria · Pagado el 15 Mar 2026</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-pdf-factura')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-pdf-factura');openModal('modal-enviar-factura')">📤 Reenviar al cliente</button>
+      <button class="btn btn-primary btn-sm">⬇️ Descargar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Enviar Factura -->
+<div class="modal-overlay" id="modal-enviar-factura">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Enviar Factura al Cliente</div>
+      <button class="modal-close" onclick="closeModal('modal-enviar-factura')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Para (email del cliente)</label>
+        <input class="form-control" type="email" value="fcastro@innotech.io">
+      </div>
+      <div class="form-group">
+        <label>CC (contabilidad u otros)</label>
+        <input class="form-control" type="email" placeholder="contabilidad@empresa.com (opcional)">
+      </div>
+      <div class="form-group">
+        <label>Asunto</label>
+        <input class="form-control" value="Factura FAC-2026-088 — NexusCRM">
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea class="form-control" style="min-height:100px;">Estimado Felipe,
+
+Adjunto la factura FAC-2026-088 por $12,600 con vencimiento el 31 de marzo de 2026.
+
+Muchas gracias por su confianza.
+
+Saludos,
+NexusCRM</textarea>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);">
+        <span>📎</span><span>FAC-2026-088.pdf adjunto automáticamente</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-enviar-factura')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📤 Enviar Factura</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Factura -->
+<div class="modal-overlay" id="modal-acciones-factura">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Factura</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-factura')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-factura');openModal('modal-pdf-factura')">📄 Ver / Descargar PDF</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-factura');openModal('modal-enviar-factura')">📤 Enviar al cliente</button>
+      <button class="menu-action-btn">💳 Registrar pago</button>
+      <button class="menu-action-btn">🗑️ Nota de crédito</button>
+      <button class="menu-action-btn">🔄 Duplicar factura</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--danger);" onclick="closeModal('modal-acciones-factura');openModal('modal-confirm-eliminar')">🗑 Anular factura</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Factura -->
 <div class="modal-overlay" id="modal-factura">

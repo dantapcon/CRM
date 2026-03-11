@@ -29,8 +29,8 @@ const statusMap: Record<string,string> = {
       <p class="page-subtitle">Gestión de personas y relaciones individuales</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📤 Importar</button>
-      <button class="btn btn-secondary btn-sm">📥 Exportar</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-importar-contactos')">📤 Importar</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-exportar-contactos')">📥 Exportar</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-contacto')">+ Nuevo Contacto</button>
     </div>
   </div>
@@ -134,10 +134,10 @@ const statusMap: Record<string,string> = {
               <td class="text-muted text-xs">{c.last}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Llamar">📞</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Email">📧</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver">👁</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Llamar" onclick="openModal('modal-llamar-contacto')">📞</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Email" onclick="openModal('modal-email-contacto')">📧</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver" onclick="openModal('modal-ver-contacto')">👁</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-contacto')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -159,6 +159,310 @@ const statusMap: Record<string,string> = {
       </div>
     </div>
   </div>
+
+<!-- Modal: Importar Contactos -->
+<div class="modal-overlay" id="modal-importar-contactos">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Importar Contactos</div>
+      <button class="modal-close" onclick="closeModal('modal-importar-contactos')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="border:2px dashed var(--border);border-radius:0.5rem;padding:1.5rem;text-align:center;margin-bottom:0.75rem;cursor:pointer;" onclick="this.querySelector('input').click()">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">📄</div>
+        <div style="font-weight:600;font-size:0.88rem;">Arrastra tu archivo aquí o haz clic para seleccionar</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;">CSV o Excel (.xlsx) — máx. 5 MB</div>
+        <input type="file" accept=".csv,.xlsx" style="display:none;">
+      </div>
+      <div class="form-group">
+        <label>Acción si el contacto ya existe</label>
+        <select class="form-control">
+          <option selected>Actualizar campos vacíos</option>
+          <option>Sobreescribir todo</option>
+          <option>Omitir duplicados</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Asignar a</label>
+        <select class="form-control">
+          <option selected>Distribución automática</option>
+          <option>Carlos López</option>
+          <option>María López</option>
+        </select>
+      </div>
+      <a href="#" style="font-size:0.75rem;color:var(--primary);">⬇️ Descargar plantilla CSV</a>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-importar-contactos')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📤 Importar contactos</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Exportar Contactos -->
+<div class="modal-overlay" id="modal-exportar-contactos">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">📥 Exportar Contactos</div>
+      <button class="modal-close" onclick="closeModal('modal-exportar-contactos')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Formato</label>
+        <select class="form-control">
+          <option selected>CSV</option>
+          <option>Excel (.xlsx)</option>
+          <option>vCard (.vcf)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Registros a exportar</label>
+        <select class="form-control">
+          <option selected>Todos los contactos (1,247)</option>
+          <option>Solo filtro actual</option>
+          <option>Solo seleccionados</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Campos a incluir</label>
+        <div style="display:flex;flex-direction:column;gap:0.35rem;">
+          {['Nombre y apellido','Email','Teléfono','Empresa','Cargo','Etiquetas','Fecha de creación'].map(f => (
+            <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;cursor:pointer;">
+              <input type="checkbox" checked> {f}
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-exportar-contactos')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Registrar Llamada -->
+<div class="modal-overlay" id="modal-llamar-contacto">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📞 Registrar Llamada</div>
+      <button class="modal-close" onclick="closeModal('modal-llamar-contacto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contacto</label>
+          <input class="form-control" type="text" placeholder="Nombre del contacto" readonly>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" type="tel" placeholder="+57 300 000 0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de llamada</label>
+          <select class="form-control">
+            <option>Saliente</option>
+            <option>Entrante</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Resultado</label>
+          <select class="form-control">
+            <option>Contestó</option>
+            <option>No contestó</option>
+            <option>Buzón de voz</option>
+            <option>Número equivocado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Duración</label>
+          <input class="form-control" type="text" placeholder="Ej: 15 min">
+        </div>
+        <div class="form-group">
+          <label>Fecha y hora</label>
+          <input class="form-control" type="datetime-local">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Resumen de la llamada</label>
+        <textarea class="form-control" placeholder="Puntos clave discutidos, acuerdos, próximos pasos…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Próxima acción</label>
+        <input class="form-control" type="text" placeholder="Ej: Enviar cotización el viernes">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-llamar-contacto')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar Llamada</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Enviar Email -->
+<div class="modal-overlay" id="modal-email-contacto">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <div class="modal-title">📧 Enviar Email</div>
+      <button class="modal-close" onclick="closeModal('modal-email-contacto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Para</label>
+          <input class="form-control" type="email" placeholder="destinatario@empresa.com">
+        </div>
+        <div class="form-group">
+          <label>CC</label>
+          <input class="form-control" type="email" placeholder="copia@empresa.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Asunto</label>
+        <input class="form-control" type="text" placeholder="Asunto del email">
+      </div>
+      <div class="form-group">
+        <label>Plantilla</label>
+        <select class="form-control">
+          <option value="">Sin plantilla (escribe libremente)</option>
+          <option>Seguimiento de propuesta</option>
+          <option>Introducción / Primer contacto</option>
+          <option>Recordatorio de reunión</option>
+          <option>Agradecimiento post-reunión</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea class="form-control" style="min-height:140px;" placeholder="Escribe tu mensaje aquí…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Adjuntos</label>
+        <input class="form-control" type="file" multiple>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-email-contacto')">Cancelar</button>
+      <button class="btn btn-secondary btn-sm">📋 Guardar borrador</button>
+      <button class="btn btn-primary btn-sm">📤 Enviar Email</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver Contacto -->
+<div class="modal-overlay" id="modal-ver-contacto">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-title">👤 Detalle del Contacto</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-contacto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;padding:0.5rem 0 1rem;border-bottom:1px solid var(--border);margin-bottom:1rem;">
+        <div class="avatar avatar-xl" style="background:linear-gradient(135deg,#1a3d6b,#2563a8);font-size:1.4rem;">CR</div>
+        <div style="flex:1;">
+          <div style="font-size:1.1rem;font-weight:700;">Carlos Ruiz</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Director Comercial · <a href="/accounts" style="color:var(--primary-light);text-decoration:none;">Tecno S.A.</a></div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+            <span class="badge badge-green">Cliente</span>
+            <span class="badge badge-blue">Score: 92</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-contacto');openModal('modal-llamar-contacto')">📞 Llamar</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-contacto');openModal('modal-email-contacto')">📧 Email</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Email</div>
+          <div style="font-size:0.82rem;">c.ruiz@tecno.com</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Teléfono</div>
+          <div style="font-size:0.82rem;">+57 300 111 2222</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Empresa</div>
+          <div style="font-size:0.82rem;">Tecno S.A.</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Responsable</div>
+          <div style="font-size:0.82rem;">Carlos V.</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Última actividad</div>
+          <div style="font-size:0.82rem;">Hace 1h</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Oportunidades activas</div>
+          <div style="font-size:0.82rem;">2 oportunidades</div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.5rem;">Historial reciente</div>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.78rem;padding:0.4rem 0;border-bottom:1px solid #f1f5f9;">
+            <span class="act-icon act-call" style="width:24px;height:24px;font-size:0.7rem;">📞</span>
+            <span style="flex:1;">Llamada de seguimiento propuesta</span>
+            <span class="text-muted text-xs">Hace 1h</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.78rem;padding:0.4rem 0;border-bottom:1px solid #f1f5f9;">
+            <span class="act-icon act-email" style="width:24px;height:24px;font-size:0.7rem;">📧</span>
+            <span style="flex:1;">Email: Cotización Software Suite</span>
+            <span class="text-muted text-xs">Ayer</span>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center;font-size:0.78rem;padding:0.4rem 0;">
+            <span class="act-icon act-meet" style="width:24px;height:24px;font-size:0.7rem;">📅</span>
+            <span style="flex:1;">Reunión demo plataforma</span>
+            <span class="text-muted text-xs">Hace 3 días</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-contacto')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">✏️ Editar Contacto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Contacto -->
+<div class="modal-overlay" id="modal-acciones-contacto">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-contacto')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-ver-contacto')">👁 Ver perfil completo</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-contacto')">✏️ Editar contacto</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-llamar-contacto')">📞 Registrar llamada</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-email-contacto')">📧 Enviar email</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-nueva-actividad')">✅ Crear actividad</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--warning);">🔀 Convertir a lead</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-contacto');openModal('modal-confirm-eliminar')">🗑 Eliminar contacto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar Eliminar -->
+<div class="modal-overlay" id="modal-confirm-eliminar">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--danger);">⚠️ Confirmar eliminación</div>
+      <button class="modal-close" onclick="closeModal('modal-confirm-eliminar')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.875rem;color:var(--text);">¿Estás seguro de que deseas eliminar este contacto? Esta acción no se puede deshacer y se perderán todas las actividades asociadas.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-confirm-eliminar')">Cancelar</button>
+      <button class="btn btn-danger btn-sm">🗑 Sí, eliminar</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nuevo Contacto -->
 <div class="modal-overlay" id="modal-contacto">

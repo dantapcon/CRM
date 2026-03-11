@@ -9,7 +9,7 @@ import CRMLayout from '../layouts/CRMLayout.astro';
       <p class="page-subtitle">Resumen general del CRM — Marzo 2026</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📅 Este mes</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-filtro-periodo')">📅 Este mes</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-actividad')">+ Nueva Actividad</button>
     </div>
   </div>
@@ -265,6 +265,37 @@ import CRMLayout from '../layouts/CRMLayout.astro';
     </div>
 
   </div>
+
+<!-- Modal: Filtro Periodo Dashboard -->
+<div class="modal-overlay" id="modal-filtro-periodo">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <div class="modal-title">📅 Seleccionar Periodo</div>
+      <button class="modal-close" onclick="closeModal('modal-filtro-periodo')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem;">
+        {['Este mes','Mes pasado','Este trimestre','Trimestre pasado','Este año','Año pasado'].map(p => (
+          <button class="menu-action-btn" style="border:1px solid var(--border);border-radius:0.35rem;">{p}</button>
+        ))}
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Inicio personalizado</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label>Fin personalizado</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-filtro-periodo')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Aplicar periodo</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Actividad -->
 <div class="modal-overlay" id="modal-actividad">

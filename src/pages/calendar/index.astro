@@ -40,7 +40,7 @@ const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
       <button class="btn btn-secondary btn-sm">Mes</button>
       <button class="btn btn-secondary btn-sm">Semana</button>
       <button class="btn btn-secondary btn-sm">Día</button>
-      <button class="btn btn-primary btn-sm">+ Nuevo Evento</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-nuevo-evento')">+ Nuevo Evento</button>
     </div>
   </div>
 
@@ -65,7 +65,7 @@ const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
             <div class={`cal-day ${d === 4 ? 'today' : ''}`} style="min-height:80px;">
               <div class="cal-day-num">{d}</div>
               {events[d]?.map(ev => (
-                <div class={`cal-event ${ev.color}`}>{ev.title}</div>
+                <div class={`cal-event ${ev.color}`} onclick="openModal('modal-ver-evento')" style="cursor:pointer;">{ev.title}</div>
               ))}
             </div>
           ))}
@@ -141,5 +141,106 @@ const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
       </div>
     </div>
   </div>
+
+<!-- Modal: Nuevo Evento -->
+<div class="modal-overlay" id="modal-nuevo-evento">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📅 Nuevo Evento</div>
+      <button class="modal-close" onclick="closeModal('modal-nuevo-evento')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Título del evento</label>
+        <input class="form-control" placeholder="Ej: Demo con TechCorp">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha</label>
+          <input class="form-control" type="date" value="2026-03-04">
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Reunión</option>
+            <option>Demo</option>
+            <option>Llamada</option>
+            <option>Tarea</option>
+            <option>Cierre</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Hora inicio</label>
+          <input class="form-control" type="time" value="09:00">
+        </div>
+        <div class="form-group">
+          <label>Hora fin</label>
+          <input class="form-control" type="time" value="10:00">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contacto relacionado</label>
+          <select class="form-control">
+            <option value="">— Seleccionar —</option>
+            <option>Felipe Castro</option>
+            <option>Ana García</option>
+            <option>Luis Morales</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <select class="form-control">
+            <option value="var(--primary)">Azul (Reuniones)</option>
+            <option value="var(--success)">Verde (Confirmados)</option>
+            <option value="var(--warning)">Naranja (Tareas)</option>
+            <option value="var(--danger)">Rojo (Urgentes)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción / Notas</label>
+        <textarea class="form-control" style="min-height:70px;" placeholder="Detalles del evento..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-nuevo-evento')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📅 Crear evento</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver Evento -->
+<div class="modal-overlay" id="modal-ver-evento">
+  <div class="modal" style="max-width:500px;">
+    <div class="modal-header">
+      <div class="modal-title">📅 Demo — MegaCorp</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-evento')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <span class="badge badge-green">Reunión</span>
+        <span style="font-size:0.8rem;color:var(--text-muted);">📅 4 Mar 2026 · 09:00 – 10:00</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.82rem;">
+        <div style="display:flex;gap:0.75rem;"><span style="color:var(--text-muted);min-width:100px;">Contacto</span> <span style="font-weight:500;">Luis Morales — MegaCorp</span></div>
+        <div style="display:flex;gap:0.75rem;"><span style="color:var(--text-muted);min-width:100px;">Asignado a</span> <span>Carlos López</span></div>
+        <div style="display:flex;gap:0.75rem;"><span style="color:var(--text-muted);min-width:100px;">Oportunidad</span> <span style="color:var(--primary);">ERP MegaCorp — $95,000</span></div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;"><span style="color:var(--text-muted);min-width:100px;">Notas</span> <span>Presentar módulos HR y CRM. Preparar demo con datos reales del cliente.</span></div>
+      </div>
+      <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:0.75rem;">
+        <label style="font-size:0.75rem;font-weight:600;display:block;margin-bottom:0.35rem;">Agregar nota rápida</label>
+        <textarea class="form-control" style="min-height:60px;" placeholder="Notas post-reunión..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-evento')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-evento');openModal('modal-nuevo-evento')">✏️ Editar evento</button>
+      <button class="btn btn-primary btn-sm">✅ Marcar completado</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

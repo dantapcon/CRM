@@ -126,9 +126,9 @@ const statMap: Record<string,string> = { 'Pendiente':'badge-blue','Programada':'
               <td class="text-muted text-xs">{a.owner}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-success btn-sm" style="background:var(--success);color:#fff;border:none;padding:0.3rem 0.6rem;border-radius:0.35rem;font-size:0.7rem;cursor:pointer;">✓ Completar</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                  <button class="btn btn-success btn-sm" style="background:var(--success);color:#fff;border:none;padding:0.3rem 0.6rem;border-radius:0.35rem;font-size:0.7rem;cursor:pointer;" onclick="openModal('modal-completar-actividad')">✓ Completar</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-actividad')">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-acciones-actividad')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -146,6 +146,122 @@ const statMap: Record<string,string> = { 'Pendiente':'badge-blue','Programada':'
       </div>
     </div>
   </div>
+
+<!-- Modal: Completar Actividad -->
+<div class="modal-overlay" id="modal-completar-actividad">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">✓ Marcar como completada</div>
+      <button class="modal-close" onclick="closeModal('modal-completar-actividad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#dcfce7;border-radius:0.5rem;padding:0.75rem 1rem;margin-bottom:0.5rem;font-size:0.82rem;color:#15803d;">
+        ✅ Estás a punto de marcar esta actividad como completada.
+      </div>
+      <div class="form-group">
+        <label>Resultado de la actividad</label>
+        <select class="form-control">
+          <option>Llamada exitosa — acuerdo alcanzado</option>
+          <option>Llamada exitosa — requiere seguimiento</option>
+          <option>Reunión completada</option>
+          <option>Email enviado</option>
+          <option>Tarea completada</option>
+          <option>Cancelada</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Notas del resultado</label>
+        <textarea class="form-control" placeholder="¿Qué ocurrió? Próximos pasos acordados…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Próxima acción sugerida</label>
+        <input class="form-control" type="text" placeholder="Ej: Enviar propuesta el lunes">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-completar-actividad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" style="background:var(--success);border-color:var(--success);">✓ Confirmar como completada</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Actividad -->
+<div class="modal-overlay" id="modal-editar-actividad">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Actividad</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-actividad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Llamada</option><option>Reunión</option><option>Email</option><option>Tarea</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select class="form-control">
+            <option>Media</option><option>Baja</option><option>Alta</option><option>Urgente</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Título</label>
+        <input class="form-control" type="text" value="Seguimiento propuesta">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contacto</label>
+          <input class="form-control" type="text" value="Carlos Ruiz">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" type="text" value="Tecno S.A.">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha y hora</label>
+          <input class="form-control" type="datetime-local">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option selected>Carlos V.</option><option>María P.</option><option>Luis A.</option><option>Ana R.</option><option>Pedro S.</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas</label>
+        <textarea class="form-control" placeholder="Descripción o notas adicionales…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-actividad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Actividad -->
+<div class="modal-overlay" id="modal-acciones-actividad">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-actividad')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-actividad');openModal('modal-completar-actividad')">✓ Marcar como completada</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-actividad');openModal('modal-editar-actividad')">✏️ Editar actividad</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-actividad');openModal('modal-nueva-actividad')">🔄 Duplicar actividad</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--warning);">⏰ Posponer actividad</button>
+      <button class="menu-action-btn" style="color:var(--danger);" onclick="closeModal('modal-acciones-actividad');openModal('modal-confirm-eliminar')">🗑 Eliminar actividad</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Actividad -->
 <div class="modal-overlay" id="modal-nueva-actividad">

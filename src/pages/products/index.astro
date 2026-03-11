@@ -22,7 +22,7 @@ const products = [
       <p class="page-subtitle">Gestión de productos, servicios y precios</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📋 Lista de precios</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-lista-precios')">📋 Lista de precios</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-producto')">+ Nuevo Producto</button>
     </div>
   </div>
@@ -106,9 +106,9 @@ const products = [
                 <td class="font-semibold">{p.sales}</td>
                 <td>
                   <div class="gap-actions">
-                    <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
-                    <button class="btn btn-ghost btn-sm btn-icon">📋</button>
-                    <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="openModal('modal-editar-producto')">✏️</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Ver detalle" onclick="openModal('modal-ver-producto')">📋</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-producto')">⋯</button>
                   </div>
                 </td>
               </tr>
@@ -121,6 +121,208 @@ const products = [
       <span class="text-muted text-xs">Mostrando 1-10 de 32 productos</span>
     </div>
   </div>
+
+<!-- Modal: Ver Producto -->
+<div class="modal-overlay" id="modal-ver-producto">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <div class="modal-title">📋 Detalle del Producto</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-producto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+        <div>
+          <div style="font-size:1rem;font-weight:700;">Módulo HR Empresarial</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">SKU: MOD-HR-ENT · Categoría: Software</div>
+        </div>
+        <span class="badge badge-green">Activo</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+        <div style="background:#f8fafc;border-radius:0.4rem;padding:0.7rem;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.2rem;">Precio de venta</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--primary);">$12,600</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.4rem;padding:0.7rem;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.2rem;">Costo</div>
+          <div style="font-size:1.1rem;font-weight:700;">$4,800</div>
+        </div>
+        <div style="background:#f0fdf4;border-radius:0.4rem;padding:0.7rem;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.2rem;">Margen</div>
+          <div style="font-size:1.1rem;font-weight:700;color:var(--success);">62%</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.4rem;padding:0.7rem;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.2rem;">Ventas totales</div>
+          <div style="font-size:1.1rem;font-weight:700;">128</div>
+        </div>
+      </div>
+      <div style="font-size:0.8rem;">
+        <div style="font-weight:600;margin-bottom:0.3rem;">Descripción</div>
+        <div style="color:var(--text-muted);line-height:1.6;">Módulo completo de gestión de recursos humanos con nómina, asistencia, vacaciones y evaluaciones de desempeño. Incluye soporte premium y actualizaciones anuales.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-producto')">Cerrar</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-producto');openModal('modal-editar-producto')">✏️ Editar producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Producto -->
+<div class="modal-overlay" id="modal-editar-producto">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Producto</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-producto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre del producto</label>
+          <input class="form-control" value="Módulo HR Empresarial">
+        </div>
+        <div class="form-group">
+          <label>SKU</label>
+          <input class="form-control" value="MOD-HR-ENT">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Precio de venta</label>
+          <input class="form-control" type="number" value="12600">
+        </div>
+        <div class="form-group">
+          <label>Costo</label>
+          <input class="form-control" type="number" value="4800">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select class="form-control">
+            <option selected>Software</option>
+            <option>Hardware</option>
+            <option>Servicio</option>
+            <option>Suscripción</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option selected>Activo</option>
+            <option>Beta</option>
+            <option>Descontinuado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" style="min-height:80px;">Módulo completo de gestión de recursos humanos con nómina, asistencia, vacaciones y evaluaciones de desempeño.</textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-producto')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Producto -->
+<div class="modal-overlay" id="modal-acciones-producto">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Producto</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-producto')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-producto');openModal('modal-ver-producto')">📋 Ver detalle</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-producto');openModal('modal-editar-producto')">✏️ Editar producto</button>
+      <button class="menu-action-btn">🔄 Duplicar producto</button>
+      <button class="menu-action-btn">💰 Actualizar precios</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--danger);">🗑 Eliminar producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Lista de Precios -->
+<div class="modal-overlay" id="modal-editar-lista-precios">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Lista de Precios</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-lista-precios')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row" style="margin-bottom:0.5rem;">
+        <div class="form-group">
+          <label>Nombre de la lista</label>
+          <input class="form-control" value="Lista Estándar 2026">
+        </div>
+        <div class="form-group">
+          <label>Moneda</label>
+          <select class="form-control">
+            <option selected>USD ($)</option>
+            <option>MXN ($)</option>
+            <option>EUR (€)</option>
+          </select>
+        </div>
+      </div>
+      <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.4rem;">Precios por producto</div>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {[['Módulo HR Empresarial','12600'],['CRM Pro','8400'],['Soporte Premium','2400'],['Implementación','5000']].map(([name, price]) => (
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem;border:1px solid var(--border);border-radius:0.4rem;">
+            <span style="flex:1;font-size:0.8rem;font-weight:500;">{name}</span>
+            <input class="form-control" type="number" value={price} style="width:130px;">
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-lista-precios')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar lista</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Lista de Precios -->
+<div class="modal-overlay" id="modal-lista-precios">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-title">📋 Lista de Precios — Vigente 2026</div>
+      <button class="modal-close" onclick="closeModal('modal-lista-precios')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:0.5rem;margin-bottom:0.75rem;">
+        <button class="btn btn-primary btn-sm">Estándar</button>
+        <button class="btn btn-ghost btn-sm">Mayoreo</button>
+        <button class="btn btn-ghost btn-sm">Gobierno</button>
+        <button class="btn btn-ghost btn-sm">Partners</button>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+        <thead><tr style="background:#f8fafc;">
+          <th style="padding:0.5rem;text-align:left;">Producto</th>
+          <th style="padding:0.5rem;text-align:right;">Precio base</th>
+          <th style="padding:0.5rem;text-align:right;">Descuento</th>
+          <th style="padding:0.5rem;text-align:right;">Precio final</th>
+        </tr></thead>
+        <tbody>
+          {[['Módulo HR Empresarial','$12,600','0%','$12,600'],['CRM Pro','$8,400','0%','$8,400'],['Soporte Premium','$2,400','0%','$2,400'],['Implementación','$5,000','0%','$5,000']].map(([name,base,disc,final]) => (
+            <tr style="border-top:1px solid var(--border);">
+              <td style="padding:0.5rem;">{name}</td>
+              <td style="padding:0.5rem;text-align:right;">{base}</td>
+              <td style="padding:0.5rem;text-align:right;">{disc}</td>
+              <td style="padding:0.5rem;text-align:right;font-weight:600;color:var(--primary);">{final}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-lista-precios')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-lista-precios');openModal('modal-editar-lista-precios')">✏️ Editar lista</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar PDF</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nuevo Producto -->
 <div class="modal-overlay" id="modal-producto">

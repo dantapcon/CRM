@@ -30,7 +30,7 @@ const statusMap: Record<string,string> = {
       <p class="page-subtitle">Captura, calificación y seguimiento de prospectos potenciales</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📤 Importar</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-importar-leads')">📤 Importar</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-lead')">+ Nuevo Lead</button>
     </div>
   </div>
@@ -153,9 +153,9 @@ const statusMap: Record<string,string> = {
               <td style="font-size:0.72rem;">{l.campaign}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-secondary btn-sm" title="Convertir a oportunidad">🔄 Convertir</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver">👁</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  <button class="btn btn-secondary btn-sm" title="Convertir a oportunidad" onclick="openModal('modal-convertir-lead')">🔄 Convertir</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver" onclick="openModal('modal-ver-lead')">👁</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-lead')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -173,6 +173,249 @@ const statusMap: Record<string,string> = {
       </div>
     </div>
   </div>
+
+<!-- Modal: Importar Leads -->
+<div class="modal-overlay" id="modal-importar-leads">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Importar Leads</div>
+      <button class="modal-close" onclick="closeModal('modal-importar-leads')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="border:2px dashed var(--border);border-radius:0.5rem;padding:1.5rem;text-align:center;margin-bottom:0.75rem;cursor:pointer;" onclick="this.querySelector('input').click()">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">📄</div>
+        <div style="font-weight:600;font-size:0.88rem;">Arrastra tu archivo aquí o haz clic para seleccionar</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;">CSV o Excel (.xlsx) — máx. 5 MB</div>
+        <input type="file" accept=".csv,.xlsx" style="display:none;">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Asignar a</label>
+          <select class="form-control">
+            <option selected>Distribución automática</option>
+            <option>Carlos López</option>
+            <option>María López</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado inicial</label>
+          <select class="form-control">
+            <option selected>Nuevo</option>
+            <option>Contactado</option>
+          </select>
+        </div>
+      </div>
+      <a href="#" style="font-size:0.75rem;color:var(--primary);">⬇️ Descargar plantilla CSV</a>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-importar-leads')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📤 Importar leads</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Lead -->
+<div class="modal-overlay" id="modal-editar-lead">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Lead</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-lead')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input class="form-control" value="Ricardo">
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input class="form-control" value="Fuentes">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" value="rfuentes@techstart.io">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" value="+52 55 4567-8901">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" value="TechStart">
+        </div>
+        <div class="form-group">
+          <label>Cargo</label>
+          <input class="form-control" value="CEO">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option selected>Nuevo</option>
+            <option>Contactado</option>
+            <option>Calificado</option>
+            <option>No calificado</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Asignado a</label>
+          <select class="form-control">
+            <option selected>Carlos López</option>
+            <option>María López</option>
+            <option>Ana Torres</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-lead')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Convertir Lead -->
+<div class="modal-overlay" id="modal-convertir-lead">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🔄 Convertir Lead en Oportunidad</div>
+      <button class="modal-close" onclick="closeModal('modal-convertir-lead')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#dbeafe;border-radius:0.5rem;padding:0.75rem 1rem;margin-bottom:0.5rem;font-size:0.82rem;color:#1d4ed8;">
+        ℹ️ Al convertir este lead se creará automáticamente un contacto, una cuenta y una oportunidad.
+      </div>
+      <div class="form-group">
+        <label>Nombre de la oportunidad</label>
+        <input class="form-control" type="text" placeholder="Ej: Proyecto CRM — Alpha IT">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Valor estimado ($)</label>
+          <input class="form-control" type="text" placeholder="$0">
+        </div>
+        <div class="form-group">
+          <label>Fecha cierre estimada</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Etapa inicial</label>
+          <select class="form-control">
+            <option>Prospectando</option>
+            <option>Calificado</option>
+            <option>Propuesta enviada</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option>Carlos V.</option><option>María P.</option><option>Luis A.</option><option>Ana R.</option><option>Pedro S.</option>
+          </select>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:0.5rem;padding:0.75rem;">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.5rem;">También creará:</div>
+        <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;margin-bottom:0.4rem;">
+          <input type="checkbox" checked> Nuevo contacto a partir del lead
+        </label>
+        <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;">
+          <input type="checkbox" checked> Nueva cuenta para la empresa
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-convertir-lead')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">🔄 Convertir Lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver Lead -->
+<div class="modal-overlay" id="modal-ver-lead">
+  <div class="modal" style="max-width:660px;">
+    <div class="modal-header">
+      <div class="modal-title">🎯 Detalle del Lead</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-lead')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);margin-bottom:1rem;">
+        <div class="avatar avatar-xl" style="background:linear-gradient(135deg,#1a3d6b,#c8a558);">RJ</div>
+        <div style="flex:1;">
+          <div style="font-size:1.1rem;font-weight:700;">Roberto Jiménez</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Alpha IT · <span class="badge badge-navy">Sitio Web</span></div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+            <span class="badge badge-navy">Nuevo</span>
+            <span class="badge badge-gold">Score: 82</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-lead');openModal('modal-convertir-lead')">🔄 Convertir</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Empresa</div>
+          <div style="font-size:0.82rem;">Alpha IT</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Fuente</div>
+          <div style="font-size:0.82rem;">Sitio Web</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Campaña</div>
+          <div style="font-size:0.82rem;">Q1 Email</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Responsable</div>
+          <div style="font-size:0.82rem;">Carlos V.</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Creado</div>
+          <div style="font-size:0.82rem;">Hoy</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Score</div>
+          <div style="display:flex;align-items:center;gap:0.4rem;">
+            <div class="progress-bar" style="flex:1;"><div class="progress-fill" style="width:82%;background:var(--success);"></div></div>
+            <span style="font-size:0.8rem;font-weight:700;">82</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-lead')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-lead');openModal('modal-editar-lead')">✏️ Editar</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-lead');openModal('modal-convertir-lead')">🔄 Convertir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Lead -->
+<div class="modal-overlay" id="modal-acciones-lead">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Lead</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-lead')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-lead');openModal('modal-ver-lead')">👁 Ver detalle</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-lead');openModal('modal-lead')">✏️ Editar lead</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-lead');openModal('modal-convertir-lead')">🔄 Convertir a oportunidad</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-lead');openModal('modal-llamar-contacto')">📞 Registrar llamada</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-lead');openModal('modal-email-contacto')">📧 Enviar email</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--text-muted);">🚫 Marcar como descartado</button>
+      <button class="menu-action-btn" style="color:var(--danger);"
+        onclick="closeModal('modal-acciones-lead');openModal('modal-confirm-eliminar')"
+      >🗑 Eliminar lead</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nuevo Lead -->
 <div class="modal-overlay" id="modal-lead">

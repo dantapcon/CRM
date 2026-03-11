@@ -22,8 +22,8 @@ const accounts = [
       <p class="page-subtitle">Gestión de empresas, organizaciones y clientes corporativos</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📤 Importar</button>
-      <button class="btn btn-secondary btn-sm">📥 Exportar</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-importar-cuentas')">📤 Importar</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-exportar-cuentas')">📥 Exportar</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-cuenta')">+ Nueva Cuenta</button>
     </div>
   </div>
@@ -113,9 +113,9 @@ const accounts = [
               <td class="text-muted text-xs">{a.updated}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver">👁</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver" onclick="openModal('modal-ver-cuenta')">👁</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="openModal('modal-editar-cuenta')">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-cuenta')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -134,6 +134,236 @@ const accounts = [
       </div>
     </div>
   </div>
+
+<!-- Modal: Importar Cuentas -->
+<div class="modal-overlay" id="modal-importar-cuentas">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Importar Cuentas</div>
+      <button class="modal-close" onclick="closeModal('modal-importar-cuentas')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="border:2px dashed var(--border);border-radius:0.5rem;padding:1.5rem;text-align:center;margin-bottom:0.75rem;cursor:pointer;" onclick="this.querySelector('input').click()">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">📄</div>
+        <div style="font-weight:600;font-size:0.88rem;">Arrastra tu archivo aquí o haz clic para seleccionar</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;">CSV o Excel (.xlsx) — máx. 5 MB</div>
+        <input type="file" accept=".csv,.xlsx" style="display:none;">
+      </div>
+      <div class="form-group">
+        <label>Acción si la cuenta ya existe</label>
+        <select class="form-control">
+          <option selected>Actualizar campos vacíos</option>
+          <option>Sobreescribir todo</option>
+          <option>Omitir duplicados</option>
+        </select>
+      </div>
+      <a href="#" style="font-size:0.75rem;color:var(--primary);">⬇️ Descargar plantilla CSV</a>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-importar-cuentas')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📤 Importar cuentas</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Exportar Cuentas -->
+<div class="modal-overlay" id="modal-exportar-cuentas">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">📥 Exportar Cuentas</div>
+      <button class="modal-close" onclick="closeModal('modal-exportar-cuentas')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Formato</label>
+        <select class="form-control">
+          <option selected>CSV</option>
+          <option>Excel (.xlsx)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Registros a exportar</label>
+        <select class="form-control">
+          <option selected>Todas las cuentas (364)</option>
+          <option>Solo filtro actual</option>
+          <option>Solo seleccionadas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Campos a incluir</label>
+        <div style="display:flex;flex-direction:column;gap:0.35rem;">
+          {['Nombre de empresa','Industria','Ingresos anuales','Contacto principal','Teléfono','Email','País'].map(f => (
+            <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.78rem;cursor:pointer;">
+              <input type="checkbox" checked> {f}
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-exportar-cuentas')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ver Cuenta -->
+<div class="modal-overlay" id="modal-ver-cuenta">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-title">🏢 Detalle de la Cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-cuenta')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;padding-bottom:1rem;border-bottom:1px solid var(--border);margin-bottom:1rem;">
+        <div style="width:56px;height:56px;background:#e8f0f9;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;color:var(--primary);flex-shrink:0;">T</div>
+        <div style="flex:1;">
+          <div style="font-size:1.1rem;font-weight:700;">Tecno S.A.</div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">Tecnología · Cliente activo</div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+            <span class="badge badge-green">Activo</span>
+            <span class="badge badge-blue">8 contactos</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-cuenta');openModal('modal-editar-cuenta')">✏️ Editar</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Ingresos</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--success);">$34,200</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Potencial</div>
+          <div style="font-size:1rem;font-weight:700;color:var(--warning);">$80k</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Responsable</div>
+          <div style="font-size:0.82rem;">Carlos V.</div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;">
+          <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.3rem;">Última actualización</div>
+          <div style="font-size:0.82rem;">Hace 1h</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-direction:column;">
+        <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;">Oportunidades activas</div>
+        <div style="background:#f8fafc;border-radius:0.5rem;padding:0.75rem;font-size:0.82rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span class="font-semibold">Software Suite — Propuesta</span>
+            <span class="badge badge-gold">$28,500</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-cuenta')">Cerrar</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ver-cuenta');openModal('modal-cuenta')">✚ Nueva oportunidad</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Cuenta -->
+<div class="modal-overlay" id="modal-editar-cuenta">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-cuenta')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la empresa</label>
+        <input class="form-control" type="text" value="Tecno S.A.">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Industria</label>
+          <select class="form-control">
+            <option selected>Tecnología</option><option>Manufactura</option><option>Retail</option><option>Finanzas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option selected>Cliente</option><option>Prospecto</option><option>Lead</option><option>Partner</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" value="contacto@tecno.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" type="tel" value="+57 1 234 5678">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Sitio web</label>
+          <input class="form-control" value="https://tecno.com">
+        </div>
+        <div class="form-group">
+          <label>Ciudad</label>
+          <input class="form-control" value="Bogotá">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Potencial de ingresos</label>
+          <input class="form-control" value="$80,000">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option selected>Carlos V.</option><option>María P.</option><option>Luis A.</option><option>Ana R.</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-cuenta')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Cuenta -->
+<div class="modal-overlay" id="modal-acciones-cuenta">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-cuenta')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cuenta');openModal('modal-ver-cuenta')">👁 Ver detalle completo</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cuenta');openModal('modal-editar-cuenta')">✏️ Editar cuenta</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cuenta');openModal('modal-contacto')">👤 Agregar contacto</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cuenta');openModal('modal-oportunidad')">💼 Nueva oportunidad</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cuenta');openModal('modal-actividad')">✅ Crear actividad</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn">📤 Exportar datos</button>
+      <button class="menu-action-btn" style="color:var(--danger);" onclick="closeModal('modal-acciones-cuenta');openModal('modal-confirm-eliminar-cuenta')">🗑 Eliminar cuenta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar Eliminar Cuenta -->
+<div class="modal-overlay" id="modal-confirm-eliminar-cuenta">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--danger);">⚠️ Eliminar Cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-confirm-eliminar-cuenta')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.875rem;">¿Eliminar esta cuenta? Se perderán todos sus contactos, oportunidades y el historial de actividades asociados.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-confirm-eliminar-cuenta')">Cancelar</button>
+      <button class="btn btn-danger btn-sm">🗑 Sí, eliminar</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Cuenta -->
 <div class="modal-overlay" id="modal-cuenta">

@@ -17,7 +17,7 @@ const campaigns = [
       <p class="page-subtitle">Planificación, ejecución y medición de campañas</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📊 Analytics</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-analytics-campanas')">📊 Analytics</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-campana')">+ Nueva Campaña</button>
     </div>
   </div>
@@ -87,8 +87,8 @@ const campaigns = [
           </div>
 
           <div class="gap-actions" style="flex-shrink:0;">
-            <button class="btn btn-secondary btn-sm">📊 Ver resultados</button>
-            <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+            <button class="btn btn-secondary btn-sm" onclick="openModal('modal-resultados-campana')">📊 Ver resultados</button>
+            <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-campana')">✏️</button>
           </div>
         </div>
 
@@ -113,6 +113,130 @@ const campaigns = [
       </div>
     ))}
   </div>
+
+<!-- Modal: Resultados Campaña -->
+<div class="modal-overlay" id="modal-resultados-campana">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <div class="modal-title">📊 Resultados — Q1 Product Launch</div>
+      <button class="modal-close" onclick="closeModal('modal-resultados-campana')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.6rem;margin-bottom:1rem;">
+        {[{label:'Enviados',val:'12,400',color:'var(--info)'},{label:'Abiertos',val:'3,472',color:'var(--primary)'},{label:'Clicks',val:'867',color:'var(--accent)'},{label:'Conversiones',val:'124',color:'var(--success)'}].map(m => (
+          <div style="background:#f8fafc;border-radius:0.4rem;padding:0.65rem;text-align:center;border:1px solid var(--border);">
+            <div style={`font-size:1.1rem;font-weight:700;color:${m.color};`}>{m.val}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">{m.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;font-size:0.8rem;">
+        <div style="background:#f8fafc;border-radius:0.4rem;padding:0.65rem;">
+          <div style="font-weight:600;margin-bottom:0.4rem;">Tasas clave</div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Apertura</span><span style="font-weight:600;">28.0%</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">CTR</span><span style="font-weight:600;">24.9%</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Conversión</span><span style="font-weight:600;">14.3%</span></div>
+        </div>
+        <div style="background:#f8fafc;border-radius:0.4rem;padding:0.65rem;">
+          <div style="font-weight:600;margin-bottom:0.4rem;">ROI de campaña</div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Inversión</span><span style="font-weight:600;">$4,800</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">Ingresos generados</span><span style="font-weight:600;color:var(--success);">$54,000</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--text-muted);">ROI</span><span style="font-weight:700;color:var(--success);">11.25x</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-resultados-campana')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar reporte</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Campaña -->
+<div class="modal-overlay" id="modal-editar-campana">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Campaña</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-campana')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre de la campaña</label>
+          <input class="form-control" value="Q1 Product Launch">
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option selected>Email</option>
+            <option>WhatsApp</option>
+            <option>SMS</option>
+            <option>LinkedIn</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha inicio</label>
+          <input class="form-control" type="date" value="2026-03-01">
+        </div>
+        <div class="form-group">
+          <label>Fecha fin</label>
+          <input class="form-control" type="date" value="2026-03-31">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select class="form-control">
+          <option selected>Activa</option>
+          <option>Pausada</option>
+          <option>Borrador</option>
+          <option>Completada</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Presupuesto</label>
+        <input class="form-control" type="number" value="4800">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-campana')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Analytics Campañas -->
+<div class="modal-overlay" id="modal-analytics-campanas">
+  <div class="modal" style="max-width:660px;">
+    <div class="modal-header">
+      <div class="modal-title">📊 Analytics de Campañas — 2026</div>
+      <button class="modal-close" onclick="closeModal('modal-analytics-campanas')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin-bottom:1rem;">
+        {[{label:'Total enviados',val:'45,200',color:'var(--info)'},{label:'Total conversiones',val:'512',color:'var(--success)'},{label:'ROI promedio',val:'8.4x',color:'var(--accent)'}].map(m => (
+          <div style="background:#f8fafc;border-radius:0.4rem;padding:0.65rem;text-align:center;border:1px solid var(--border);">
+            <div style={`font-size:1.1rem;font-weight:700;color:${m.color};`}>{m.val}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">{m.label}</div>
+          </div>
+        ))}
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+        <thead><tr style="background:#f8fafc;"><th style="padding:0.5rem;text-align:left;">Campaña</th><th style="padding:0.5rem;text-align:right;">Enviados</th><th style="padding:0.5rem;text-align:right;">Conv.</th><th style="padding:0.5rem;text-align:right;">ROI</th></tr></thead>
+        <tbody>
+          {[['Q1 Product Launch','12,400','124','11.25x'],['Email Nurturing B2B','8,200','89','6.1x'],['LinkedIn Outreach','3,500','42','8.8x']].map(([name,sent,conv,roi]) => (
+            <tr style="border-top:1px solid var(--border);"><td style="padding:0.5rem;font-weight:500;">{name}</td><td style="padding:0.5rem;text-align:right;">{sent}</td><td style="padding:0.5rem;text-align:right;color:var(--success);">{conv}</td><td style="padding:0.5rem;text-align:right;font-weight:600;color:var(--accent);">{roi}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-analytics-campanas')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar analytics</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Campaña -->
 <div class="modal-overlay" id="modal-campana">

@@ -9,8 +9,8 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       <p class="page-subtitle">Métricas de negocio, tendencias y KPIs del CRM</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📅 Este trimestre</button>
-      <button class="btn btn-secondary btn-sm">📤 Exportar PDF</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-filtro-fecha')">📅 Este trimestre</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-exportar-pdf-reporte')">📤 Exportar PDF</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-reporte')">+ Crear reporte</button>
     </div>
   </div>
@@ -226,9 +226,9 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
               <td class="text-muted text-xs">{r.owner}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-secondary btn-sm">▶ Ejecutar</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">📤</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+                  <button class="btn btn-secondary btn-sm" onclick="openModal('modal-ejecutar-reporte')">▶ Ejecutar</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-exportar-reporte')">📤</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-reporte')">✏️</button>
                 </div>
               </td>
             </tr>
@@ -237,6 +237,198 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       </table>
     </div>
   </div>
+
+<!-- Modal: Ejecutar Reporte -->
+<div class="modal-overlay" id="modal-ejecutar-reporte">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">▶ Ejecutar Reporte</div>
+      <button class="modal-close" onclick="closeModal('modal-ejecutar-reporte')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha inicio</label>
+          <input class="form-control" type="date" value="2026-01-01">
+        </div>
+        <div class="form-group">
+          <label>Fecha fin</label>
+          <input class="form-control" type="date" value="2026-03-31">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Agrupar por</label>
+        <select class="form-control">
+          <option>Semana</option>
+          <option selected>Mes</option>
+          <option>Trimestre</option>
+          <option>Año</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Filtrar por rep</label>
+        <select class="form-control">
+          <option selected>Todos los representantes</option>
+          <option>Carlos López</option>
+          <option>María López</option>
+          <option>Ana Torres</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:0.5rem;">
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;cursor:pointer;"><input type="checkbox" checked> Incluir comparativa periodo anterior</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ejecutar-reporte')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">▶ Generar reporte</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Exportar Reporte -->
+<div class="modal-overlay" id="modal-exportar-reporte">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">📤 Exportar Reporte</div>
+      <button class="modal-close" onclick="closeModal('modal-exportar-reporte')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Formato</label>
+        <select class="form-control">
+          <option selected>PDF</option>
+          <option>Excel (.xlsx)</option>
+          <option>CSV</option>
+          <option>JSON</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Enviar por email (opcional)</label>
+        <input class="form-control" type="email" placeholder="gerencia@empresa.com">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;cursor:pointer;"><input type="checkbox" checked> Incluir gráficas</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;cursor:pointer;"><input type="checkbox"> Solo datos tabulares</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-exportar-reporte')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Reporte -->
+<div class="modal-overlay" id="modal-editar-reporte">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Reporte</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-reporte')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre del reporte</label>
+          <input class="form-control" value="Pipeline por etapa">
+        </div>
+        <div class="form-group">
+          <label>Categoría</label>
+          <select class="form-control">
+            <option selected>Ventas</option>
+            <option>Marketing</option>
+            <option>Soporte</option>
+            <option>Finanzas</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Programación</label>
+          <select class="form-control">
+            <option>Manual</option>
+            <option selected>Semanal</option>
+            <option>Mensual</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Propietario</label>
+          <select class="form-control">
+            <option selected>Carlos López</option>
+            <option>María López</option>
+            <option>Ana Torres</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-reporte')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Exportar PDF (header) -->
+<div class="modal-overlay" id="modal-exportar-pdf-reporte">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">📤 Exportar Dashboard PDF</div>
+      <button class="modal-close" onclick="closeModal('modal-exportar-pdf-reporte')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Sección a exportar</label>
+        <select class="form-control">
+          <option selected>Dashboard completo</option>
+          <option>Solo KPIs</option>
+          <option>Tablas de reportes</option>
+          <option>Gráficas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Orientación de página</label>
+        <select class="form-control">
+          <option selected>Horizontal (landscape)</option>
+          <option>Vertical (portrait)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-exportar-pdf-reporte')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Generar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Filtro Fecha -->
+<div class="modal-overlay" id="modal-filtro-fecha">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <div class="modal-title">📅 Seleccionar Periodo</div>
+      <button class="modal-close" onclick="closeModal('modal-filtro-fecha')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem;">
+        {['Este mes','Este trimestre','Este año','Mes pasado','Trimestre pasado','Año pasado'].map(p => (
+          <button class="menu-action-btn" style="border:1px solid var(--border);border-radius:0.35rem;">{p}</button>
+        ))}
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Inicio personalizado</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label>Fin personalizado</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-filtro-fecha')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Aplicar filtro</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Crear Reporte -->
 <div class="modal-overlay" id="modal-reporte">

@@ -863,6 +863,22 @@ select.form-control { cursor: pointer; }
 }
 
 /* ── Modals ─────────────────────────────────────────────────── */
+.menu-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.65rem 1.25rem;
+  background: transparent;
+  border: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s;
+}
+.menu-action-btn:hover { background: #f8fafc; }
 .modal-overlay {
   position: fixed;
   inset: 0;

@@ -24,7 +24,7 @@ const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-or
       <p class="page-subtitle">Gestión de casos, incidencias y solicitudes de clientes</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📊 SLA Report</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-sla-report')">📊 SLA Report</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-ticket')">+ Nuevo Ticket</button>
     </div>
   </div>
@@ -179,9 +179,9 @@ const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-or
               <td class="text-muted text-xs">{t.created}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-secondary btn-sm">Abrir</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
-                  <button class="btn btn-ghost btn-sm btn-icon">⋯</button>
+                  <button class="btn btn-secondary btn-sm" onclick="openModal('modal-ver-ticket')">Abrir</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-ticket')">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-acciones-ticket')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -193,6 +193,178 @@ const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-or
       <span class="text-muted text-xs">Mostrando 1-9 de 156 tickets</span>
     </div>
   </div>
+
+<!-- Modal: Ver Ticket -->
+<div class="modal-overlay" id="modal-ver-ticket">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-title">🎫 Ticket #TKT-0156</div>
+      <button class="modal-close" onclick="closeModal('modal-ver-ticket')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;">
+        <span class="badge badge-orange">Abierto</span>
+        <span class="badge badge-red">Alta prioridad</span>
+        <span class="badge badge-blue">Bug</span>
+        <span style="font-size:0.78rem;color:var(--text-muted);">Creado: 20 Mar 2026 · Asignado a: María López</span>
+      </div>
+      <div style="font-weight:600;font-size:0.95rem;margin-bottom:0.5rem;">Error en integración con Stripe al procesar reembolso</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.25rem;background:#f8fafc;border:1px solid var(--border);border-radius:0.4rem;padding:0.75rem;">Al intentar procesar un reembolso parcial desde el panel de admin, el sistema arroja error 500 y no completa la transacción. El cliente reportó el problema el 19 Mar 2026.</div>
+      <div style="font-size:0.8rem;font-weight:600;margin-bottom:0.75rem;">Historial del ticket</div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;">
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div class="avatar" style="width:28px;height:28px;font-size:0.6rem;flex-shrink:0;">ML</div>
+          <div style="background:#f1f5f9;border-radius:0.4rem;padding:0.6rem 0.8rem;flex:1;">
+            <div style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem;">María López <span style="color:var(--text-muted);font-weight:400;">20 Mar 2026, 10:22</span></div>
+            <div style="font-size:0.78rem;">Ticket asignado. Investigando el problema con la API de Stripe.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div class="avatar" style="width:28px;height:28px;font-size:0.6rem;flex-shrink:0;">CL</div>
+          <div style="background:#f1f5f9;border-radius:0.4rem;padding:0.6rem 0.8rem;flex:1;">
+            <div style="font-size:0.7rem;font-weight:600;margin-bottom:0.2rem;">Cliente <span style="color:var(--text-muted);font-weight:400;">20 Mar 2026, 14:05</span></div>
+            <div style="font-size:0.78rem;">El problema sigue ocurriendo. Adjunto captura de pantalla del error.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1rem;">
+        <label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:0.35rem;">Agregar respuesta</label>
+        <textarea class="form-control" style="min-height:75px;" placeholder="Escribe una respuesta al cliente o nota interna..."></textarea>
+        <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+          <label style="display:flex;align-items:center;gap:0.3rem;font-size:0.75rem;cursor:pointer;"><input type="checkbox"> Nota interna (no visible al cliente)</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-ticket')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ver-ticket');openModal('modal-editar-ticket')">✏️ Editar ticket</button>
+      <button class="btn btn-primary btn-sm">📤 Enviar respuesta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Ticket -->
+<div class="modal-overlay" id="modal-editar-ticket">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Ticket #TKT-0156</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-ticket')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Asunto</label>
+          <input class="form-control" value="Error en integración con Stripe al procesar reembolso">
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option selected>Abierto</option>
+            <option>En progreso</option>
+            <option>Pendiente cliente</option>
+            <option>Resuelto</option>
+            <option>Cerrado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select class="form-control">
+            <option>Baja</option>
+            <option>Media</option>
+            <option selected>Alta</option>
+            <option>Crítica</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option selected>Bug</option>
+            <option>Consulta</option>
+            <option>Feature request</option>
+            <option>Soporte</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Asignado a</label>
+          <select class="form-control">
+            <option selected>María López</option>
+            <option>Carlos Ruiz</option>
+            <option>Ana Torres</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>SLA (horas)</label>
+          <input class="form-control" type="number" value="4">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-ticket')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Ticket -->
+<div class="modal-overlay" id="modal-acciones-ticket">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Ticket</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-ticket')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-ticket');openModal('modal-ver-ticket')">🎫 Ver detalle</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-ticket');openModal('modal-editar-ticket')">✏️ Editar ticket</button>
+      <button class="menu-action-btn">📤 Enviar respuesta rápida</button>
+      <button class="menu-action-btn">🔄 Reasignar agente</button>
+      <button class="menu-action-btn">✅ Marcar como resuelto</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--danger);">📏 Cerrar y archivar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: SLA Report -->
+<div class="modal-overlay" id="modal-sla-report">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-header">
+      <div class="modal-title">📊 Reporte SLA — Marzo 2026</div>
+      <button class="modal-close" onclick="closeModal('modal-sla-report')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1rem;">
+        <div style="background:#f0fdf4;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #bbf7d0;">
+          <div style="font-size:1.4rem;font-weight:700;color:var(--success);">91%</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">SLA cumplido</div>
+        </div>
+        <div style="background:#fff7ed;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #fed7aa;">
+          <div style="font-size:1.4rem;font-weight:700;color:var(--warning);">4.2h</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Tiempo promedio resp.</div>
+        </div>
+        <div style="background:#eff6ff;border-radius:0.5rem;padding:0.75rem;text-align:center;border:1px solid #bfdbfe;">
+          <div style="font-size:1.4rem;font-weight:700;color:var(--info);">8.7h</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Tiempo promedio cierre</div>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+        <thead><tr style="background:#f8fafc;"><th style="padding:0.5rem;text-align:left;">Agente</th><th style="padding:0.5rem;text-align:right;">Tickets</th><th style="padding:0.5rem;text-align:right;">SLA %</th><th style="padding:0.5rem;text-align:right;">Prom. cierre</th></tr></thead>
+        <tbody>
+          <tr style="border-top:1px solid var(--border);"><td style="padding:0.5rem;">María López</td><td style="padding:0.5rem;text-align:right;">42</td><td style="padding:0.5rem;text-align:right;color:var(--success);">95%</td><td style="padding:0.5rem;text-align:right;">7.2h</td></tr>
+          <tr style="border-top:1px solid var(--border);"><td style="padding:0.5rem;">Carlos Ruiz</td><td style="padding:0.5rem;text-align:right;">38</td><td style="padding:0.5rem;text-align:right;color:var(--warning);">87%</td><td style="padding:0.5rem;text-align:right;">9.8h</td></tr>
+          <tr style="border-top:1px solid var(--border);"><td style="padding:0.5rem;">Ana Torres</td><td style="padding:0.5rem;text-align:right;">35</td><td style="padding:0.5rem;text-align:right;color:var(--success);">91%</td><td style="padding:0.5rem;text-align:right;">8.1h</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-sla-report')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Exportar PDF</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nuevo Ticket -->
 <div class="modal-overlay" id="modal-ticket">

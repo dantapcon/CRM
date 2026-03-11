@@ -97,10 +97,10 @@ const stMap: Record<string,string> = {
               </td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF">📄</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Enviar">📤</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Ver PDF" onclick="openModal('modal-pdf-cotizacion')">📄</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Enviar" onclick="openModal('modal-enviar-cotizacion')">📤</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="openModal('modal-editar-cotizacion')">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-cotizacion')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -112,6 +112,169 @@ const stMap: Record<string,string> = {
       <span class="text-muted text-xs">Mostrando 1-8 de 28 cotizaciones</span>
     </div>
   </div>
+
+<!-- Modal: Ver PDF Cotización -->
+<div class="modal-overlay" id="modal-pdf-cotizacion">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header">
+      <div class="modal-title">📄 Vista Previa — Cotización</div>
+      <button class="modal-close" onclick="closeModal('modal-pdf-cotizacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#f8fafc;border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:1.3rem;font-weight:700;color:var(--primary);">NexusCRM</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">www.nexuscrm.com · info@nexuscrm.com</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:1rem;font-weight:700;">COTIZACIÓN</div>
+            <div style="font-size:0.82rem;color:var(--primary);font-weight:600;">COT-2026-042</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">Fecha: 01 Mar 2026</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">Válida hasta: 31 Mar 2026</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+          <div><div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem;">Cliente</div>
+            <div style="font-weight:600;">Tecno S.A.</div><div style="font-size:0.78rem;color:var(--text-muted);">Carlos Ruiz — Director Comercial</div></div>
+          <div><div style="font-size:0.7rem;font-weight:600;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.3rem;">Vendedor</div>
+            <div style="font-weight:600;">María Pérez</div><div style="font-size:0.78rem;color:var(--text-muted);">mperez@nexuscrm.com</div></div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:0.8rem;margin-bottom:1rem;">
+          <thead><tr style="background:#e8f0f9;">
+            <th style="padding:0.5rem 0.75rem;text-align:left;">Producto / Servicio</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Cant.</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Precio unit.</th>
+            <th style="padding:0.5rem 0.75rem;text-align:right;">Subtotal</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.75rem;">CRM Enterprise Suite</td><td style="padding:0.5rem 0.75rem;text-align:right;">10</td><td style="padding:0.5rem 0.75rem;text-align:right;">$2,400</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:600;">$24,000</td></tr>
+            <tr style="border-bottom:1px solid var(--border);"><td style="padding:0.5rem 0.75rem;">Implementación Enterprise</td><td style="padding:0.5rem 0.75rem;text-align:right;">1</td><td style="padding:0.5rem 0.75rem;text-align:right;">$4,500</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:600;">$4,500</td></tr>
+          </tbody>
+          <tfoot><tr style="background:#f1f5f9;"><td colspan="3" style="padding:0.5rem 0.75rem;font-weight:700;text-align:right;">TOTAL</td><td style="padding:0.5rem 0.75rem;font-weight:700;text-align:right;color:var(--success);font-size:0.95rem;">$28,500</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-pdf-cotizacion')">Cerrar</button>
+      <button class="btn btn-secondary btn-sm">📤 Enviar al cliente</button>
+      <button class="btn btn-primary btn-sm">⬇️ Descargar PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Enviar Cotización -->
+<div class="modal-overlay" id="modal-enviar-cotizacion">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📤 Enviar Cotización al Cliente</div>
+      <button class="modal-close" onclick="closeModal('modal-enviar-cotizacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Para (email del cliente)</label>
+        <input class="form-control" type="email" value="c.ruiz@tecno.com">
+      </div>
+      <div class="form-group">
+        <label>CC</label>
+        <input class="form-control" type="email" placeholder="copia@empresa.com (opcional)">
+      </div>
+      <div class="form-group">
+        <label>Asunto</label>
+        <input class="form-control" value="Cotización COT-2026-042 — NexusCRM">
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea class="form-control" style="min-height:120px;">Estimado Carlos,
+
+Adjunto encontrará nuestra cotización COT-2026-042 por $28,500 con validez hasta el 31 de marzo.
+
+Quedamos atentos a cualquier pregunta.
+
+Saludos,
+María Pérez</textarea>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-muted);">
+        <span>📎</span><span>COT-2026-042.pdf adjunto automáticamente</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-enviar-cotizacion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">📤 Enviar Cotización</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Cotización -->
+<div class="modal-overlay" id="modal-editar-cotizacion">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Cotización</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-cotizacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cliente / Contacto</label>
+          <input class="form-control" value="Carlos Ruiz">
+        </div>
+        <div class="form-group">
+          <label>Cuenta / Empresa</label>
+          <input class="form-control" value="Tecno S.A.">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option>Borrador</option><option selected>Enviada</option><option>En revisión</option><option>Negociación</option><option>Aceptada</option><option>Rechazada</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Validez (días)</label>
+          <input class="form-control" type="number" value="30">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Moneda</label>
+          <select class="form-control"><option>COP</option><option selected>USD</option></select>
+        </div>
+        <div class="form-group">
+          <label>Descuento global (%)</label>
+          <input class="form-control" type="number" value="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas / Términos</label>
+        <textarea class="form-control" placeholder="Términos, condiciones o notas para el cliente…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-cotizacion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Cotización -->
+<div class="modal-overlay" id="modal-acciones-cotizacion">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Cotización</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-cotizacion')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cotizacion');openModal('modal-pdf-cotizacion')">📄 Ver PDF</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cotizacion');openModal('modal-enviar-cotizacion')">📤 Enviar al cliente</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-cotizacion');openModal('modal-editar-cotizacion')">✏️ Editar cotización</button>
+      <button class="menu-action-btn">🖿️ Duplicar cotización</button>
+      <button class="menu-action-btn">🧧 Convertir a factura</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--danger);" onclick="closeModal('modal-acciones-cotizacion');openModal('modal-confirm-eliminar')">🗑 Eliminar cotización</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Nueva Cotización -->
 <div class="modal-overlay" id="modal-cotizacion">

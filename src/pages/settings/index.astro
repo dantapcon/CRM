@@ -9,7 +9,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       <p class="page-subtitle">Ajustes generales, integraciones y personalización de NexusCRM</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-guardar-configuracion')">💾 Guardar cambios</button>
     </div>
   </div>
 
@@ -111,7 +111,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">🔄 Etapas del Pipeline de Ventas</h3>
-          <button class="btn btn-secondary btn-sm">+ Agregar etapa</button>
+          <button class="btn btn-secondary btn-sm" onclick="openModal('modal-etapa-pipeline')">+ Agregar etapa</button>
         </div>
         <div class="card-body" style="padding:0;">
           {[
@@ -127,10 +127,10 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
               <input class="form-control" style="width:100px;" value={`${s.prob}%`} placeholder="Probabilidad">
               <input type="color" value={s.color} style="width:36px;height:30px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:2px;">
               <div class="spacer"></div>
-              <button class="btn btn-ghost btn-sm btn-icon">↑</button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-etapa-pipeline')">↑</button>
               <button class="btn btn-ghost btn-sm btn-icon">↓</button>
-              <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
-              <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);">🗑</button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-etapa')">✏️</button>
+              <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" onclick="openModal('modal-eliminar-etapa')">🗑</button>
             </div>
           ))}
         </div>
@@ -189,8 +189,8 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
                   <div style="font-size:0.68rem;color:var(--text-muted);">{int.desc}</div>
                 </div>
                 {int.connected
-                  ? <button class="btn btn-secondary btn-sm">Configurar</button>
-                  : <button class="btn btn-primary btn-sm">Conectar</button>
+                  ? <button class="btn btn-secondary btn-sm" onclick="openModal('modal-configurar-integracion')">Configurar</button>
+                  : <button class="btn btn-primary btn-sm" onclick="openModal('modal-configurar-integracion')">Conectar</button>
                 }
               </div>
             ))}
@@ -200,5 +200,157 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
 
     </div>
   </div>
+
+<!-- Modal: Agregar / Editar Etapa Pipeline -->
+<div class="modal-overlay" id="modal-etapa-pipeline">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">🔄 Agregar Etapa al Pipeline</div>
+      <button class="modal-close" onclick="closeModal('modal-etapa-pipeline')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la etapa</label>
+        <input class="form-control" placeholder="Ej: Demo programada">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Probabilidad de cierre (%)</label>
+          <input class="form-control" type="number" min="0" max="100" placeholder="50">
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="color" class="form-control" value="#188185" style="height:38px;padding:2px 4px;cursor:pointer;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Posición en el pipeline</label>
+        <select class="form-control">
+          <option>Al final</option>
+          <option>Después de Calificación</option>
+          <option>Después de Propuesta</option>
+          <option>Después de Negociación</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-etapa-pipeline')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">+ Agregar etapa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Etapa Pipeline -->
+<div class="modal-overlay" id="modal-editar-etapa">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Etapa — Propuesta</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-etapa')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la etapa</label>
+        <input class="form-control" value="Propuesta">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Probabilidad (%)</label>
+          <input class="form-control" type="number" value="55">
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input type="color" class="form-control" value="#c8a558" style="height:38px;padding:2px 4px;cursor:pointer;">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-etapa')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Eliminar Etapa Pipeline -->
+<div class="modal-overlay" id="modal-eliminar-etapa">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title">🗑 Eliminar Etapa</div>
+      <button class="modal-close" onclick="closeModal('modal-eliminar-etapa')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;padding:0.5rem 0;">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem;">⚠️</div>
+        <div style="font-weight:600;margin-bottom:0.5rem;">¿Eliminar la etapa "Propuesta"?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted);">Las oportunidades en esta etapa serán movidas a la etapa anterior. Esta acción no se puede deshacer.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-eliminar-etapa')">Cancelar</button>
+      <button class="btn btn-danger btn-sm" style="background:var(--danger);color:#fff;border-color:var(--danger);">🗑 Eliminar etapa</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Configurar Integración -->
+<div class="modal-overlay" id="modal-configurar-integracion">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🔌 Configurar Integración</div>
+      <button class="modal-close" onclick="closeModal('modal-configurar-integracion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:0.75rem;background:#f8fafc;border:1px solid var(--border);border-radius:0.4rem;padding:0.75rem;margin-bottom:1rem;">
+        <span style="font-size:2rem;">📧</span>
+        <div>
+          <div style="font-weight:600;">Google Workspace</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">Email, Calendar, Drive</div>
+        </div>
+        <span class="badge badge-green" style="margin-left:auto;">Conectado</span>
+      </div>
+      <div class="form-group">
+        <label>Cuenta de Google conectada</label>
+        <input class="form-control" value="admin@nexuscrm.com" readonly>
+      </div>
+      <div class="form-group">
+        <label>Sincronizar</label>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;cursor:pointer;"><input type="checkbox" checked> Gmail (registrar emails en CRM)</label>
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;cursor:pointer;"><input type="checkbox" checked> Google Calendar (sincronizar eventos)</label>
+          <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;cursor:pointer;"><input type="checkbox"> Google Drive (adjuntar documentos)</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Dirección de webhook (opcional)</label>
+        <input class="form-control" placeholder="https://tu-servidor.com/webhook">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-configurar-integracion')" style="color:var(--danger);">🔌 Desconectar</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-configurar-integracion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmación Guardar Configuración -->
+<div class="modal-overlay" id="modal-guardar-configuracion">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-title">💾 Guardar Configuración</div>
+      <button class="modal-close" onclick="closeModal('modal-guardar-configuracion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;padding:0.5rem 0;">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem;">💾</div>
+        <div style="font-weight:600;margin-bottom:0.5rem;">¿Guardar todos los cambios?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted);">Los cambios en perfil, pipeline, notificaciones e integraciones se aplicarán inmediatamente.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-guardar-configuracion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-guardar-configuracion')">💾 Confirmar y guardar</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

@@ -119,9 +119,9 @@ const accMap: Record<string,string> = { 'Privado':'badge-gray','Equipo':'badge-b
                 <td><span class={`badge ${accMap[d.access]}`}>{d.access}</span></td>
                 <td>
                   <div class="gap-actions">
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Descargar">⬇️</button>
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Compartir">🔗</button>
-                    <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Descargar" onclick="openModal('modal-descargar-documento')">⬇️</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Compartir" onclick="openModal('modal-compartir-documento')">🔗</button>
+                    <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-documento')">⋯</button>
                   </div>
                 </td>
               </tr>
@@ -134,6 +134,96 @@ const accMap: Record<string,string> = { 'Privado':'badge-gray','Equipo':'badge-b
       <span class="text-muted text-xs">Mostrando 1-8 de 248 documentos</span>
     </div>
   </div>
+
+<!-- Modal: Descargar Documento -->
+<div class="modal-overlay" id="modal-descargar-documento">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">⬇️ Descargar Documento</div>
+      <button class="modal-close" onclick="closeModal('modal-descargar-documento')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#f8fafc;border:1px solid var(--border);border-radius:0.4rem;margin-bottom:1rem;">
+        <span style="font-size:2rem;">📊</span>
+        <div>
+          <div style="font-weight:600;font-size:0.88rem;">Contrato_InnoTech_2026.pdf</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">PDF · 2.4 MB · Subido: 15 Mar 2026</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Formato de descarga</label>
+        <select class="form-control">
+          <option selected>PDF (original)</option>
+          <option>Word (.docx)</option>
+          <option>Texto plano (.txt)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-descargar-documento')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">⬇️ Descargar ahora</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Compartir Documento -->
+<div class="modal-overlay" id="modal-compartir-documento">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🔗 Compartir Documento</div>
+      <button class="modal-close" onclick="closeModal('modal-compartir-documento')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem;">Contrato_InnoTech_2026.pdf</div>
+      <div class="form-group">
+        <label>Compartir con (email o usuario del sistema)</label>
+        <input class="form-control" type="email" placeholder="nombre@empresa.com">
+      </div>
+      <div class="form-group">
+        <label>Nivel de acceso</label>
+        <select class="form-control">
+          <option selected>Solo lectura</option>
+          <option>Puede comentar</option>
+          <option>Puede editar</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Enlace público</label>
+        <div style="display:flex;gap:0.5rem;">
+          <input class="form-control" value="https://crm.nexus.io/docs/contrato-innotech-2026" readonly style="font-size:0.75rem;">
+          <button class="btn btn-secondary btn-sm">📋 Copiar</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;">
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;cursor:pointer;"><input type="checkbox"> Enlace con contraseña</label>
+        <label style="display:flex;align-items:center;gap:0.35rem;font-size:0.78rem;cursor:pointer;"><input type="checkbox"> Expira en 7 días</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-compartir-documento')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">🔗 Compartir</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Documento -->
+<div class="modal-overlay" id="modal-acciones-documento">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones del Documento</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-documento')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-documento');openModal('modal-descargar-documento')">⬇️ Descargar</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-documento');openModal('modal-compartir-documento')">🔗 Compartir</button>
+      <button class="menu-action-btn">✏️ Renombrar</button>
+      <button class="menu-action-btn">📁 Mover a carpeta</button>
+      <button class="menu-action-btn">🔄 Crear nueva versión</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--danger);">🗑 Eliminar documento</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Subir Documento -->
 <div class="modal-overlay" id="modal-documento">

@@ -22,7 +22,7 @@ const team = [
       <p class="page-subtitle">Gestión de usuarios, roles y permisos del CRM</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📋 Roles y permisos</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-roles-permisos')">📋 Roles y permisos</button>
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-usuario')">+ Invitar usuario</button>
     </div>
   </div>
@@ -169,9 +169,9 @@ const team = [
               <td class="text-muted text-xs">{u.last}</td>
               <td>
                 <div class="gap-actions">
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar">✏️</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Permisos">🔑</button>
-                  <button class="btn btn-ghost btn-sm btn-icon" title="Más">⋯</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Editar" onclick="openModal('modal-editar-usuario')">✏️</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Permisos" onclick="openModal('modal-permisos-usuario')">🔑</button>
+                  <button class="btn btn-ghost btn-sm btn-icon" title="Más" onclick="openModal('modal-acciones-usuario')">⋯</button>
                 </div>
               </td>
             </tr>
@@ -180,6 +180,153 @@ const team = [
       </table>
     </div>
   </div>
+
+<!-- Modal: Editar Usuario -->
+<div class="modal-overlay" id="modal-editar-usuario">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Editar Usuario</div>
+      <button class="modal-close" onclick="closeModal('modal-editar-usuario')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <div class="avatar avatar-xl" style="font-size:1.1rem;">CL</div>
+        <div>
+          <div style="font-weight:600;">Carlos López</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">Sales Rep · Activo</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input class="form-control" value="Carlos">
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input class="form-control" value="López">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" value="clopez@nexuscrm.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" value="+52 55 4678-9012">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Rol</label>
+          <select class="form-control">
+            <option>Admin</option>
+            <option selected>Sales Rep</option>
+            <option>Manager</option>
+            <option>Support</option>
+            <option>Read Only</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option selected>Activo</option>
+            <option>Inactivo</option>
+            <option>Suspendido</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-editar-usuario')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Permisos Usuario -->
+<div class="modal-overlay" id="modal-permisos-usuario">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-header">
+      <div class="modal-title">🔑 Permisos — Carlos López</div>
+      <button class="modal-close" onclick="closeModal('modal-permisos-usuario')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem;">Configura los módulos y acciones que este usuario puede realizar.</div>
+      <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+        <thead><tr style="background:#f8fafc;">
+          <th style="padding:0.5rem;text-align:left;">Módulo</th>
+          <th style="padding:0.5rem;text-align:center;">Ver</th>
+          <th style="padding:0.5rem;text-align:center;">Crear</th>
+          <th style="padding:0.5rem;text-align:center;">Editar</th>
+          <th style="padding:0.5rem;text-align:center;">Eliminar</th>
+        </tr></thead>
+        <tbody>
+          {['Contactos','Cuentas','Leads','Oportunidades','Cotizaciones','Facturas','Reportes'].map(mod => (
+            <tr style="border-top:1px solid var(--border);">
+              <td style="padding:0.5rem;font-weight:500;">{mod}</td>
+              <td style="padding:0.5rem;text-align:center;"><input type="checkbox" checked></td>
+              <td style="padding:0.5rem;text-align:center;"><input type="checkbox" checked></td>
+              <td style="padding:0.5rem;text-align:center;"><input type="checkbox" checked></td>
+              <td style="padding:0.5rem;text-align:center;"><input type="checkbox"></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-permisos-usuario')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar permisos</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Acciones Usuario -->
+<div class="modal-overlay" id="modal-acciones-usuario">
+  <div class="modal" style="max-width:360px;">
+    <div class="modal-header">
+      <div class="modal-title">⋯ Acciones de Usuario</div>
+      <button class="modal-close" onclick="closeModal('modal-acciones-usuario')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0.5rem 0;gap:0;">
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-usuario');openModal('modal-editar-usuario')">✏️ Editar perfil</button>
+      <button class="menu-action-btn" onclick="closeModal('modal-acciones-usuario');openModal('modal-permisos-usuario')">🔑 Gestionar permisos</button>
+      <button class="menu-action-btn">🔄 Restablecer contraseña</button>
+      <button class="menu-action-btn">📊 Ver actividad</button>
+      <div style="border-top:1px solid var(--border);margin:0.4rem 0;"></div>
+      <button class="menu-action-btn" style="color:var(--warning);">⏸ Suspender usuario</button>
+      <button class="menu-action-btn" style="color:var(--danger);">🗑 Eliminar usuario</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Roles y Permisos -->
+<div class="modal-overlay" id="modal-roles-permisos">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <div class="modal-title">📋 Roles y Permisos del Sistema</div>
+      <button class="modal-close" onclick="closeModal('modal-roles-permisos')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:0.6rem;">
+        {[{role:'Admin',desc:'Acceso total al sistema. Puede gestionar usuarios y configuración.',color:'var(--danger)'},{role:'Manager',desc:'Acceso a todos los módulos. No puede gestionar usuarios ni integraciones.',color:'var(--warning)'},{role:'Sales Rep',desc:'Acceso a Contactos, Leads, Oportunidades, Cotizaciones y Actividades.',color:'var(--primary)'},{role:'Support',desc:'Acceso a Tickets, Contactos y Actividades.',color:'var(--info)'},{role:'Read Only',desc:'Solo lectura en todos los módulos.',color:'var(--text-muted)'}].map(r => (
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;border:1px solid var(--border);border-radius:0.45rem;">
+            <div style="width:10px;height:10px;border-radius:50%;background:{r.color};flex-shrink:0;"></div>
+            <div style="flex:1;">
+              <div style="font-weight:600;font-size:0.85rem;">{r.role}</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">{r.desc}</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="font-size:0.72rem;">✏️ Editar</button>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-roles-permisos')">Cerrar</button>
+      <button class="btn btn-primary btn-sm">+ Nuevo rol</button>
+    </div>
+  </div>
+</div>
 
 <!-- Modal: Invitar Usuario -->
 <div class="modal-overlay" id="modal-usuario">
