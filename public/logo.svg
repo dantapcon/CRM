@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <!-- Green arc ring at top -->
+  <path d="M 26 18 A 18 18 0 0 1 54 18" stroke="#7EC800" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- Hand/cursor pointer -->
+  <path d="M40 28 L40 50" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M40 50 C40 50 30 50 28 56 C26 62 30 66 40 66 C50 66 54 62 52 56 C50 50 40 50 40 50Z" fill="#1a1a1a"/>
+  <!-- Fingers -->
+  <path d="M40 36 L40 28 C40 26 37 24 35 26 L35 40" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M35 40 L35 32 C35 30 32 29 31 31 L31 44" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M45 36 L45 30 C45 28 48 27 49 29 L49 44" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M49 44 L49 36 C49 34 52 33 53 35 L53 46" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Palm fill -->
+  <path d="M31 44 L31 52 C31 56 34 58 40 58 C46 58 49 56 49 52 L49 44 L35 44 Z" fill="#1a1a1a"/>
+</svg>

@@ -6,7 +6,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
   <div class="page-header">
     <div>
       <h1 class="page-title">Configuración del Sistema</h1>
-      <p class="page-subtitle">Ajustes generales, integraciones y personalización de NexusCRM</p>
+      <p class="page-subtitle">Ajustes generales, integraciones y personalización de Maki</p>
     </div>
     <div class="gap-actions">
       <button class="btn btn-primary btn-sm" onclick="openModal('modal-guardar-configuracion')">💾 Guardar cambios</button>
@@ -21,22 +21,22 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       <div class="card">
         <div style="padding:0.5rem 0;">
           {[
-            { icon:'🏢', label:'General',         active:true },
-            { icon:'👤', label:'Mi perfil' },
-            { icon:'🔒', label:'Seguridad' },
-            { icon:'👥', label:'Usuarios y roles' },
-            { icon:'🔔', label:'Notificaciones' },
-            { icon:'🎨', label:'Personalización' },
-            { icon:'🗄️', label:'Datos y campos' },
-            { icon:'🔌', label:'Integraciones' },
-            { icon:'📧', label:'Email y plantillas' },
-            { icon:'📊', label:'Reportes' },
-            { icon:'💳', label:'Facturación y plan' },
-            { icon:'🛡️', label:'Privacidad y GDPR' },
-            { icon:'📋', label:'Auditoría y logs' },
-            { icon:'🔧', label:'API y webhooks' },
+            { icon:'🏢', label:'General',            id:'general',        active:true },
+            { icon:'👤', label:'Mi perfil',           id:'perfil' },
+            { icon:'🔒', label:'Seguridad',           id:'seguridad' },
+            { icon:'👥', label:'Usuarios y roles',    id:'usuarios' },
+            { icon:'🔔', label:'Notificaciones',      id:'notificaciones' },
+            { icon:'🎨', label:'Personalización',     id:'personalizacion' },
+            { icon:'🗄️', label:'Datos y campos',      id:'datos' },
+            { icon:'🔌', label:'Integraciones',       id:'integraciones' },
+            { icon:'📧', label:'Email y plantillas',  id:'email' },
+            { icon:'📊', label:'Reportes',             id:'reportes' },
+            { icon:'💳', label:'Facturación y plan',  id:'facturacion' },
+            { icon:'🛡️', label:'Privacidad y GDPR',   id:'privacidad' },
+            { icon:'📋', label:'Auditoría y logs',    id:'auditoria' },
+            { icon:'🔧', label:'API y webhooks',      id:'api' },
           ].map(s => (
-            <div style={`display:flex;align-items:center;gap:0.6rem;padding:0.55rem 1.25rem;cursor:pointer;background:${s.active?'rgba(37,99,168,0.1)':'transparent'};border-right:${s.active?'3px solid var(--primary)':'3px solid transparent'};`}>
+            <div onclick={`openModal('modal-settings-${s.id}')`} style={`display:flex;align-items:center;gap:0.6rem;padding:0.55rem 1.25rem;cursor:pointer;background:${s.active?'rgba(37,99,168,0.1)':'transparent'};border-right:${s.active?'3px solid var(--primary)':'3px solid transparent'};`}>
               <span>{s.icon}</span>
               <span style={`font-size:0.8rem;font-weight:${s.active?'600':'400'};color:${s.active?'var(--primary)':'var(--text)'}`}>{s.label}</span>
             </div>
@@ -128,7 +128,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
               <input type="color" value={s.color} style="width:36px;height:30px;border:1px solid var(--border);border-radius:4px;cursor:pointer;padding:2px;">
               <div class="spacer"></div>
               <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-etapa-pipeline')">↑</button>
-              <button class="btn btn-ghost btn-sm btn-icon">↓</button>
+              <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-etapa-pipeline')">↓</button>
               <button class="btn btn-ghost btn-sm btn-icon" onclick="openModal('modal-editar-etapa')">✏️</button>
               <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);" onclick="openModal('modal-eliminar-etapa')">🗑</button>
             </div>
@@ -349,6 +349,523 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
     <div class="modal-footer">
       <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-guardar-configuracion')">Cancelar</button>
       <button class="btn btn-primary btn-sm" onclick="closeModal('modal-guardar-configuracion')">💾 Confirmar y guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Configuración General -->
+<div class="modal-overlay" id="modal-settings-general">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🏢 Configuración General</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-general')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label class="form-label">Nombre de la empresa</label>
+          <input class="form-control" value="Mi Empresa S.A.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">NIT / RUT</label>
+          <input class="form-control" value="900.123.456-7">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email principal</label>
+          <input class="form-control" type="email" value="info@miempresa.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">País</label>
+          <select class="form-control"><option selected>Colombia</option><option>México</option><option>Argentina</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zona horaria</label>
+          <select class="form-control"><option selected>América/Bogotá (UTC-5)</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Moneda</label>
+          <select class="form-control"><option selected>COP — Peso Colombiano</option><option>USD — Dólar Americano</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-general')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Mi Perfil -->
+<div class="modal-overlay" id="modal-settings-perfil">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">👤 Mi Perfil</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-perfil')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);">
+        <div class="avatar" style="width:56px;height:56px;font-size:1.2rem;background:#188185;color:#fff;font-weight:700;flex-shrink:0;">JM</div>
+        <div>
+          <div style="font-weight:600;">Juan Martínez</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">Administrador</div>
+          <button class="btn btn-secondary btn-sm" style="margin-top:0.4rem;">📷 Cambiar foto</button>
+        </div>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-control" value="Juan"></div>
+        <div class="form-group"><label class="form-label">Apellido</label><input class="form-control" value="Martínez"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-control" type="email" value="juan@miempresa.com"></div>
+        <div class="form-group"><label class="form-label">Teléfono</label><input class="form-control" value="+57 310 000 0000"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Biografía / firma</label>
+        <textarea class="form-control" rows="2" placeholder="Añade una breve descripción..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-perfil')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar perfil</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Seguridad -->
+<div class="modal-overlay" id="modal-settings-seguridad">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">🔒 Seguridad</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-seguridad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Contraseña actual</label>
+        <input class="form-control" type="password" placeholder="••••••••">
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label class="form-label">Nueva contraseña</label>
+          <input class="form-control" type="password" placeholder="••••••••">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmar contraseña</label>
+          <input class="form-control" type="password" placeholder="••••••••">
+        </div>
+      </div>
+      <div style="padding:0.75rem;background:#f8fafc;border-radius:0.4rem;margin:0.5rem 0;">
+        <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Autenticación de dos factores (2FA)</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:0.78rem;color:var(--text-muted);">Estado: Desactivado</span>
+          <button class="btn btn-secondary btn-sm">Activar 2FA</button>
+        </div>
+      </div>
+      <div style="padding:0.75rem;background:#fff7ed;border-radius:0.4rem;font-size:0.78rem;color:#92400e;">
+        ⚠️ La sesiones activas en otros dispositivos serán cerradas al cambiar la contraseña.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-seguridad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">🔒 Actualizar contraseña</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Usuarios y Roles -->
+<div class="modal-overlay" id="modal-settings-usuarios">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">👥 Usuarios y Roles</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-usuarios')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <span style="font-size:0.82rem;color:var(--text-muted);">4 usuarios activos</span>
+        <button class="btn btn-primary btn-sm">+ Invitar usuario</button>
+      </div>
+      {[
+        { name:'Juan Martínez', email:'juan@miempresa.com', role:'Administrador', avatar:'JM' },
+        { name:'María García',  email:'maria@miempresa.com', role:'Ventas',       avatar:'MG' },
+        { name:'Carlos López',  email:'carlos@miempresa.com', role:'Soporte',     avatar:'CL' },
+        { name:'Ana Rodríguez', email:'ana@miempresa.com', role:'Marketing',      avatar:'AR' },
+      ].map(u => (
+        <div style="display:flex;align-items:center;gap:0.75rem;padding:0.65rem 0;border-bottom:1px solid #f1f5f9;">
+          <div class="avatar" style="background:#188185;color:#fff;font-weight:700;flex-shrink:0;">{u.avatar}</div>
+          <div style="flex:1;">
+            <div style="font-size:0.82rem;font-weight:600;">{u.name}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);">{u.email}</div>
+          </div>
+          <select class="form-control" style="width:auto;font-size:0.75rem;padding:0.3rem 0.5rem;">
+            <option selected={u.role==='Administrador'}>Administrador</option>
+            <option selected={u.role==='Ventas'}>Ventas</option>
+            <option selected={u.role==='Soporte'}>Soporte</option>
+            <option selected={u.role==='Marketing'}>Marketing</option>
+          </select>
+          <button class="btn btn-ghost btn-icon btn-sm" style="color:var(--danger);">🗑</button>
+        </div>
+      ))}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-usuarios')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Notificaciones -->
+<div class="modal-overlay" id="modal-settings-notificaciones">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">🔔 Preferencias de Notificaciones</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-notificaciones')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:0.5rem;margin-bottom:0.5rem;font-size:0.72rem;font-weight:600;color:var(--text-muted);">
+        <span>Evento</span><span>Email</span><span>App</span>
+      </div>
+      {[
+        { label:'Nuevo lead asignado',         email:true,  app:true  },
+        { label:'Recordatorio de actividad',   email:true,  app:true  },
+        { label:'Oportunidad sin actividad',   email:true,  app:false },
+        { label:'Ticket crítico creado',       email:true,  app:true  },
+        { label:'Cotización aceptada',         email:true,  app:true  },
+        { label:'Factura vencida',             email:true,  app:true  },
+        { label:'Reporte semanal',             email:true,  app:false },
+      ].map(n => (
+        <div style="display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid #f1f5f9;">
+          <span style="font-size:0.8rem;">{n.label}</span>
+          <div style="text-align:center;"><input type="checkbox" checked={n.email}></div>
+          <div style="text-align:center;"><input type="checkbox" checked={n.app}></div>
+        </div>
+      ))}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-notificaciones')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar preferencias</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Personalización -->
+<div class="modal-overlay" id="modal-settings-personalizacion">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header">
+      <div class="modal-title">🎨 Personalización</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-personalizacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Color principal</label>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          {['#188185','#2563eb','#7c3aed','#dc2626','#d97706','#16a34a'].map(c => (
+            <div style={`width:32px;height:32px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${c==='#188185'?'#fff':'transparent'};box-shadow:0 0 0 2px ${c==='#188185'?c:'transparent'};`}></div>
+          ))}
+          <input type="color" value="#188185" style="width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;padding:0;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tema</label>
+        <select class="form-control">
+          <option selected>Claro</option>
+          <option>Oscuro</option>
+          <option>Automático (sistema)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Logo de la empresa</label>
+        <div style="border:2px dashed var(--border);border-radius:0.4rem;padding:1.25rem;text-align:center;cursor:pointer;color:var(--text-muted);font-size:0.8rem;">
+          📁 Arrastra una imagen o haz clic para seleccionar
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Idioma del sistema</label>
+        <select class="form-control">
+          <option selected>Español</option>
+          <option>English</option>
+          <option>Português</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-personalizacion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Aplicar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Datos y Campos -->
+<div class="modal-overlay" id="modal-settings-datos">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🗄️ Datos y Campos</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-datos')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:0.75rem;margin-bottom:1rem;">
+        <button class="btn btn-primary btn-sm">+ Nuevo campo</button>
+        <button class="btn btn-secondary btn-sm">📥 Importar datos</button>
+        <button class="btn btn-secondary btn-sm">📤 Exportar datos</button>
+      </div>
+      {[
+        { module:'Contactos', fields:12, custom:3 },
+        { module:'Empresas',  fields:9,  custom:1 },
+        { module:'Leads',     fields:11, custom:4 },
+        { module:'Oportunidades', fields:14, custom:2 },
+        { module:'Facturas',  fields:10, custom:0 },
+      ].map(m => (
+        <div style="display:flex;align-items:center;padding:0.65rem 0;border-bottom:1px solid #f1f5f9;gap:1rem;">
+          <span style="flex:1;font-size:0.82rem;font-weight:500;">{m.module}</span>
+          <span style="font-size:0.75rem;color:var(--text-muted);">{m.fields} campos totales</span>
+          <span class="badge badge-blue">{m.custom} personalizados</span>
+          <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+        </div>
+      ))}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-datos')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Integraciones (nav) -->
+<div class="modal-overlay" id="modal-settings-integraciones">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">🔌 Integraciones</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-integraciones')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem;">Gestiona las conexiones con tus herramientas externas.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+        {['Google Workspace','Slack','WhatsApp Business','Zapier','Stripe','Mailchimp'].map(i => (
+          <div style="border:1px solid var(--border);border-radius:0.4rem;padding:0.6rem 0.75rem;font-size:0.78rem;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:0.5rem;">
+            🔌 {i}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-integraciones')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Email y Plantillas -->
+<div class="modal-overlay" id="modal-settings-email">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📧 Email y Plantillas</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-email')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="padding:0.75rem;background:#f8fafc;border-radius:0.4rem;margin-bottom:1rem;">
+        <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Configuración SMTP</div>
+        <div class="form-row form-row-2">
+          <div class="form-group"><label class="form-label">Servidor SMTP</label><input class="form-control" placeholder="smtp.gmail.com"></div>
+          <div class="form-group"><label class="form-label">Puerto</label><input class="form-control" placeholder="587"></div>
+          <div class="form-group"><label class="form-label">Usuario</label><input class="form-control" type="email" placeholder="correo@empresa.com"></div>
+          <div class="form-group"><label class="form-label">Contraseña</label><input class="form-control" type="password" placeholder="••••••••"></div>
+        </div>
+      </div>
+      <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">Plantillas de email</div>
+      {['Bienvenida a nuevo contacto','Seguimiento de cotización','Confirmación de factura','Recordatorio de actividad'].map(t => (
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #f1f5f9;">
+          <span style="font-size:0.8rem;">📧 {t}</span>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+            <button class="btn btn-ghost btn-sm btn-icon">👁️</button>
+          </div>
+        </div>
+      ))}
+      <button class="btn btn-secondary btn-sm" style="margin-top:0.75rem;">+ Nueva plantilla</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-email')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar SMTP</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Reportes (settings) -->
+<div class="modal-overlay" id="modal-settings-reportes">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">📊 Configuración de Reportes</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-reportes')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Reporte semanal automático</label>
+        <select class="form-control">
+          <option>Desactivado</option>
+          <option selected>Lunes 8:00 AM</option>
+          <option>Viernes 5:00 PM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Destinatarios del reporte</label>
+        <input class="form-control" placeholder="email1@empresa.com, email2@empresa.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Incluir en el reporte</label>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          {['Resumen de ventas','Leads nuevos','Actividades pendientes','Facturas vencidas'].map(r => (
+            <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;cursor:pointer;"><input type="checkbox" checked> {r}</label>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-reportes')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Facturación y Plan -->
+<div class="modal-overlay" id="modal-settings-facturacion">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">💳 Facturación y Plan</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-facturacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:linear-gradient(135deg,#188185,#0d5e61);color:#fff;border-radius:0.6rem;padding:1.25rem;margin-bottom:1rem;">
+        <div style="font-size:0.75rem;opacity:0.8;margin-bottom:0.25rem;">Plan actual</div>
+        <div style="font-size:1.4rem;font-weight:700;">Profesional</div>
+        <div style="font-size:0.8rem;opacity:0.85;margin-top:0.25rem;">$89 USD / mes · Próxima factura: 1 Feb 2025</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1rem;">
+        {[
+          { label:'Usuarios', value:'4 / 10' },
+          { label:'Contactos', value:'1.240 / 5.000' },
+          { label:'Almacenamiento', value:'2.3 GB / 10 GB' },
+          { label:'Integraciones', value:'4 / 10' },
+        ].map(u => (
+          <div style="padding:0.75rem;border:1px solid var(--border);border-radius:0.4rem;text-align:center;">
+            <div style="font-size:1rem;font-weight:700;">{u.value}</div>
+            <div style="font-size:0.68rem;color:var(--text-muted);">{u.label}</div>
+          </div>
+        ))}
+      </div>
+      <div style="display:flex;gap:0.75rem;">
+        <button class="btn btn-primary btn-sm" style="flex:1;">⬆️ Mejorar plan</button>
+        <button class="btn btn-secondary btn-sm">📄 Historial de facturas</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-facturacion')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Privacidad y GDPR -->
+<div class="modal-overlay" id="modal-settings-privacidad">
+  <div class="modal" style="max-width:460px;">
+    <div class="modal-header">
+      <div class="modal-title">🛡️ Privacidad y GDPR</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-privacidad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Política de retención de datos</label>
+        <select class="form-control">
+          <option>1 año</option>
+          <option selected>3 años</option>
+          <option>5 años</option>
+          <option>Indefinido</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Opciones de consentimiento</label>
+        <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          {['Mostrar aviso de cookies','Permitir solicitud de eliminación de datos','Exportar datos del contacto bajo solicitud','Registrar consentimientos en logs'].map(o => (
+            <label style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;cursor:pointer;"><input type="checkbox" checked> {o}</label>
+          ))}
+        </div>
+      </div>
+      <div style="padding:0.75rem;background:#fef3c7;border-radius:0.4rem;font-size:0.75rem;color:#92400e;">
+        ⚠️ Asegúrate de cumplir con la normativa GDPR / Ley 1581 de Colombia vigente en tu país.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-privacidad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Auditoría y Logs -->
+<div class="modal-overlay" id="modal-settings-auditoria">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📋 Auditoría y Logs</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-auditoria')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+        <input class="form-control" style="flex:1;" placeholder="Buscar en logs…">
+        <select class="form-control" style="width:auto;">
+          <option>Todos los eventos</option>
+          <option>Inicios de sesión</option>
+          <option>Cambios de datos</option>
+          <option>Eliminaciones</option>
+        </select>
+      </div>
+      {[
+        { user:'Juan M.',  action:'Editó contacto: Carlos Vega',          time:'Hoy 10:32 AM',   type:'edit' },
+        { user:'María G.',  action:'Eliminó lead: Empresa ABC',            time:'Hoy 09:15 AM',   type:'delete' },
+        { user:'Ana R.',    action:'Inició sesión desde IP 192.168.1.1',   time:'Ayer 4:45 PM',   type:'login' },
+        { user:'Carlos L.', action:'Cambió estado ticket #187 → Cerrado', time:'Ayer 3:22 PM',   type:'edit' },
+        { user:'Juan M.',   action:'Exportó lista de contactos (CSV)',     time:'Ayer 11:00 AM',  type:'export' },
+      ].map(log => (
+        <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid #f1f5f9;">
+          <span style={`font-size:0.7rem;font-weight:700;padding:2px 6px;border-radius:4px;background:${log.type==='delete'?'#fee2e2':log.type==='login'?'#dcfce7':'#e0e7ff'};color:${log.type==='delete'?'#dc2626':log.type==='login'?'#16a34a':'#4f46e5'};flex-shrink:0;`}>{log.type.toUpperCase()}</span>
+          <div style="flex:1;">
+            <div style="font-size:0.78rem;"><strong>{log.user}</strong> {log.action}</div>
+            <div style="font-size:0.68rem;color:var(--text-muted);">{log.time}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm">📤 Exportar logs</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-auditoria')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: API y Webhooks -->
+<div class="modal-overlay" id="modal-settings-api">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🔧 API y Webhooks</div>
+      <button class="modal-close" onclick="closeModal('modal-settings-api')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.5rem;">API Keys</div>
+        <div style="display:flex;gap:0.5rem;">
+          <input class="form-control" value="mak_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxx" readonly style="font-family:monospace;font-size:0.75rem;">
+          <button class="btn btn-secondary btn-sm">📋 Copiar</button>
+          <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);">🗑</button>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="margin-top:0.5rem;">+ Generar nueva clave</button>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <div style="font-size:0.82rem;font-weight:600;">Webhooks</div>
+          <button class="btn btn-primary btn-sm">+ Agregar endpoint</button>
+        </div>
+        {['https://miapp.com/webhook/crm','https://zapier.com/hooks/maki/xyz'].map(url => (
+          <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:0.7rem;background:#dcfce7;color:#16a34a;padding:2px 6px;border-radius:4px;font-weight:700;">ACTIVO</span>
+            <span style="flex:1;font-size:0.75rem;font-family:monospace;">{url}</span>
+            <button class="btn btn-ghost btn-sm btn-icon">✏️</button>
+            <button class="btn btn-ghost btn-sm btn-icon" style="color:var(--danger);">🗑</button>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-settings-api')">Cerrar</button>
     </div>
   </div>
 </div>

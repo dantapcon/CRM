@@ -44,7 +44,7 @@ html, body {
 
 .crm-sidebar {
   width: var(--sidebar-width);
-  min-height: 100vh;
+  height: 100vh;
   background: #188185;
   color: rgba(255,255,255,0.85);
   display: flex;
@@ -981,4 +981,54 @@ select.form-control { cursor: pointer; }
 textarea.form-control {
   resize: vertical;
   min-height: 80px;
+}
+
+/* -- Hamburger Toggle ------------------------------------------ */
+.sidebar-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 1.35rem;
+  color: var(--text);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.sidebar-toggle:hover { background: var(--surface-hover, #f1f5f9); }
+
+/* -- Sidebar Overlay (mobile) ---------------------------------- */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 49;
+}
+.sidebar-overlay.open { display: block; }
+
+/* -- Responsive ----------------------------------------------- */
+@media (max-width: 768px) {
+  .crm-sidebar {
+    transform: translateX(-260px);
+  }
+  .crm-sidebar.open {
+    transform: translateX(0);
+  }
+  .crm-main {
+    margin-left: 0 !important;
+  }
+  .sidebar-toggle {
+    display: flex;
+  }
+  .crm-content {
+    padding: 1rem;
+  }
+  .crm-header {
+    padding: 0 0.75rem;
+  }
 }

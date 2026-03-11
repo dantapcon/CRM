@@ -74,7 +74,7 @@ const nav = [
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title} — NexusCRM</title>
+  <title>{title} — Maki</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔷</text></svg>">
   <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
@@ -85,9 +85,9 @@ const nav = [
   <aside class="crm-sidebar">
     <div class="sidebar-logo">
       <div style="display:flex;align-items:center;gap:0.6rem;">
-        <div style="width:36px;height:36px;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.7) 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 2px 6px rgba(0,0,0,0.15);">🔷</div>
+        <img src="/logo.svg" alt="Maki" style="width:36px;height:36px;object-fit:contain;background:#fff;border-radius:8px;padding:4px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">
         <div>
-          <div class="sidebar-logo-text">NexusCRM</div>
+          <div class="sidebar-logo-text">Maki</div>
           <div class="sidebar-logo-sub">Enterprise Suite</div>
         </div>
       </div>
@@ -117,20 +117,21 @@ const nav = [
           <div style="font-size:0.78rem;font-weight:600;color:#fff;">Juan Martínez</div>
           <div style="font-size:0.68rem;color:rgba(255,255,255,0.5);">Administrador</div>
         </div>
-        <div style="margin-left:auto;cursor:pointer;" title="Cerrar sesión">
+        <div style="margin-left:auto;cursor:pointer;" title="Cerrar sesión" onclick="openModal('modal-cerrar-sesion')">
           <span style="color:rgba(255,255,255,0.5);font-size:0.9rem;">🚪</span>
         </div>
       </div>
     </div>
   </aside>
-
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <!-- ── Main ────────────────────────────────────────────────── -->
   <div class="crm-main">
 
     <!-- Header -->
     <header class="crm-header">
+      <button class="sidebar-toggle" id="sidebar-toggle" title="Menú" aria-label="Abrir menú lateral">☰</button>
       <div class="breadcrumb" style="flex:1;">
-        <a href="/">NexusCRM</a>
+        <a href="/">Maki</a>
         <span class="breadcrumb-sep">›</span>
         <span>{title}</span>
       </div>
@@ -145,16 +146,16 @@ const nav = [
         </div>
 
         <!-- Notifications -->
-        <button class="btn btn-ghost btn-icon" style="position:relative;" title="Notificaciones">
+        <button class="btn btn-ghost btn-icon" style="position:relative;" title="Notificaciones" onclick="openModal('modal-notificaciones')">
           🔔
           <span class="notif-dot"></span>
         </button>
 
         <!-- Help -->
-        <button class="btn btn-ghost btn-icon" title="Ayuda">❓</button>
+        <button class="btn btn-ghost btn-icon" title="Ayuda" onclick="openModal('modal-ayuda')">❓</button>
 
         <!-- Avatar -->
-        <div class="avatar" style="cursor:pointer;background:#188185;color:#fff;font-weight:700;" title="Mi perfil">JM</div>
+        <div class="avatar" style="cursor:pointer;background:#188185;color:#fff;font-weight:700;" title="Mi perfil" onclick="openModal('modal-perfil')">JM</div>
       </div>
     </header>
 
@@ -205,6 +206,163 @@ const nav = [
       document.querySelectorAll('.modal-overlay.open').forEach((m) => closeModal((m as HTMLElement).id));
     }
   });
+
+  // ── Hamburger sidebar toggle ─────────────────────────────────
+  const _sidebarToggle = document.getElementById('sidebar-toggle');
+  const _sidebarOverlay = document.getElementById('sidebar-overlay');
+  const _sidebar = document.querySelector('.crm-sidebar');
+
+  function toggleSidebar() {
+    _sidebar?.classList.toggle('open');
+    _sidebarOverlay?.classList.toggle('open');
+    document.body.style.overflow = _sidebar?.classList.contains('open') ? 'hidden' : '';
+  }
+  _sidebarToggle?.addEventListener('click', toggleSidebar);
+  _sidebarOverlay?.addEventListener('click', () => {
+    _sidebar?.classList.remove('open');
+    _sidebarOverlay?.classList.remove('open');
+    document.body.style.overflow = '';
+  });
 </script>
+
+<!-- Modal: Notificaciones -->
+<div class="modal-overlay" id="modal-notificaciones">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">🔔 Notificaciones</div>
+      <button class="modal-close" onclick="closeModal('modal-notificaciones')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0;">
+      {[
+        { icon:'🎯', msg:'Nuevo lead asignado: Empresa XYZ', time:'Hace 5 min', unread:true },
+        { icon:'✅', msg:'Actividad completada: Llamada con Carlos M.', time:'Hace 18 min', unread:true },
+        { icon:'💼', msg:'Oportunidad actualizada a Propuesta', time:'Hace 1 h', unread:true },
+        { icon:'🎫', msg:'Ticket crítico #187 creado por Ana López', time:'Hace 2 h', unread:false },
+        { icon:'📋', msg:'Cotización COT-2024-089 aceptada', time:'Hace 3 h', unread:false },
+        { icon:'🧾', msg:'Factura INV-00041 vencida — $3.200.000', time:'Ayer', unread:false },
+      ].map(n => (
+        <div style={`display:flex;align-items:flex-start;gap:0.75rem;padding:0.85rem 1.25rem;border-bottom:1px solid #f1f5f9;background:${n.unread?'#f0f9ff':'transparent'};cursor:pointer;transition:background 0.15s;`}>
+          <span style="font-size:1.1rem;margin-top:2px;">{n.icon}</span>
+          <div style="flex:1;">
+            <div style={`font-size:0.8rem;font-weight:${n.unread?'600':'400'};color:var(--text);`}>{n.msg}</div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">{n.time}</div>
+          </div>
+          {n.unread && <div style="width:8px;height:8px;border-radius:50%;background:#0284c7;flex-shrink:0;margin-top:4px;"></div>}
+        </div>
+      ))}
+    </div>
+    <div class="modal-footer" style="justify-content:space-between;">
+      <button class="btn btn-ghost btn-sm">Marcar todo como leído</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-notificaciones')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Ayuda -->
+<div class="modal-overlay" id="modal-ayuda">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="modal-title">❓ Centro de Ayuda</div>
+      <button class="modal-close" onclick="closeModal('modal-ayuda')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {[
+          { icon:'📖', label:'Documentación', desc:'Guías y tutoriales completos' },
+          { icon:'🎓', label:'Video tutoriales', desc:'Aprende con ejemplos paso a paso' },
+          { icon:'💬', label:'Soporte en vivo', desc:'Chat con nuestro equipo de soporte' },
+          { icon:'🐛', label:'Reportar un problema', desc:'Ayúdanos a mejorar Maki' },
+          { icon:'💡', label:'Sugerir una función', desc:'Comparte tus ideas con nosotros' },
+          { icon:'⌨️', label:'Atajos de teclado', desc:'Navega más rápido con atajos' },
+        ].map(h => (
+          <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0.75rem;border-radius:0.4rem;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+            <span style="font-size:1.2rem;width:28px;text-align:center;">{h.icon}</span>
+            <div>
+              <div style="font-size:0.82rem;font-weight:600;">{h.label}</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);">{h.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style="margin-top:1rem;padding:0.75rem;background:#f0f9ff;border-radius:0.4rem;font-size:0.78rem;color:#0369a1;">
+        <strong>¿Necesitas ayuda urgente?</strong> Escríbenos a <strong>soporte@maki.app</strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary btn-sm" onclick="closeModal('modal-ayuda')">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Mi perfil -->
+<div class="modal-overlay" id="modal-perfil">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">👤 Mi Perfil</div>
+      <button class="modal-close" onclick="closeModal('modal-perfil')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);">
+        <div class="avatar" style="width:56px;height:56px;font-size:1.2rem;background:#188185;color:#fff;font-weight:700;flex-shrink:0;">JM</div>
+        <div>
+          <div style="font-weight:600;font-size:0.95rem;">Juan Martínez</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">Administrador · juan@miempresa.com</div>
+          <button class="btn btn-secondary btn-sm" style="margin-top:0.4rem;">📷 Cambiar foto</button>
+        </div>
+      </div>
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" value="Juan">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apellido</label>
+          <input class="form-control" value="Martínez">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-control" type="email" value="juan@miempresa.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input class="form-control" value="+57 310 000 0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zona horaria</label>
+        <select class="form-control">
+          <option selected>América/Bogotá (UTC-5)</option>
+          <option>América/México_City (UTC-6)</option>
+          <option>América/Santiago (UTC-4)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-perfil')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">💾 Guardar perfil</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cerrar sesión -->
+<div class="modal-overlay" id="modal-cerrar-sesion">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <div class="modal-title">🚪 Cerrar Sesión</div>
+      <button class="modal-close" onclick="closeModal('modal-cerrar-sesion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;padding:0.5rem 0;">
+        <div style="font-size:2.5rem;margin-bottom:0.75rem;">🚪</div>
+        <div style="font-weight:600;margin-bottom:0.5rem;">¿Cerrar sesión?</div>
+        <div style="font-size:0.82rem;color:var(--text-muted);">Se cerrará tu sesión activa en Maki. Tendrás que iniciar sesión nuevamente para acceder.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-cerrar-sesion')">Cancelar</button>
+      <button class="btn btn-danger btn-sm" style="background:var(--danger);color:#fff;border-color:var(--danger);">🚪 Cerrar sesión</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
