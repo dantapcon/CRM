@@ -24,7 +24,7 @@ const stMap: Record<string,string> = {
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📊 Reporte cobros</button>
-      <a href="/invoices/new" class="btn btn-primary btn-sm">+ Nueva Factura</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-factura')">+ Nueva Factura</button>
     </div>
   </div>
 
@@ -113,5 +113,59 @@ const stMap: Record<string,string> = {
       <span class="text-muted text-xs">Mostrando 1-8 de 88 facturas</span>
     </div>
   </div>
+
+<!-- Modal: Nueva Factura -->
+<div class="modal-overlay" id="modal-factura">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🧾 Nueva Factura</div>
+      <button class="modal-close" onclick="closeModal('modal-factura')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cliente</label>
+          <input class="form-control" type="text" placeholder="Nombre del cliente">
+        </div>
+        <div class="form-group">
+          <label>Número de factura</label>
+          <input class="form-control" type="text" placeholder="FAC-2026-0001">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha de emisión</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label>Fecha de vencimiento</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Moneda</label>
+          <select class="form-control">
+            <option>COP - Peso Colombiano</option>
+            <option>USD - Dólar</option>
+            <option>EUR - Euro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cotización origen</label>
+          <input class="form-control" type="text" placeholder="COT-2026-0001 (opcional)">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas internas</label>
+        <textarea class="form-control" placeholder="Notas o instrucciones de pago…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-factura')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Emitir Factura</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

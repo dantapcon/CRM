@@ -25,8 +25,8 @@ const accMap: Record<string,string> = { 'Privado':'badge-gray','Equipo':'badge-b
       <p class="page-subtitle">Repositorio centralizado de contratos, propuestas y archivos del CRM</p>
     </div>
     <div class="gap-actions">
-      <button class="btn btn-secondary btn-sm">📁 Nueva carpeta</button>
-      <button class="btn btn-primary btn-sm">⬆️ Subir documento</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('modal-carpeta')">📁 Nueva carpeta</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-documento')">⬆️ Subir documento</button>
     </div>
   </div>
 
@@ -134,5 +134,89 @@ const accMap: Record<string,string> = { 'Privado':'badge-gray','Equipo':'badge-b
       <span class="text-muted text-xs">Mostrando 1-8 de 248 documentos</span>
     </div>
   </div>
+
+<!-- Modal: Subir Documento -->
+<div class="modal-overlay" id="modal-documento">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⬆️ Subir Documento</div>
+      <button class="modal-close" onclick="closeModal('modal-documento')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre del documento</label>
+        <input class="form-control" type="text" placeholder="Ej: Contrato 2026">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Carpeta destino</label>
+          <select class="form-control">
+            <option>Contratos</option>
+            <option>Propuestas comerciales</option>
+            <option>Facturas</option>
+            <option>Recursos marketing</option>
+            <option>Soporte técnico</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo de documento</label>
+          <select class="form-control">
+            <option>PDF</option>
+            <option>Word</option>
+            <option>Excel</option>
+            <option>Imagen</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Archivo</label>
+        <input class="form-control" type="file">
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" placeholder="Breve descripción del documento…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-documento')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Subir Documento</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Nueva Carpeta -->
+<div class="modal-overlay" id="modal-carpeta">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📁 Nueva Carpeta</div>
+      <button class="modal-close" onclick="closeModal('modal-carpeta')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la carpeta</label>
+        <input class="form-control" type="text" placeholder="Ej: Contratos 2026">
+      </div>
+      <div class="form-group">
+        <label>Carpeta padre (opcional)</label>
+        <select class="form-control">
+          <option value="">Raíz (sin carpeta padre)</option>
+          <option>Contratos</option>
+          <option>Propuestas comerciales</option>
+          <option>Facturas</option>
+          <option>Recursos marketing</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" placeholder="Descripción de la carpeta…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-carpeta')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Carpeta</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

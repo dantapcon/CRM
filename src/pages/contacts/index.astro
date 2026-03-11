@@ -31,7 +31,7 @@ const statusMap: Record<string,string> = {
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📤 Importar</button>
       <button class="btn btn-secondary btn-sm">📥 Exportar</button>
-      <a href="/contacts/new" class="btn btn-primary btn-sm">+ Nuevo Contacto</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-contacto')">+ Nuevo Contacto</button>
     </div>
   </div>
 
@@ -160,4 +160,80 @@ const statusMap: Record<string,string> = {
     </div>
   </div>
 
-</CRMLayout>
+<!-- Modal: Nuevo Contacto -->
+<div class="modal-overlay" id="modal-contacto">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">👤 Nuevo Contacto</div>
+      <button class="modal-close" onclick="closeModal('modal-contacto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input class="form-control" type="text" placeholder="Nombre">
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input class="form-control" type="text" placeholder="Apellido">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" type="text" placeholder="Nombre de la empresa">
+        </div>
+        <div class="form-group">
+          <label>Cargo</label>
+          <input class="form-control" type="text" placeholder="Ej: Director Comercial">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" placeholder="correo@empresa.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" type="tel" placeholder="+57 300 000 0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option>Prospecto</option>
+            <option>Lead</option>
+            <option>Cliente</option>
+            <option>Inactivo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Origen</label>
+          <select class="form-control">
+            <option>Sitio Web</option>
+            <option>Referido</option>
+            <option>Evento</option>
+            <option>Redes Sociales</option>
+            <option>Email Marketing</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Responsable</label>
+        <select class="form-control">
+          <option>Carlos V.</option>
+          <option>María P.</option>
+          <option>Luis A.</option>
+          <option>Ana R.</option>
+          <option>Pedro S.</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-contacto')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Guardar Contacto</button>
+    </div>
+  </div>
+</div>
+

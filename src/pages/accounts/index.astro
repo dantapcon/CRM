@@ -24,7 +24,7 @@ const accounts = [
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📤 Importar</button>
       <button class="btn btn-secondary btn-sm">📥 Exportar</button>
-      <a href="/accounts/new" class="btn btn-primary btn-sm">+ Nueva Cuenta</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-cuenta')">+ Nueva Cuenta</button>
     </div>
   </div>
 
@@ -135,4 +135,82 @@ const accounts = [
     </div>
   </div>
 
-</CRMLayout>
+<!-- Modal: Nueva Cuenta -->
+<div class="modal-overlay" id="modal-cuenta">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🏢 Nueva Cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-cuenta')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la empresa</label>
+        <input class="form-control" type="text" placeholder="Ej: Tecno S.A.">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Industria</label>
+          <select class="form-control">
+            <option>Tecnología</option>
+            <option>Manufactura</option>
+            <option>Retail</option>
+            <option>Finanzas</option>
+            <option>Salud</option>
+            <option>Educación</option>
+            <option>Logística</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Cliente</option>
+            <option>Prospecto</option>
+            <option>Lead</option>
+            <option>Partner</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" placeholder="contacto@empresa.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" type="tel" placeholder="+57 1 000 0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Sitio web</label>
+          <input class="form-control" type="url" placeholder="https://empresa.com">
+        </div>
+        <div class="form-group">
+          <label>Ciudad</label>
+          <input class="form-control" type="text" placeholder="Bogotá">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Potencial de ingresos</label>
+          <input class="form-control" type="text" placeholder="$0">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option>Carlos V.</option>
+            <option>María P.</option>
+            <option>Luis A.</option>
+            <option>Ana R.</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-cuenta')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Guardar Cuenta</button>
+    </div>
+  </div>
+</div>
+

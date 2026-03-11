@@ -31,7 +31,7 @@ const statusMap: Record<string,string> = {
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📤 Importar</button>
-      <a href="/leads/new" class="btn btn-primary btn-sm">+ Nuevo Lead</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-lead')">+ Nuevo Lead</button>
     </div>
   </div>
 
@@ -174,4 +174,76 @@ const statusMap: Record<string,string> = {
     </div>
   </div>
 
-</CRMLayout>
+<!-- Modal: Nuevo Lead -->
+<div class="modal-overlay" id="modal-lead">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎯 Nuevo Lead</div>
+      <button class="modal-close" onclick="closeModal('modal-lead')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input class="form-control" type="text" placeholder="Nombre del lead">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" type="text" placeholder="Empresa">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-control" type="email" placeholder="lead@empresa.com">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input class="form-control" type="tel" placeholder="+57 300 000 0000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fuente</label>
+          <select class="form-control">
+            <option>Sitio Web</option>
+            <option>Referido</option>
+            <option>Evento</option>
+            <option>Email Marketing</option>
+            <option>Redes Sociales</option>
+            <option>Cold Outreach</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Campaña</label>
+          <input class="form-control" type="text" placeholder="Ej: Q1 Email 2026">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Puntaje inicial (0–100)</label>
+          <input class="form-control" type="number" min="0" max="100" placeholder="70">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option>Carlos V.</option>
+            <option>María P.</option>
+            <option>Luis A.</option>
+            <option>Ana R.</option>
+            <option>Pedro S.</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas iniciales</label>
+        <textarea class="form-control" placeholder="Información relevante sobre el lead…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-lead')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Lead</button>
+    </div>
+  </div>
+</div>
+

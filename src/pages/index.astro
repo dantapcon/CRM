@@ -10,7 +10,7 @@ import CRMLayout from '../layouts/CRMLayout.astro';
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📅 Este mes</button>
-      <button class="btn btn-primary btn-sm">+ Nueva actividad</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-actividad')">+ Nueva Actividad</button>
     </div>
   </div>
 
@@ -265,5 +265,75 @@ import CRMLayout from '../layouts/CRMLayout.astro';
     </div>
 
   </div>
+
+<!-- Modal: Nueva Actividad -->
+<div class="modal-overlay" id="modal-actividad">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">✅ Nueva Actividad</div>
+      <button class="modal-close" onclick="closeModal('modal-actividad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Llamada</option>
+            <option>Reunión</option>
+            <option>Email</option>
+            <option>Tarea</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select class="form-control">
+            <option>Media</option>
+            <option>Baja</option>
+            <option>Alta</option>
+            <option>Urgente</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Título</label>
+        <input class="form-control" type="text" placeholder="Ej: Seguimiento propuesta comercial">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Contacto</label>
+          <input class="form-control" type="text" placeholder="Nombre del contacto">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" type="text" placeholder="Nombre de la empresa">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha y hora</label>
+          <input class="form-control" type="datetime-local">
+        </div>
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option>Carlos V.</option>
+            <option>María P.</option>
+            <option>Luis A.</option>
+            <option>Ana R.</option>
+            <option>Pedro S.</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas</label>
+        <textarea class="form-control" placeholder="Descripción o notas adicionales…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-actividad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Actividad</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

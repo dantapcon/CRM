@@ -24,7 +24,7 @@ const stMap: Record<string,string> = {
       <p class="page-subtitle">Propuestas comerciales y presupuestos enviados a clientes</p>
     </div>
     <div class="gap-actions">
-      <a href="/quotes/new" class="btn btn-primary btn-sm">+ Nueva Cotización</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-cotizacion')">+ Nueva Cotización</button>
     </div>
   </div>
 
@@ -112,5 +112,59 @@ const stMap: Record<string,string> = {
       <span class="text-muted text-xs">Mostrando 1-8 de 28 cotizaciones</span>
     </div>
   </div>
+
+<!-- Modal: Nueva Cotización -->
+<div class="modal-overlay" id="modal-cotizacion">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📋 Nueva Cotización</div>
+      <button class="modal-close" onclick="closeModal('modal-cotizacion')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cliente / Contacto</label>
+          <input class="form-control" type="text" placeholder="Nombre del cliente">
+        </div>
+        <div class="form-group">
+          <label>Cuenta / Empresa</label>
+          <input class="form-control" type="text" placeholder="Empresa">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Oportunidad relacionada</label>
+          <input class="form-control" type="text" placeholder="Buscar oportunidad…">
+        </div>
+        <div class="form-group">
+          <label>Validez (días)</label>
+          <input class="form-control" type="number" placeholder="30">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Moneda</label>
+          <select class="form-control">
+            <option>COP - Peso Colombiano</option>
+            <option>USD - Dólar</option>
+            <option>EUR - Euro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Descuento global (%)</label>
+          <input class="form-control" type="number" min="0" max="100" placeholder="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas / Términos</label>
+        <textarea class="form-control" placeholder="Términos, condiciones o notas para el cliente…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-cotizacion')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Cotización</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

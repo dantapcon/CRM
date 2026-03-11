@@ -25,7 +25,7 @@ const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-or
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📊 SLA Report</button>
-      <button class="btn btn-primary btn-sm">+ Nuevo Ticket</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-ticket')">+ Nuevo Ticket</button>
     </div>
   </div>
 
@@ -193,5 +193,70 @@ const typeMap: Record<string,string> = { 'Bug':'badge-red','Incidente':'badge-or
       <span class="text-muted text-xs">Mostrando 1-9 de 156 tickets</span>
     </div>
   </div>
+
+<!-- Modal: Nuevo Ticket -->
+<div class="modal-overlay" id="modal-ticket">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎫 Nuevo Ticket</div>
+      <button class="modal-close" onclick="closeModal('modal-ticket')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Título del problema</label>
+        <input class="form-control" type="text" placeholder="Descripción breve del problema">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cliente</label>
+          <input class="form-control" type="text" placeholder="Nombre del cliente">
+        </div>
+        <div class="form-group">
+          <label>Empresa</label>
+          <input class="form-control" type="text" placeholder="Empresa del cliente">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Bug</option>
+            <option>Consulta</option>
+            <option>Mejora</option>
+            <option>Instalación</option>
+            <option>Capacitación</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Prioridad</label>
+          <select class="form-control">
+            <option>Medio</option>
+            <option>Bajo</option>
+            <option>Alto</option>
+            <option>Urgente</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Agente asignado</label>
+        <select class="form-control">
+          <option>Carlos V.</option>
+          <option>María P.</option>
+          <option>Luis A.</option>
+          <option>Ana R.</option>
+          <option>Pedro S.</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Descripción detallada</label>
+        <textarea class="form-control" placeholder="Describe el problema o solicitud con el mayor detalle posible…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-ticket')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Abrir Ticket</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

@@ -85,7 +85,7 @@ const nav = [
   <aside class="crm-sidebar">
     <div class="sidebar-logo">
       <div style="display:flex;align-items:center;gap:0.6rem;">
-        <div style="width:34px;height:34px;background:linear-gradient(135deg,#2563a8,#c8a558);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;">🔷</div>
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,0.7) 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 2px 6px rgba(0,0,0,0.15);">🔷</div>
         <div>
           <div class="sidebar-logo-text">NexusCRM</div>
           <div class="sidebar-logo-sub">Enterprise Suite</div>
@@ -110,15 +110,15 @@ const nav = [
       ))}
     </nav>
 
-    <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.12);background:rgba(0,0,0,0.08);">
       <div style="display:flex;align-items:center;gap:0.65rem;">
-        <div class="avatar" style="background:linear-gradient(135deg,#c8a558,#a8873a);">JM</div>
+        <div class="avatar" style="background:rgba(255,255,255,0.25);color:#fff;font-weight:700;">JM</div>
         <div>
-          <div style="font-size:0.78rem;font-weight:600;color:#e2e8f0;">Juan Martínez</div>
-          <div style="font-size:0.68rem;color:#64748b;">Administrador</div>
+          <div style="font-size:0.78rem;font-weight:600;color:#fff;">Juan Martínez</div>
+          <div style="font-size:0.68rem;color:rgba(255,255,255,0.5);">Administrador</div>
         </div>
         <div style="margin-left:auto;cursor:pointer;" title="Cerrar sesión">
-          <span style="color:#475569;font-size:0.9rem;">🚪</span>
+          <span style="color:rgba(255,255,255,0.5);font-size:0.9rem;">🚪</span>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@ const nav = [
         <button class="btn btn-ghost btn-icon" title="Ayuda">❓</button>
 
         <!-- Avatar -->
-        <div class="avatar" style="cursor:pointer;background:linear-gradient(135deg,#c8a558,#a8873a);" title="Mi perfil">JM</div>
+        <div class="avatar" style="cursor:pointer;background:#188185;color:#fff;font-weight:700;" title="Mi perfil">JM</div>
       </div>
     </header>
 
@@ -173,6 +173,37 @@ const nav = [
       document.querySelectorAll('.sidebar-nav-item').forEach(l => l.classList.remove('active'));
       link.classList.add('active');
     });
+  });
+
+  // ── Modal helpers ──────────────────────────────────────────
+  function openModal(id: string) {
+    const el = document.getElementById(id);
+    if (el) { el.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  }
+  function closeModal(id: string) {
+    const el = document.getElementById(id);
+    if (el) { el.classList.remove('open'); document.body.style.overflow = ''; }
+  }
+  // Make helpers globally accessible
+  (window as any).openModal  = openModal;
+  (window as any).closeModal = closeModal;
+
+  // Auto-open modal from URL hash (e.g. #modal-contacto)
+  const _hash = window.location.hash;
+  if (_hash.startsWith('#modal-')) {
+    setTimeout(() => openModal(_hash.slice(1)), 300);
+  }
+
+  // Close on overlay backdrop click
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (t.classList.contains('modal-overlay')) closeModal(t.id);
+  });
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach((m) => closeModal((m as HTMLElement).id));
+    }
   });
 </script>
 </body>

@@ -53,7 +53,7 @@ const stages = [
       <button class="btn btn-secondary btn-sm">⊞ Tablero</button>
       <button class="btn btn-secondary btn-sm">☰ Lista</button>
       <button class="btn btn-secondary btn-sm">📊 Forecast</button>
-      <a href="/opportunities/new" class="btn btn-primary btn-sm">+ Nueva Oportunidad</a>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-oportunidad')">+ Nueva Oportunidad</button>
     </div>
   </div>
 
@@ -135,5 +135,84 @@ const stages = [
       </div>
     ))}
   </div>
-
+<!-- Modal: Nueva Oportunidad -->
+<div class="modal-overlay" id="modal-oportunidad">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">💼 Nueva Oportunidad</div>
+      <button class="modal-close" onclick="closeModal('modal-oportunidad')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la oportunidad</label>
+        <input class="form-control" type="text" placeholder="Ej: Renovación contrato anual">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cuenta / Empresa</label>
+          <input class="form-control" type="text" placeholder="Empresa">
+        </div>
+        <div class="form-group">
+          <label>Contacto principal</label>
+          <input class="form-control" type="text" placeholder="Nombre">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Valor ($)</label>
+          <input class="form-control" type="text" placeholder="$0">
+        </div>
+        <div class="form-group">
+          <label>Probabilidad (%)</label>
+          <input class="form-control" type="number" min="0" max="100" placeholder="50">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Etapa</label>
+          <select class="form-control">
+            <option>Prospectando</option>
+            <option>Calificado</option>
+            <option>Propuesta enviada</option>
+            <option>Negociación</option>
+            <option>Cierre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fecha cierre estimada</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control">
+            <option>Carlos V.</option>
+            <option>María P.</option>
+            <option>Luis A.</option>
+            <option>Ana R.</option>
+            <option>Pedro S.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Origen</label>
+          <select class="form-control">
+            <option>Inbound</option>
+            <option>Outbound</option>
+            <option>Referido</option>
+            <option>Evento</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas</label>
+        <textarea class="form-control" placeholder="Detalles relevantes de la oportunidad…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-oportunidad')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Oportunidad</button>
+    </div>
+  </div>
+</div>
 </CRMLayout>

@@ -23,7 +23,7 @@ const team = [
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📋 Roles y permisos</button>
-      <button class="btn btn-primary btn-sm">+ Invitar usuario</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-usuario')">+ Invitar usuario</button>
     </div>
   </div>
 
@@ -180,5 +180,65 @@ const team = [
       </table>
     </div>
   </div>
+
+<!-- Modal: Invitar Usuario -->
+<div class="modal-overlay" id="modal-usuario">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">👥 Invitar Usuario</div>
+      <button class="modal-close" onclick="closeModal('modal-usuario')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input class="form-control" type="text" placeholder="Nombre">
+        </div>
+        <div class="form-group">
+          <label>Apellido</label>
+          <input class="form-control" type="text" placeholder="Apellido">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email corporativo</label>
+        <input class="form-control" type="email" placeholder="usuario@empresa.com">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Cargo</label>
+          <input class="form-control" type="text" placeholder="Ej: Sales Manager">
+        </div>
+        <div class="form-group">
+          <label>Departamento</label>
+          <select class="form-control">
+            <option>Ventas</option>
+            <option>Marketing</option>
+            <option>Soporte</option>
+            <option>TI</option>
+            <option>Administración</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Rol en el sistema</label>
+        <select class="form-control">
+          <option>Vendedor</option>
+          <option>Administrador</option>
+          <option>Soporte</option>
+          <option>Analista</option>
+          <option>Solo lectura</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensaje de bienvenida (opcional)</label>
+        <textarea class="form-control" placeholder="Bienvenido al equipo…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-usuario')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Enviar Invitación</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

@@ -11,7 +11,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📅 Este trimestre</button>
       <button class="btn btn-secondary btn-sm">📤 Exportar PDF</button>
-      <button class="btn btn-primary btn-sm">+ Crear reporte</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-reporte')">+ Crear reporte</button>
     </div>
   </div>
 
@@ -196,7 +196,7 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Reportes Guardados</h3>
-      <button class="btn btn-primary btn-sm">+ Crear reporte</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-reporte')">+ Crear reporte</button>
     </div>
     <div style="overflow-x:auto;">
       <table class="data-table">
@@ -237,5 +237,73 @@ import CRMLayout from '../../layouts/CRMLayout.astro';
       </table>
     </div>
   </div>
+
+<!-- Modal: Crear Reporte -->
+<div class="modal-overlay" id="modal-reporte">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📈 Crear Reporte</div>
+      <button class="modal-close" onclick="closeModal('modal-reporte')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre del reporte</label>
+        <input class="form-control" type="text" placeholder="Ej: Ventas por region Q1">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Módulo</label>
+          <select class="form-control">
+            <option>Contactos</option>
+            <option>Leads</option>
+            <option>Oportunidades</option>
+            <option>Actividades</option>
+            <option>Ventas / Facturas</option>
+            <option>Soporte</option>
+            <option>Campañas</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Período</label>
+          <select class="form-control">
+            <option>Este mes</option>
+            <option>Este trimestre</option>
+            <option>Este año</option>
+            <option>Período personalizado</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de visualización</label>
+          <select class="form-control">
+            <option>Tabla</option>
+            <option>Gráfico de barras</option>
+            <option>Gráfico circular</option>
+            <option>Línea de tiempo</option>
+            <option>KPI Summary</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Programación</label>
+          <select class="form-control">
+            <option>Manual (solo bajo demanda)</option>
+            <option>Diario</option>
+            <option>Semanal</option>
+            <option>Mensual</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" placeholder="Describe qué muestra este reporte…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-reporte')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Generar Reporte</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

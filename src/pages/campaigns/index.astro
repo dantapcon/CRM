@@ -18,7 +18,7 @@ const campaigns = [
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📊 Analytics</button>
-      <button class="btn btn-primary btn-sm">+ Nueva Campaña</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-campana')">+ Nueva Campaña</button>
     </div>
   </div>
 
@@ -113,5 +113,78 @@ const campaigns = [
       </div>
     ))}
   </div>
+
+<!-- Modal: Nueva Campaña -->
+<div class="modal-overlay" id="modal-campana">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📣 Nueva Campaña</div>
+      <button class="modal-close" onclick="closeModal('modal-campana')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre de la campaña</label>
+        <input class="form-control" type="text" placeholder="Ej: Newsletter Q2 2026">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select class="form-control">
+            <option>Email</option>
+            <option>Redes Sociales</option>
+            <option>Evento</option>
+            <option>Webinar</option>
+            <option>PPC</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado inicial</label>
+          <select class="form-control">
+            <option>Borrador</option>
+            <option>Planificada</option>
+            <option>Activa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha de inicio</label>
+          <input class="form-control" type="date">
+        </div>
+        <div class="form-group">
+          <label>Fecha de fin</label>
+          <input class="form-control" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Presupuesto ($)</label>
+          <input class="form-control" type="text" placeholder="$0">
+        </div>
+        <div class="form-group">
+          <label>Objetivo</label>
+          <input class="form-control" type="text" placeholder="Ej: 500 leads">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Responsable</label>
+        <select class="form-control">
+          <option>Carlos V.</option>
+          <option>María P.</option>
+          <option>Luis A.</option>
+          <option>Ana R.</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" placeholder="Objetivo y descripción de la campaña…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-campana')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Crear Campaña</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>

@@ -23,7 +23,7 @@ const products = [
     </div>
     <div class="gap-actions">
       <button class="btn btn-secondary btn-sm">📋 Lista de precios</button>
-      <button class="btn btn-primary btn-sm">+ Nuevo Producto</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('modal-producto')">+ Nuevo Producto</button>
     </div>
   </div>
 
@@ -121,5 +121,69 @@ const products = [
       <span class="text-muted text-xs">Mostrando 1-10 de 32 productos</span>
     </div>
   </div>
+
+<!-- Modal: Nuevo Producto -->
+<div class="modal-overlay" id="modal-producto">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📦 Nuevo Producto</div>
+      <button class="modal-close" onclick="closeModal('modal-producto')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre del producto</label>
+          <input class="form-control" type="text" placeholder="Ej: CRM Pro License">
+        </div>
+        <div class="form-group">
+          <label>Código SKU</label>
+          <input class="form-control" type="text" placeholder="Ej: CRM-PRO-001">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoría</label>
+          <select class="form-control">
+            <option>Software</option>
+            <option>Hardware</option>
+            <option>Servicio</option>
+            <option>Licencia</option>
+            <option>Soporte</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Estado</label>
+          <select class="form-control">
+            <option>Activo</option>
+            <option>Inactivo</option>
+            <option>En desarrollo</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Precio de venta ($)</label>
+          <input class="form-control" type="text" placeholder="$0.00">
+        </div>
+        <div class="form-group">
+          <label>Costo ($)</label>
+          <input class="form-control" type="text" placeholder="$0.00">
+        </div>
+        <div class="form-group">
+          <label>Stock</label>
+          <input class="form-control" type="number" placeholder="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea class="form-control" placeholder="Descripción detallada del producto…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modal-producto')">Cancelar</button>
+      <button class="btn btn-primary btn-sm">Guardar Producto</button>
+    </div>
+  </div>
+</div>
 
 </CRMLayout>
